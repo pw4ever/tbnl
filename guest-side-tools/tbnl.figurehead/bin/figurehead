@@ -1,0 +1,3 @@
+base=/sdcard
+export CLASSPATH=$base/figurehead.apk
+exec app_process $base/ figurehead.main "$@" 
