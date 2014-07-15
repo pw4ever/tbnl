@@ -1,6 +1,6 @@
 COMPONENTS=mastermind cnc figurehead core
 
-.PHONY: default build install doc help
+.PHONY: default build prepare install package doc help
 .PHONY: $(foreach comp,$(COMPONENTS),$(comp) $(comp)-doc)
 .SILENT: help
 
@@ -28,9 +28,14 @@ core:
 core-doc:
 	cd common/tbnl.core/; time lein marg
 
-install:
+prepare:
 	SCRIPTS/00stage-prepare.sh
+
+install:
 	SCRIPTS/01stage-install.sh
+
+package:
+	tar cvf tbnl.tar tbnl
 
 doc: $(foreach comp,$(COMPONENTS),$(comp)-doc)
 

@@ -1,7 +1,7 @@
 #!/bin/bash - 
 
 ADB=${ADB:-adb}
-STAGE=${STAGE:-99stage}
+STAGE=${STAGE:-tbnl}
 STAGE_GUEST=${STAGE_GUEST:-${STAGE}/guest}
 STAGE_HOST=${STAGE_HOST:-${STAGE}/host}
 

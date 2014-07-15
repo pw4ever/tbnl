@@ -17,6 +17,6 @@ ${adb} shell chmod 700 /system/bin/figurehead
 #${adb} install -r ${STAGE_GUEST}/figurehead.apk
 
 # test
-${adb} shell figurehead
+${adb} shell figurehead -h
 
 ## host side
