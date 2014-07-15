@@ -8,6 +8,13 @@
                  [org.clojure/core.async "0.1.303.0-886421-alpha"]
                  [org.clojure/tools.cli "0.3.1"]
                  [compliment "0.1.1"]]
+  :profiles {
+             :dev {
+                   :plugins [
+                             [lein-marginalia "0.7.1"]
+                             ]
+                   }
+             }
   ;; prevent pom.xml marks nREPL with scope :test---so downstream will not include it in path
   ;; this makes use of core.plugin.nrepl fail miserably
   ;; 

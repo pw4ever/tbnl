@@ -1,26 +1,38 @@
-.PHONY: default build install help
-.PHONY: mastermind cnc figurehead core
+COMPONENTS=mastermind cnc figurehead core
+
+.PHONY: default build install doc help
+.PHONY: $(foreach comp,$(COMPONENTS),$(comp) $(comp)-doc)
 .SILENT: help
 
 default: build
 
-build: mastermind cnc figurehead
+build: $(COMPONENTS)
 
 mastermind: core
 	cd host-side-tools/tbnl.mastermind/; time lein uberjar
+mastermind-doc:
+	cd host-side-tools/tbnl.mastermind/; time lein marg
 
 cnc: core
 	cd host-side-tools/tbnl.cnc/; time lein uberjar
+cnc-doc:
+	cd host-side-tools/tbnl.cnc/; time lein marg
 
 figurehead: core
 	cd guest-side-tools/tbnl.figurehead/; [[ -d android-sdk ]] || ./00prepare-full-android-sdk.sh; time lein do clean, release
+figurehead-doc:
+	cd guest-side-tools/tbnl.figurehead/; time lein marg
 
 core: 
 	cd common/tbnl.core/; time lein check && ./00lein-install.sh
+core-doc:
+	cd common/tbnl.core/; time lein marg
 
 install:
 	SCRIPTS/00stage-prepare.sh
 	SCRIPTS/01stage-install.sh
+
+doc: $(foreach comp,$(COMPONENTS),$(comp)-doc)
 
 help:
 	echo 'Prerequisite:'

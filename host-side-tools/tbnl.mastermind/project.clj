@@ -16,7 +16,12 @@
   :main ^:skip-aot mastermind.main
   :target-path "target/%s"
   :profiles {
+             :dev {
+                   :plugins [
+                             [lein-marginalia "0.7.1"]
+                             ]
+                   }
              :uberjar {:aot :all}
              }
-  :aot :all
+  :uberjar-name "tbnl.mastermind-standalone.jar"
 )

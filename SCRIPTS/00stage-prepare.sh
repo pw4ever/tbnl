@@ -26,10 +26,10 @@ cp ${GUEST_PATH}/bin/${name} ${STAGE_GUEST}/${name}
 ## host side
 name=mastermind
 HOST_PATH=host-side-tools/tbnl.${name}/
-cp ${HOST_PATH}/target/uberjar/tbnl.${name}-*-standalone.jar ${STAGE_HOST}/${name}.jar
+cp ${HOST_PATH}/target/uberjar/tbnl.${name}-standalone.jar ${STAGE_HOST}/${name}.jar
 cp ${HOST_PATH}/bin/${name} ${STAGE_HOST}/${name}
 
 name=cnc
 HOST_PATH=host-side-tools/tbnl.${name}/
-cp ${HOST_PATH}/target/uberjar/tbnl.${name}-*-standalone.jar ${STAGE_HOST}/${name}.jar
+cp ${HOST_PATH}/target/uberjar/tbnl.${name}-standalone.jar ${STAGE_HOST}/${name}.jar
 cp ${HOST_PATH}/bin/${name} ${STAGE_HOST}/${name}

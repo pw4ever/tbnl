@@ -20,6 +20,11 @@
                  [compliment "0.0.3"]
                  ]
 
+  :plugins [
+            [lein-droid "0.2.3"]
+            [lein-marginalia "0.7.1"]
+            ]
+
   :profiles {:dev {
                    :android {
                              :aot :all-with-unused

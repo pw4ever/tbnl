@@ -18,7 +18,12 @@
   :main ^:skip-aot cnc.main
   :target-path "target/%s"
   :profiles {
+             :dev {
+                   :plugins [
+                             [lein-marginalia "0.7.1"]
+                             ]
+                   }             
              :uberjar {:aot :all}
              }
-  :aot :all
+  :uberjar-name "tbnl.cnc-standalone.jar"
 )
