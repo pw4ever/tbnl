@@ -16,11 +16,7 @@
 
 TBNL: power tool for Android system hacking, in Clojure
 =====
-Copyright &copy; Wei Peng.
-<write.to.peng.wei@gmail.com>
-<https://github.com/pw4ever/tbnl>
-[See the permissions.][permission]
-
+Copyright &copy; Wei Peng
 
 One tool that rules all your [Android](http://www.android.com/) devices/emulators, at scale, in [Clojure](http://clojure.org/).
 
