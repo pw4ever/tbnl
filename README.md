@@ -27,14 +27,22 @@ blurb
 
 * Android **system** programming in Clojure, with [REPL](http://tryclj.com/) everywhere.
 * Easy deployment with [adb](https://developer.android.com/tools/help/adb.html) on real devices or emulators ([Genymotion](http://www.genymotion.com/) included).
-* No 6G downloads or 30G+ builds of [AOSP](https://source.android.com/).
+* No 6G+ downloads or 30G+ caches of [AOSP](https://source.android.com/).
 * Multiple [C\&Cs][cnc] and [figureheads][figurehead]; one [mastermind][mastermind].
 * Extensible plug-in framework, batteries included, and expanding.
 
 rationale
 -----
 
-[Please see the Wiki](https://github.com/pw4ever/tbnl/wiki/rationale).
+* [`am`](https://developer.android.com/tools/help/adb.html#am) and [`pm`](https://developer.android.com/tools/help/adb.html#pm) are powerful Android tools; you shall play with them if you have not done so. However, their code ([`am`](https://github.com/android/platform_frameworks_base/blob/master/cmds/am/src/com/android/commands/am/Am.java) and [`pm`](https://github.com/android/platform_frameworks_base/blob/master/cmds/pm/src/com/android/commands/pm/Pm.java)) are large chunks of Java, which are quite verbose and not quite extensible.
+
+* Did you hack [AOSP](https://source.android.com/) before? Have you experienced the 6G+ downloads and 30G+ caches, with hour-long builds?
+
+* Have you wished that you could do Android system programming (in contrast to App programming) easier, without the pain of downloading/building AOSP, in something nicer than Java, say, Clojure?
+
+TBNL helps you do these and more, to multiple Android devices at the same time, in an extensible fashion.
+
+See the [Wiki](https://github.com/pw4ever/tbnl/wiki/rationale) for more rationale.
 
 try it out
 -----
@@ -49,7 +57,7 @@ To try out TBNL, you have 2 options:
 In both case, ensure that:
 * Have a *sole* (in the sense that [`adb`](https://developer.android.com/tools/help/adb.html) can unambiguously find it) Android device/emulator with [Android SDK 18](https://developer.android.com/about/versions/android-4.3.html) running.
  
-Then, you can [run the tools](https://github.com/pw4ever/tbnl/wiki/try-it-out#running-tbnl). Checkout the [canned use cases]().
+Then, you can [run the tools](https://github.com/pw4ever/tbnl/wiki/try-it-out#running-tbnl).
 
 All tested on [Arch Linux](https://www.archlinux.org/).
 
