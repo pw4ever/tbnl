@@ -1,0 +1,6 @@
+#! /bin/bash
+
+MMD_JAR=$1
+shift
+
+java -cp ${MMD_JAR} cnc.main $*

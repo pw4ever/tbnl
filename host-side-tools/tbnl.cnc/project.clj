@@ -1,5 +1,5 @@
-(defproject info.voidstar/tbnl.mastermind "0.1.0-SNAPSHOT"
-  :description "mastemind sits on host and controls figureheads on the device"
+(defproject info.voidstar/tbnl.cnc "0.1.0-SNAPSHOT"
+  :description "C&C controls figureheads through mastermind"
   :url "https://github.com/pw4ever/tbnl"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
@@ -11,9 +11,11 @@
                  [info.voidstar/tbnl.core "0.1.0-SNAPSHOT"]
 
                  [alembic "0.2.1"]
+                 ;; graphviz support for visualization
+                 [dorothy "0.0.5"]
 
                  ]
-  :main ^:skip-aot mastermind.main
+  :main ^:skip-aot cnc.main
   :target-path "target/%s"
   :profiles {
              :uberjar {:aot :all}

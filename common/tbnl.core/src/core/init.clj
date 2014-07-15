@@ -33,7 +33,9 @@
           :inet-port (comp #(when (and (> % 0)
                                        (< % 65536))
                               %)
-                           #(Integer/parseInt %))}
+                           #(Integer/parseInt %))
+          :file #(clojure.java.io/file %)
+          }
          }))
 
 (defn set-default-plugins
@@ -50,7 +52,7 @@
             :parse-fn symbol
             :assoc-fn (fn [m k v]
                         (update-in m [k]
-                                   conj v))])))
+                                   (comp vec conj) v))])))
 
 (defmacro require-and-set-default-plugins
   "set default plugin namespaces to be required/loaded"

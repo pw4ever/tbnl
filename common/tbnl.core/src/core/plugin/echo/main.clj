@@ -21,15 +21,15 @@
   [current-parse-opts-vector]
   (init/add-to-parse-opts-vector [
                                   
-                                  [nil
-                                   "--disable-echo"
-                                   "disable echo mode"]
+                                  ["-e"
+                                   "--echo"
+                                   "enable echo"]
 
                                   ]))
 
 (defn init
   [options]
-  (when-not (:disable-echo options)
+  (when (:echo options)
     true))
 
 ;;; archetype of looping-jail

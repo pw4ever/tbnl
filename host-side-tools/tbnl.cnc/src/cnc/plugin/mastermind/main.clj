@@ -1,4 +1,4 @@
-(ns figurehead.plugin.mastermind.main
+(ns cnc.plugin.mastermind.main
   (:require (core [init :as init]
                   [state :as state]
                   [bus :as bus]
@@ -8,7 +8,7 @@
             [clojure.stacktrace :refer [print-stack-trace]]
             [clojure.core.async
              :as async
-             :refer [thread chan <!! >!!]])
+             :refer [chan thread <!! >!!]])
   (:import
    (java.net Socket)
    (java.io IOException)))
@@ -16,10 +16,11 @@
 (def defaults
   (atom
    {
-    :stop-unblock-tag :stop-figurehead.plugin.mastermind
-    :mastermind-port 4321
+    :stop-unblock-tag :stop-cnc.plugin.mastermind
+    :mastermind-port 1234
     :socket-timeout 15000
     :writer-buffer 1000
+    :wait 3000
     }))
 
 (defn populate-parse-opts-vector
@@ -89,9 +90,13 @@
                                                                    topic (bus/get-message-topic message)
                                                                    content (bus/remove-message-topic message)]
                                                                (case topic
-                                                                 :command
+                                                                 :model-update
                                                                  (do
-                                                                   (bus/say!! :command content))))
+                                                                   (bus/say!! :model-update content))
+                                                                 
+                                                                 :information
+                                                                 (do
+                                                                   (bus/say!! :information content))))
                                                              (catch RuntimeException e
                                                                (when verbose
                                                                  (print-stack-trace e)))))
@@ -117,7 +122,7 @@
                                                                topic (bus/get-message-topic message)]
                                                            (cond
                                                             ;; do NOT echo these topics back
-                                                            (not (contains? #{:command} topic))
+                                                            (not (contains? #{:information :model-update} topic))
                                                             (do
                                                               (.write writer (prn-str message))
                                                               (.flush writer))))))))))
@@ -131,7 +136,7 @@
 
 (defn stop
   []
-  (plugin/set-state-entry :figurehead.plugin.mastermind
+  (plugin/set-state-entry :cnc.plugin.mastermind
                           :stop true)
   (plugin/unblock-thread (:stop-unblock-tag @defaults)))
 
@@ -143,4 +148,5 @@
    :run run
    :stop stop
    :param {:priority 90
+           :wait (:wait @defaults)
            :auto-restart true}})

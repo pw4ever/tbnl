@@ -13,7 +13,7 @@
          register-listener unregister-listener get-listeners
          get-message-topic remove-message-topic
          get-topics
-         say say!!
+         say say!! well-saying?
          what-is-said what-is-said!!)
 
 (def defaults
@@ -145,6 +145,15 @@
                        (>!! ch val))]
          (say topic what verbose? chan-op))))
 
+  (defn well-saying?
+    "Is said a well saying?"
+    [said]
+    (and
+     said
+     (map? said)
+     (:topic said)
+     (:what said)))
+  
   (defn what-is-said
     "get what is from the sub-ch"
     ([sub-ch chan-op] (what-is-said sub-ch false chan-op))
