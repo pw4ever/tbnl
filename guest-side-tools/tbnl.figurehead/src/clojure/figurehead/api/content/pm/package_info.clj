@@ -1,4 +1,4 @@
-(ns figurehead.plugin.getinfo.util
+(ns figurehead.api.content.pm.package-info
   (:require (figurehead.util [services :as services :refer [get-service]]))
   (:import
    (android.content.pm IPackageManager

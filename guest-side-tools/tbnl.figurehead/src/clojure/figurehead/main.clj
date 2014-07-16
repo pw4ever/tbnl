@@ -7,7 +7,8 @@
             figurehead.plugin.nrepl.main
             figurehead.plugin.monitor.main
             figurehead.plugin.getinfo.main
-            figurehead.plugin.mastermind.main)
+            figurehead.plugin.mastermind.main
+            figurehead.plugin.command-executor.main)
   (:gen-class))
 
 (defn -main
@@ -18,5 +19,6 @@
                                              figurehead.plugin.nrepl
                                              figurehead.plugin.monitor
                                              figurehead.plugin.getinfo
-                                             figurehead.plugin.mastermind)
+                                             figurehead.plugin.mastermind
+                                             figurehead.plugin.command-executor)
   (apply core.main/main args))

@@ -1,8 +1,6 @@
 (ns figurehead.plugin.getinfo.main
-  (:require (figurehead.plugin.getinfo [util
-                                        :refer [get-package-info
-                                                get-all-packages]]))
-  (:require (figurehead.util [services :as services :refer [get-service]]))
+  (:require (figurehead.util [services :as services :refer [get-service]])
+            (figurehead.api.content.pm [package-info :as package-info]))
   (:require (core [init :as init]
                   [state :as state]
                   [bus :as bus]
@@ -65,13 +63,13 @@
                            ]
                           (if package
                             (bus/say!! :package-manager.get-package-info 
-                                       (assoc (get-package-info package)
+                                       (assoc (package-info/get-package-info package)
                                          :instance instance-id)
                                        verbose)
                             (bus/say!! :package-manager.get-all-packages
                                        (assoc {:packages (into #{} (map (fn [^PackageInfo package-info]
                                                                           (-> package-info .packageName keyword))
-                                                                        (get-all-packages)))}
+                                                                        (package-info/get-all-packages)))}
                                          :instance instance-id)
                                        verbose)))))
 

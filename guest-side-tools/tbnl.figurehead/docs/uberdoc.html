@@ -3029,7 +3029,174 @@ net.brehaut.ClojureTools = (function (SH) {
   };
 })(SyntaxHighlighter);
 </script><title>info.voidstar/tbnl.figurehead -- Marginalia</title></head><body><table><tr><td class="docs"><div class="header"><h1 class="project-name">info.voidstar/tbnl.figurehead</h1><h2 class="project-version">0.0.1-SNAPSHOT</h2><br /><p>figurehead sits on device and is controlled by mastermind</p>
-</div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure-android/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.6.0-RC1</td></tr><tr><td class="dep-name">org.clojars.pw4ever/neko-sdk18</td><td class="dotted"><hr /></td><td class="dep-version">3.0.2</td></tr><tr><td class="dep-name">info.voidstar/tbnl.core</td><td class="dotted"><hr /></td><td class="dep-version">0.1.0-SNAPSHOT</td></tr><tr><td class="dep-name">org.clojure/core.async</td><td class="dotted"><hr /></td><td class="dep-version">0.1.303.0-886421-alpha</td></tr><tr><td class="dep-name">org.clojure/tools.nrepl</td><td class="dotted"><hr /></td><td class="dep-version">0.2.3</td></tr><tr><td class="dep-name">compliment</td><td class="dotted"><hr /></td><td class="dep-version">0.0.3</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left almost blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#figurehead.main">figurehead.main</a></li><li><a href="#figurehead.plugin.getinfo.main">figurehead.plugin.getinfo.main</a></li><li><a href="#figurehead.plugin.getinfo.util">figurehead.plugin.getinfo.util</a></li><li><a href="#figurehead.plugin.mastermind.main">figurehead.plugin.mastermind.main</a></li><li><a href="#figurehead.plugin.monitor.main">figurehead.plugin.monitor.main</a></li><li><a href="#figurehead.plugin.nrepl.helper">figurehead.plugin.nrepl.helper</a></li><li><a href="#figurehead.plugin.nrepl.main">figurehead.plugin.nrepl.main</a></li><li><a href="#figurehead.util.init">figurehead.util.init</a></li><li><a href="#figurehead.util.services">figurehead.util.services</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.main" name="figurehead.main"><h1 class="project-name">figurehead.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+</div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure-android/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.6.0-RC1</td></tr><tr><td class="dep-name">org.clojars.pw4ever/neko-sdk18</td><td class="dotted"><hr /></td><td class="dep-version">3.0.2</td></tr><tr><td class="dep-name">info.voidstar/tbnl.core</td><td class="dotted"><hr /></td><td class="dep-version">0.1.0-SNAPSHOT</td></tr><tr><td class="dep-name">org.clojure/core.async</td><td class="dotted"><hr /></td><td class="dep-version">0.1.303.0-886421-alpha</td></tr><tr><td class="dep-name">org.clojure/tools.nrepl</td><td class="dotted"><hr /></td><td class="dep-version">0.2.3</td></tr><tr><td class="dep-name">compliment</td><td class="dotted"><hr /></td><td class="dep-version">0.0.3</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left almost blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#figurehead.api.app.activity-manager">figurehead.api.app.activity-manager</a></li><li><a href="#figurehead.api.content.intent">figurehead.api.content.intent</a></li><li><a href="#figurehead.api.content.pm.package-info">figurehead.api.content.pm.package-info</a></li><li><a href="#figurehead.main">figurehead.main</a></li><li><a href="#figurehead.plugin.command-executor.main">figurehead.plugin.command-executor.main</a></li><li><a href="#figurehead.plugin.getinfo.main">figurehead.plugin.getinfo.main</a></li><li><a href="#figurehead.plugin.mastermind.main">figurehead.plugin.mastermind.main</a></li><li><a href="#figurehead.plugin.monitor.main">figurehead.plugin.monitor.main</a></li><li><a href="#figurehead.plugin.nrepl.helper">figurehead.plugin.nrepl.helper</a></li><li><a href="#figurehead.plugin.nrepl.main">figurehead.plugin.nrepl.main</a></li><li><a href="#figurehead.util.init">figurehead.util.init</a></li><li><a href="#figurehead.util.services">figurehead.util.services</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.app.activity-manager" name="figurehead.api.app.activity-manager"><h1 class="project-name">figurehead.api.app.activity-manager</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(ns figurehead.api.app.activity-manager
+  (:require (figurehead.util [services :as services :refer [get-service]])
+            (figurehead.api.content [intent :as intent]))
+  (:require [clojure.string :as str]
+            [clojure.java.io :as io])
+  (:import (android.app IActivityManager)
+           (android.content Intent
+                            ComponentName)
+           (android.net Uri)))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(declare start-activity start-service
+         force-stop kill kill-all)</pre></td></tr><tr><td class="docs"><p>start an Activity</p>
+
+<p>:wild-card - URI, component name, or package name
+etc.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn start-activity
+  [&amp; param]
+  (let [intent ^Intent (apply intent/make-intent param)
+        param (into {} (map vec (partition 2 param)))
+        activity-manager ^IActivityManager (get-service :activity-manager)
+        mime-type (atom nil)
+        wait? (:wait? param)]
+    (when intent
+      (reset! mime-type (.getType intent))
+      (when (and (not @mime-type)
+                 (.getData intent)
+                 (= (.. intent getData getScheme) &quot;content&quot;))
+        (reset! mime-type (.getProviderMimeType activity-manager
+                                                (.getData intent)
+                                                0)))
+      (if wait?
+        (.. activity-manager
+            ^IactivityManager$WaitResult (startActivityAndWait nil nil ^Intent intent ^String @mime-type
+                                                               nil nil 0 0
+                                                               nil nil nil 0)
+            result)
+        (.. activity-manager
+            (startActivityAsUser nil nil ^Intent intent ^String @mime-type
+                                 nil nil 0 0
+                                 nil nil nil 0))))))</pre></td></tr><tr><td class="docs"><p>start Service</p>
+</td><td class="codes"><pre class="brush: clojure">(defn start-service
+  [&amp; param]
+  (let [intent ^Intent (apply intent/make-intent param)
+        param (into {} (map vec (partition 2 param)))
+        activity-manager ^IActivityManager (get-service :activity-manager)]
+    (when intent
+      (.. activity-manager
+          ^ComponentName (startService nil intent (.getType intent) 0)))))</pre></td></tr><tr><td class="docs"><p>force stop a Package</p>
+
+<p>:package - the package to force stop</p>
+</td><td class="codes"><pre class="brush: clojure">(defn force-stop
+  [&amp; param]
+  (let [param (into {} (map vec (partition 2 param)))
+        activity-manager ^IActivityManager (get-service :activity-manager)
+        package (:package param)]
+    (.forceStopPackage activity-manager package 0)))</pre></td></tr><tr><td class="docs"><p>kill a Package</p>
+
+<p>:package - the package to kill</p>
+</td><td class="codes"><pre class="brush: clojure">(defn kill
+  [&amp; param]
+  (let [param (into {} (map vec (partition 2 param)))
+        activity-manager ^IActivityManager (get-service :activity-manager)
+        package (:package param)]
+    (.killBackgroundProcesses activity-manager package 0)))</pre></td></tr><tr><td class="docs"><p>kill all Packages</p>
+</td><td class="codes"><pre class="brush: clojure">(defn kill-all
+  [&amp; param]
+  (let [activity-manager ^IActivityManager (get-service :activity-manager)]
+    (.killAllBackgroundProcesses activity-manager)))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.content.intent" name="figurehead.api.content.intent"><h1 class="project-name">figurehead.api.content.intent</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(ns figurehead.api.content.intent
+  (:import (android.content Intent
+                            ComponentName)
+           (android.os Bundle)
+           (android.net Uri)))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(declare make-intent)</pre></td></tr><tr><td class="docs"><p>make an Intent object</p>
+
+<p>reference: https://github.com/android/platform<em>frameworks</em>base/blob/android-4.3_r3.1/cmds/am/src/com/android/commands/am/Am.java#L479</p>
+</td><td class="codes"><pre class="brush: clojure">(defn make-intent
+  [&amp; args]
+  (let [args (into {} (map vec (partition 2 args)))
+        intent (Intent.)]
+    ;; action
+    (when-let [action (:action args)]
+      (.setAction ^Intent intent action))
+    ;; a seq of categories
+    (when-let [categories (:categories args)]
+      (doseq [category categories]
+        (.addCategory ^Intent intent category)))
+    ;; a seq of extras
+    (when-let [extras (:extras args)]
+      (doseq [[key val] extras]
+        (.putExtra ^Intent intent key val)))
+    ;; package
+    (when-let [package (:package args)]
+      (.setPackage ^Intent intent package))
+    ;; component
+    (when-let [component (:component args)]
+      (.setComponent ^Intent intent
+                     (ComponentName/unflattenFromString component)))
+    ;; flags can be either a number or a seq of individual flags (Intent/FLAG_*)
+    (when-let [flags (:flags args)]
+      (cond (number? flags)
+            (.setFlags ^Intent intent
+                       flags)
+            (seq? flags)
+            (doseq [flag flags]
+              (.addFlags ^Intent intent flag))))
+    ;; data and type
+    (let [data ^Uri (:data args)
+          type ^String (:type args)]
+      (.setDataAndType ^Intent intent data type))
+    ;; free-form wild-card
+    (when-let [wild-card (:wild-card args)]
+      (let [wild-card (str wild-card)]
+        (cond (&gt;= (.indexOf wild-card &quot;:&quot;) 0)
+              (do
+                ;; wild-card is a URI; fully parse it
+                (.setData intent (Intent/parseUri wild-card Intent/URI_INTENT_SCHEME)))
+              (&gt;= (.indexOf wild-card &quot;/&quot;) 0)
+              (do
+                ;; wild-card is a component name; build an intent to launch it
+                (.setAction ^Intent intent Intent/ACTION_MAIN)
+                (.addCategory ^Intent intent Intent/CATEGORY_LAUNCHER)
+                (.setComponent ^Intent intent (ComponentName/unflattenFromString wild-card)))
+              :else
+              (do
+                ;; assume wild-card is a package name
+                (.setAction ^Intent intent Intent/ACTION_MAIN)
+                (.addCategory ^Intent intent Intent/CATEGORY_LAUNCHER)
+                (.setPackage ^Intent intent wild-card)))))
+    intent))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.content.pm.package-info" name="figurehead.api.content.pm.package-info"><h1 class="project-name">figurehead.api.content.pm.package-info</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(ns figurehead.api.content.pm.package-info
+  (:require (figurehead.util [services :as services :refer [get-service]]))
+  (:import
+   (android.content.pm IPackageManager
+                       PackageManager
+                       ActivityInfo
+                       ServiceInfo
+                       ProviderInfo
+                       PackageInfo)))</pre></td></tr><tr><td class="docs"><p>get all packages on this device</p>
+</td><td class="codes"><pre class="brush: clojure">(defn get-all-packages 
+  []
+  (let [package-manager ^IPackageManager (get-service :package-manager)]
+    (let [packages  (.. package-manager
+                        (getInstalledPackages 0 0)
+                        (getList))]
+      (for [^PackageInfo package-info packages]
+        package-info))))</pre></td></tr><tr><td class="docs"><p>get app components for a specific package</p>
+</td><td class="codes"><pre class="brush: clojure">(defn get-package-info 
+  [package]
+  (let [package-manager ^IPackageManager (get-service :package-manager)]
+    (when-let [pkg-info (.getPackageInfo package-manager
+                                         package
+                                         (bit-or PackageManager/GET_ACTIVITIES
+                                                 PackageManager/GET_PROVIDERS
+                                                 PackageManager/GET_RECEIVERS
+                                                 PackageManager/GET_SERVICES
+                                                 PackageManager/GET_PERMISSIONS
+                                                 PackageManager/GET_CONFIGURATIONS)
+                                         0)]
+      {
+       :activities (for [^ActivityInfo activity (.activities pkg-info)]
+                     {:name (.name activity)})
+       :services (for [^ServiceInfo service (.services pkg-info)]
+                   {:name (.name service)})
+       :providers (for [^ProviderInfo provider (.providers pkg-info)]
+                    {:name (.name provider)})
+       :receivers (for [^ActivityInfo receiver (.receivers pkg-info)]
+                    {:name (.name receiver)})})))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.main" name="figurehead.main"><h1 class="project-name">figurehead.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.main
   (:require (figurehead.util [init :as init]))
   (:require (core main
@@ -3039,7 +3206,8 @@ net.brehaut.ClojureTools = (function (SH) {
             figurehead.plugin.nrepl.main
             figurehead.plugin.monitor.main
             figurehead.plugin.getinfo.main
-            figurehead.plugin.mastermind.main)
+            figurehead.plugin.mastermind.main
+            figurehead.plugin.command-executor.main)
   (:gen-class))</pre></td></tr><tr><td class="docs"><p>the main entry</p>
 </td><td class="codes"><pre class="brush: clojure">(defn -main
   [&amp; args]
@@ -3048,13 +3216,98 @@ net.brehaut.ClojureTools = (function (SH) {
                                              figurehead.plugin.nrepl
                                              figurehead.plugin.monitor
                                              figurehead.plugin.getinfo
-                                             figurehead.plugin.mastermind)
-  (apply core.main/main args))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.plugin.getinfo.main" name="figurehead.plugin.getinfo.main"><h1 class="project-name">figurehead.plugin.getinfo.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+                                             figurehead.plugin.mastermind
+                                             figurehead.plugin.command-executor)
+  (apply core.main/main args))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.plugin.command-executor.main" name="figurehead.plugin.command-executor.main"><h1 class="project-name">figurehead.plugin.command-executor.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(ns figurehead.plugin.command-executor.main
+  (:require (figurehead.api.app [activity-manager :as activity-manager]))
+  (:require (core [init :as init]
+                  [state :as state]
+                  [bus :as bus]
+                  [plugin :as plugin]))
+  (:require [clojure.core.async :as async :refer [chan close!
+                                                  thread &lt;!! &gt;!!]]
+            [clojure.java.io :as io]))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(def defaults
+  (atom
+   {
+    :stop-unblock-tag :stop-figurehead.plugin.inject.intent
+    }))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(defn populate-parse-opts-vector
+  [current-parse-opts-vector]
+  (init/add-to-parse-opts-vector [
+                                  [nil
+                                   &quot;--no-command-executor&quot;
+                                   &quot;disable command executor&quot;]
+                                  ]))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(defn init
+  [options]
+  (let [no-command-executor (:no-command-executor options)]
+    (when-not no-command-executor
+      true)))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(defn run
+  [options]
+  (let [verbose (:verbose options)
+        ch (chan)]
+    (plugin/blocking-jail [
+                           ;; timeout
+                           nil
+                           ;; unblock-tag
+                           (:stop-unblock-tag @defaults)
+                           ;; finalization
+                           (do
+                             (bus/unsub-topic ch :command))
+                           ;; verbose
+                           verbose
+                           ]
+                          (bus/sub-topic ch :command)
+                          ;; listen for model update
+                          (loop [said (&lt;!! ch)]
+                            (let [topic (bus/get-message-topic said)
+                                  content (bus/remove-message-topic said)]
+                              (case topic
+                                :command
+                                (do
+                                  (let [command (:command content)
+                                        param (:param content)]
+                                    (case command
+                                      :start-activity
+                                      (do
+                                        ;; inject intent
+                                        (apply activity-manager/start-activity param))
+                                      :start-service
+                                      (do
+                                        (apply activity-manager/start-service param))
+                                      :force-stop
+                                      (do
+                                        (apply activity-manager/force-stop param))
+                                      :kill
+                                      (do
+                                        (apply activity-manager/kill param))
+                                      :kill-all
+                                      (do
+                                        (apply activity-manager/kill-all param))
+                                      :else)))
+                                :else))
+                            (recur (&lt;!! ch))))))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(defn stop
+  []
+  (plugin/set-state-entry :figurehead.plugin.inject.intent
+                          :stop true)
+  (plugin/unblock-thread (:stop-unblock-tag @defaults)))</pre></td></tr><tr><td class="docs"><p>the config map</p>
+</td><td class="codes"><pre class="brush: clojure">(def config-map
+  {
+   :populate-parse-opts-vector populate-parse-opts-vector
+   :init init
+   :run run
+   :stop stop
+   :param {
+           :priority 1
+           :auto-restart true
+           }})</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.plugin.getinfo.main" name="figurehead.plugin.getinfo.main"><h1 class="project-name">figurehead.plugin.getinfo.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.plugin.getinfo.main
-  (:require (figurehead.plugin.getinfo [util
-                                        :refer [get-package-info
-                                                get-all-packages]]))
-  (:require (figurehead.util [services :as services :refer [get-service]]))
+  (:require (figurehead.util [services :as services :refer [get-service]])
+            (figurehead.api.content.pm [package-info :as package-info]))
   (:require (core [init :as init]
                   [state :as state]
                   [bus :as bus]
@@ -3108,13 +3361,13 @@ net.brehaut.ClojureTools = (function (SH) {
                            ]
                           (if package
                             (bus/say!! :package-manager.get-package-info 
-                                       (assoc (get-package-info package)
+                                       (assoc (package-info/get-package-info package)
                                          :instance instance-id)
                                        verbose)
                             (bus/say!! :package-manager.get-all-packages
                                        (assoc {:packages (into #{} (map (fn [^PackageInfo package-info]
                                                                           (-&gt; package-info .packageName keyword))
-                                                                        (get-all-packages)))}
+                                                                        (package-info/get-all-packages)))}
                                          :instance instance-id)
                                        verbose)))))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(defn stop
@@ -3129,45 +3382,7 @@ net.brehaut.ClojureTools = (function (SH) {
    :stop stop
    :param {:priority 1
            :auto-restart false
-           :wait (:wait @defaults)}})</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.plugin.getinfo.util" name="figurehead.plugin.getinfo.util"><h1 class="project-name">figurehead.plugin.getinfo.util</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
-</td><td class="codes"><pre class="brush: clojure">(ns figurehead.plugin.getinfo.util
-  (:require (figurehead.util [services :as services :refer [get-service]]))
-  (:import
-   (android.content.pm IPackageManager
-                       PackageManager
-                       ActivityInfo
-                       ServiceInfo
-                       ProviderInfo
-                       PackageInfo)))</pre></td></tr><tr><td class="docs"><p>get all packages on this device</p>
-</td><td class="codes"><pre class="brush: clojure">(defn get-all-packages 
-  []
-  (let [package-manager ^IPackageManager (get-service :package-manager)]
-    (let [packages  (.. package-manager
-                        (getInstalledPackages 0 0)
-                        (getList))]
-      (for [^PackageInfo package-info packages]
-        package-info))))</pre></td></tr><tr><td class="docs"><p>get app components for a specific package</p>
-</td><td class="codes"><pre class="brush: clojure">(defn get-package-info 
-  [package]
-  (let [package-manager ^IPackageManager (get-service :package-manager)]
-    (when-let [pkg-info (.getPackageInfo package-manager
-                                         package
-                                         (bit-or PackageManager/GET_ACTIVITIES
-                                                 PackageManager/GET_PROVIDERS
-                                                 PackageManager/GET_RECEIVERS
-                                                 PackageManager/GET_SERVICES
-                                                 PackageManager/GET_PERMISSIONS
-                                                 PackageManager/GET_CONFIGURATIONS)
-                                         0)]
-      {
-       :activities (for [^ActivityInfo activity (.activities pkg-info)]
-                     {:name (.name activity)})
-       :services (for [^ServiceInfo service (.services pkg-info)]
-                   {:name (.name service)})
-       :providers (for [^ProviderInfo provider (.providers pkg-info)]
-                    {:name (.name provider)})
-       :receivers (for [^ActivityInfo receiver (.receivers pkg-info)]
-                    {:name (.name receiver)})})))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.plugin.mastermind.main" name="figurehead.plugin.mastermind.main"><h1 class="project-name">figurehead.plugin.mastermind.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+           :wait (:wait @defaults)}})</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.plugin.mastermind.main" name="figurehead.plugin.mastermind.main"><h1 class="project-name">figurehead.plugin.mastermind.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.plugin.mastermind.main
   (:require (core [init :as init]
                   [state :as state]

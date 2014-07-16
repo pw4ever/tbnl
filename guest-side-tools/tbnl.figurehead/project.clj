@@ -68,7 +68,7 @@
              ;; Uncomment this if dexer fails with
              ;; OutOfMemoryException. Set the value according to your
              ;; available RAM.
-             :dex-opts ["-JXmx4096M" "--num-threads=8"]
+             :dex-opts ["-JXmx2048M" "--num-threads=8"]
 
              ;; If previous option didn't work, uncomment this as well.
              :force-dex-optimize true

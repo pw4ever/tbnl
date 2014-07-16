@@ -21,7 +21,8 @@ cnc-doc:
 figurehead: core
 	cd guest-side-tools/tbnl.figurehead/; [[ -d android-sdk ]] || ./00prepare-full-android-sdk.sh; time lein do clean, release
 figurehead-doc:
-	cd guest-side-tools/tbnl.figurehead/; time lein marg
+	# https://groups.google.com/forum/#!topic/clojure-android/ATO-DZNZExY
+	cd guest-side-tools/tbnl.figurehead/; time lein do clean, droid jar, marg
 
 core: 
 	cd common/tbnl.core/; time lein check && ./00lein-install.sh
