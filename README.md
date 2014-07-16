@@ -7,10 +7,10 @@
   - [rationale](#rationale)
   - [try it out](#try-it-out)
     - [use cases](#use-cases)
-    - [permission](#permission)
-  - [Doc](#doc)
+  - [documentation](#documentation)
     - [annotated source in [Marginalia](https://github.com/gdeer81/marginalia)](#annotated-source-in-marginaliahttpsgithubcomgdeer81marginalia)
-  - [Acknowledgments](#acknowledgments)
+  - [permission](#permission)
+  - [acknowledgments](#acknowledgments)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -25,6 +25,14 @@ TBNL (To Be Named Later) is a pun on the framework's exploratory nature, inspire
 blurb
 -----
 
+* [`am`](https://developer.android.com/tools/help/adb.html#am) and [`pm`](https://developer.android.com/tools/help/adb.html#pm) are powerful Android tools; you shall play with them if you have not done so. Yet, their code ([`am`](https://github.com/android/platform_frameworks_base/blob/master/cmds/am/src/com/android/commands/am/Am.java) and [`pm`](https://github.com/android/platform_frameworks_base/blob/master/cmds/pm/src/com/android/commands/pm/Pm.java)) are large chunks of Java, which are, in my opinion, quite verbose and not quite extensible.
+* Have you hacked [AOSP](https://source.android.com/) before? Do you miss the 6G+ downloads and 30G+ caches, with hour-long builds? I know I do not.
+* Have you wished that you could program Android system (in contrast or in addition to making apps) easier, without the pain of downloading/building AOSP, in something more succinct and expressive than Java, say, Clojure?
+
+TBNL helps you do these and more, to multiple Android devices at the same time, in an extensible fashion.
+
+Highlights.
+
 * Android **system** programming in Clojure, with [REPL](http://tryclj.com/) everywhere.
 * Easy deployment with [adb](https://developer.android.com/tools/help/adb.html) on real devices or emulators ([Genymotion](http://www.genymotion.com/) included).
 * No 6G+ downloads or 30G+ caches of [AOSP](https://source.android.com/).
@@ -33,14 +41,6 @@ blurb
 
 rationale
 -----
-
-* [`am`](https://developer.android.com/tools/help/adb.html#am) and [`pm`](https://developer.android.com/tools/help/adb.html#pm) are powerful Android tools; you shall play with them if you have not done so. However, their code ([`am`](https://github.com/android/platform_frameworks_base/blob/master/cmds/am/src/com/android/commands/am/Am.java) and [`pm`](https://github.com/android/platform_frameworks_base/blob/master/cmds/pm/src/com/android/commands/pm/Pm.java)) are large chunks of Java, which are quite verbose and not quite extensible.
-
-* Did you hack [AOSP](https://source.android.com/) before? Have you experienced the 6G+ downloads and 30G+ caches, with hour-long builds?
-
-* Have you wished that you could do Android system programming (in contrast to App programming) easier, without the pain of downloading/building AOSP, in something nicer than Java, say, Clojure?
-
-TBNL helps you do these and more, to multiple Android devices at the same time, in an extensible fashion.
 
 See the [Wiki](https://github.com/pw4ever/tbnl/wiki/rationale) for more rationale.
 
@@ -51,8 +51,8 @@ First, make sure to [satisfy the build/runtime dependencies](https://github.com/
 
 To try out TBNL, you have 2 options:
 
-* [download & install it *without* the source code](https://github.com/pw4ever/tbnl/wiki/try-it-out#dependencies): Easy and quick to get started; but may not have the latest version; does not support further development.
-* [build & install it *with* the source code](https://github.com/pw4ever/tbnl/wiki/try-it-out#dependencies): Longer to set up *the first time*; but easy to build against the latest version; support further development.
+* [download & install it *without* the source code](https://github.com/pw4ever/tbnl/wiki/try-it-out#without-source): Easy and quick to get started; but may not have the latest version; does not support further development.
+* [build & install it *with* the source code](https://github.com/pw4ever/tbnl/wiki/try-it-out#with-source): Longer to set up *the first time*; but easy to build against the latest version; support further development.
 
 In both case, ensure that:
 * Have a *sole* (in the sense that [`adb`](https://developer.android.com/tools/help/adb.html) can unambiguously find it) Android device/emulator with [Android SDK 18](https://developer.android.com/about/versions/android-4.3.html) running.
@@ -65,30 +65,34 @@ All tested on [Arch Linux](https://www.archlinux.org/).
 
 See [these canned use cases](https://github.com/pw4ever/tbnl/wiki/canned-use-cases) for ideas how TBNL can help explore the Android system.
 
-### permission
-
-I am no legal expert, and I am confused by [the plethora of Open Source licenses](https://en.wikipedia.org/wiki/Comparison_of_free_and_open-source_software_licenses), so let me explain what I have in mind in plain words.
-
-You are free to use and adapt this work in any way you want, with 2 overriding principles:
-* Do not hold me or any contributors liable for your actions of using this software.
-* Please do the courtesy of fair acknowledgments if you derive works from it (I'd appreciate if you could let me know your work, and even more if you contribute back).
-
-Please consider:
-* Reporting issues and sending in patches;
-* Staring this project on GitHub;
-* Citing this work if you publish a paper using it;
-* Letting me know if you love it or how it can be improved.
-
-Doc
+documentation
 -----
 
 ### annotated source in [Marginalia](https://github.com/gdeer81/marginalia)
+The ultimate truth lies in the code.
 * [core][core] 
 * [mastermind][mastermind]
 * [C\&C][cnc]
 * [figurehead][figurehead] 
 
-Acknowledgments
+permission
+-----
+
+I am no legal expert, and I am confused by [the plethora of Open Source licenses](https://en.wikipedia.org/wiki/Comparison_of_free_and_open-source_software_licenses), so let me explain what I have in mind in plain words.
+
+You are free to use and adapt this work in any way you want, with 2 overall principles:
+* Do not hold me or any contributors liable for your actions of using this software.
+* Please do the courtesy of fair acknowledgments if you derive works from it.
+
+Please consider:
+* Improving the core framework and contributing plug-ins;
+* Contributing constructive criticisms: What is working, and what could be improved;
+* Reporting issues and sending in patches;
+* Staring this project on GitHub;
+* Citing this work if you publish a paper using it;
+* Letting me know if you use or extend it: I'd love to hear about your work and your use cases.
+
+acknowledgments
 -----
 * [Dr. Feng Li](http://www.engr.iupui.edu/~fengli/) and [Dr. Xukai Zou](http://cs.iupui.edu/~xkzou/), who advise my PhD research behind this work.
 * The Clojure community.
