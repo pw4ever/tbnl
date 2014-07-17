@@ -25,6 +25,8 @@ TBNL (To Be Named Later) is a pun on the framework's exploratory nature, inspire
 blurb
 -----
 
+[![see a demo](http://img.youtube.com/vi/Hvzl_RK5JH0/0.jpg)](http://youtu.be/Hvzl_RK5JH0)
+
 * [`am`](https://developer.android.com/tools/help/adb.html#am) and [`pm`](https://developer.android.com/tools/help/adb.html#pm) are powerful Android tools; you shall play with them if you have not done so. Yet, their code ([`am`](https://github.com/android/platform_frameworks_base/blob/master/cmds/am/src/com/android/commands/am/Am.java) and [`pm`](https://github.com/android/platform_frameworks_base/blob/master/cmds/pm/src/com/android/commands/pm/Pm.java)) are large chunks of Java, which are, in my opinion, quite verbose and not quite extensible.
 * Have you hacked [AOSP](https://source.android.com/) before? Do you miss the 6G+ downloads and 30G+ caches, with hour-long builds? I know I do not.
 * Have you wished that you could program Android system (in contrast or in addition to making apps) easier, without the pain of downloading/building AOSP, in something more succinct and expressive than Java, say, Clojure?
