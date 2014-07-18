@@ -3,14 +3,15 @@
 **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
 - [TBNL: power tool for Android system hacking, in Clojure](#tbnl-power-tool-for-android-system-hacking-in-clojure)
-  - [blurb](#blurb)
-  - [rationale](#rationale)
-  - [try it out](#try-it-out)
-    - [use cases](#use-cases)
-  - [documentation](#documentation)
-    - [annotated source in [Marginalia](https://github.com/gdeer81/marginalia)](#annotated-source-in-marginaliahttpsgithubcomgdeer81marginalia)
-  - [permission](#permission)
-  - [acknowledgments](#acknowledgments)
+	- [demos](#demos)
+	- [blurb](#blurb)
+	- [rationale](#rationale)
+	- [try it out](#try-it-out)
+		- [use cases](#use-cases)
+	- [documentation](#documentation)
+		- [annotated source in [Marginalia](https://github.com/gdeer81/marginalia)](#annotated-source-in-marginaliahttpsgithubcomgdeer81marginalia)
+	- [permission](#permission)
+	- [acknowledgments](#acknowledgments)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -22,10 +23,14 @@ One tool that rules all your [Android](http://www.android.com/) devices/emulator
 
 TBNL (To Be Named Later) is a pun on the framework's exploratory nature, inspired by [Edi Weitz](http://weitz.de/)'s [TBNL](http://weitz.de/tbnl/).
 
-blurb
+demos
 -----
 
-[![see a demo](http://img.youtube.com/vi/Hvzl_RK5JH0/0.jpg)](http://youtu.be/Hvzl_RK5JH0)
+* Control your Android using Clojure REPL
+[![Clojure REPL](http://img.youtube.com/vi/jC-aaIewNkc/0.jpg)](http://youtu.be/jC-aaIewNkc)
+
+blurb
+-----
 
 * [`am`](https://developer.android.com/tools/help/adb.html#am) and [`pm`](https://developer.android.com/tools/help/adb.html#pm) are powerful Android tools; you shall play with them if you have not done so. Yet, their code ([`am`](https://github.com/android/platform_frameworks_base/blob/master/cmds/am/src/com/android/commands/am/Am.java) and [`pm`](https://github.com/android/platform_frameworks_base/blob/master/cmds/pm/src/com/android/commands/pm/Pm.java)) are large chunks of Java, which are, in my opinion, quite verbose and not quite extensible.
 * Have you hacked [AOSP](https://source.android.com/) before? Do you miss the 6G+ downloads and 30G+ caches, with hour-long builds? I know I do not.
