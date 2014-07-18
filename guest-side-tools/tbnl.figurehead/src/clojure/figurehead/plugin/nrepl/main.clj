@@ -9,7 +9,7 @@
             ;; comment out the middlewares that are incompatible with Dalvik
             (cider.nrepl.middleware apropos
                                     classpath
-                                    complete
+                                    ;;complete
                                     ;;info
                                     inspect
                                     macroexpand
@@ -19,6 +19,7 @@
                                     ;;trace
                                     )
             ;;[cider.nrepl :refer [cider-nrepl-handler]]
+            compliment.core
             complete.core
             [clojure.stacktrace :refer [print-stack-trace]]
             [clojure.core.async
@@ -61,7 +62,7 @@
   "A vector containing all CIDER middleware."
   '[cider.nrepl.middleware.apropos/wrap-apropos
     cider.nrepl.middleware.classpath/wrap-classpath
-    cider.nrepl.middleware.complete/wrap-complete
+    ;;cider.nrepl.middleware.complete/wrap-complete
     ;;cider.nrepl.middleware.info/wrap-info
     cider.nrepl.middleware.inspect/wrap-inspect
     cider.nrepl.middleware.macroexpand/wrap-macroexpand

@@ -3028,8 +3028,8 @@ net.brehaut.ClojureTools = (function (SH) {
     build_tree: build_tree
   };
 })(SyntaxHighlighter);
-</script><title>info.voidstar/tbnl.figurehead -- Marginalia</title></head><body><table><tr><td class="docs"><div class="header"><h1 class="project-name">info.voidstar/tbnl.figurehead</h1><h2 class="project-version">0.0.1-SNAPSHOT</h2><br /><p>figurehead sits on device and is controlled by mastermind</p>
-</div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure-android/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.6.0-RC1</td></tr><tr><td class="dep-name">org.clojars.pw4ever/neko-sdk18</td><td class="dotted"><hr /></td><td class="dep-version">3.0.2</td></tr><tr><td class="dep-name">info.voidstar/tbnl.core</td><td class="dotted"><hr /></td><td class="dep-version">0.1.0-SNAPSHOT</td></tr><tr><td class="dep-name">org.clojure/core.async</td><td class="dotted"><hr /></td><td class="dep-version">0.1.303.0-886421-alpha</td></tr><tr><td class="dep-name">org.clojure/tools.nrepl</td><td class="dotted"><hr /></td><td class="dep-version">0.2.3</td></tr><tr><td class="dep-name">cider/cider-nrepl</td><td class="dotted"><hr /></td><td class="dep-version">0.7.0-SNAPSHOT</td></tr><tr><td class="dep-name">clojure-complete</td><td class="dotted"><hr /></td><td class="dep-version">0.2.3</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left almost blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#figurehead.api.app.activity-manager">figurehead.api.app.activity-manager</a></li><li><a href="#figurehead.api.content.intent">figurehead.api.content.intent</a></li><li><a href="#figurehead.api.content.pm.package-info">figurehead.api.content.pm.package-info</a></li><li><a href="#figurehead.api.view.input">figurehead.api.view.input</a></li><li><a href="#figurehead.main">figurehead.main</a></li><li><a href="#figurehead.plugin.command-executor.main">figurehead.plugin.command-executor.main</a></li><li><a href="#figurehead.plugin.getinfo.main">figurehead.plugin.getinfo.main</a></li><li><a href="#figurehead.plugin.mastermind.main">figurehead.plugin.mastermind.main</a></li><li><a href="#figurehead.plugin.monitor.main">figurehead.plugin.monitor.main</a></li><li><a href="#figurehead.plugin.nrepl.helper">figurehead.plugin.nrepl.helper</a></li><li><a href="#figurehead.plugin.nrepl.main">figurehead.plugin.nrepl.main</a></li><li><a href="#figurehead.util.init">figurehead.util.init</a></li><li><a href="#figurehead.util.routines">figurehead.util.routines</a></li><li><a href="#figurehead.util.services">figurehead.util.services</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.app.activity-manager" name="figurehead.api.app.activity-manager"><h1 class="project-name">figurehead.api.app.activity-manager</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+</script><title>info.voidstar/tbnl.figurehead -- Marginalia</title></head><body><table><tr><td class="docs"><div class="header"><h1 class="project-name">info.voidstar/tbnl.figurehead</h1><h2 class="project-version">0.1.0-SNAPSHOT</h2><br /><p>figurehead sits on device and is controlled by mastermind</p>
+</div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure-android/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.6.0-RC1</td></tr><tr><td class="dep-name">org.clojars.pw4ever/neko-sdk18</td><td class="dotted"><hr /></td><td class="dep-version">3.0.2</td></tr><tr><td class="dep-name">info.voidstar/tbnl.core</td><td class="dotted"><hr /></td><td class="dep-version">0.1.0-SNAPSHOT</td></tr><tr><td class="dep-name">org.clojure/core.async</td><td class="dotted"><hr /></td><td class="dep-version">0.1.303.0-886421-alpha</td></tr><tr><td class="dep-name">org.clojure/tools.nrepl</td><td class="dotted"><hr /></td><td class="dep-version">0.2.3</td></tr><tr><td class="dep-name">cider/cider-nrepl</td><td class="dotted"><hr /></td><td class="dep-version">0.7.0-SNAPSHOT</td></tr><tr><td class="dep-name">clojure-complete</td><td class="dotted"><hr /></td><td class="dep-version">0.2.3</td></tr><tr><td class="dep-name">compliment</td><td class="dotted"><hr /></td><td class="dep-version">0.1.1</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left almost blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#figurehead.api.app.activity-manager">figurehead.api.app.activity-manager</a></li><li><a href="#figurehead.api.content.intent">figurehead.api.content.intent</a></li><li><a href="#figurehead.api.content.pm.package-info">figurehead.api.content.pm.package-info</a></li><li><a href="#figurehead.api.view.input">figurehead.api.view.input</a></li><li><a href="#figurehead.main">figurehead.main</a></li><li><a href="#figurehead.plugin.command-executor.main">figurehead.plugin.command-executor.main</a></li><li><a href="#figurehead.plugin.getinfo.main">figurehead.plugin.getinfo.main</a></li><li><a href="#figurehead.plugin.mastermind.main">figurehead.plugin.mastermind.main</a></li><li><a href="#figurehead.plugin.monitor.main">figurehead.plugin.monitor.main</a></li><li><a href="#figurehead.plugin.nrepl.helper">figurehead.plugin.nrepl.helper</a></li><li><a href="#figurehead.plugin.nrepl.main">figurehead.plugin.nrepl.main</a></li><li><a href="#figurehead.util.init">figurehead.util.init</a></li><li><a href="#figurehead.util.routines">figurehead.util.routines</a></li><li><a href="#figurehead.util.services">figurehead.util.services</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.app.activity-manager" name="figurehead.api.app.activity-manager"><h1 class="project-name">figurehead.api.app.activity-manager</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.api.app.activity-manager
   (:require (figurehead.util [services :as services :refer [get-service]])
             (figurehead.api.content [intent :as intent]))
@@ -3983,7 +3983,7 @@ net.brehaut.ClojureTools = (function (SH) {
 </td><td class="codes"><pre class="brush: clojure">(defn enable-dynamic-compilation
   [clojure-cache-dir]
   (let [path (get-absolute-path-from-cwd clojure-cache-dir)]
-    (.mkdir (clojure.java.io/file path))
+    (.mkdir (file path))
     (plugin/set-state-entry :repl-dynamic-compilation-path
                             path)
     (System/setProperty &quot;clojure.compile.path&quot; path)
@@ -3991,10 +3991,13 @@ net.brehaut.ClojureTools = (function (SH) {
                     (constantly path))))</pre></td></tr><tr><td class="docs"><p>clean dynamic compilation cache on compile path</p>
 </td><td class="codes"><pre class="brush: clojure">(defn clean-compile-path
   []
-  (doseq [f (file-seq (file *compile-path*))]
-    (try
-      (delete-file f)
-      (catch Exception e))))</pre></td></tr><tr><td class="docs"><p>neko.init/start-repl</p>
+  (when *compile-path*
+    (doseq [f (file-seq (file *compile-path*))]
+      (try
+        (delete-file f)
+        (catch Exception e)))
+    ;; recreate the deleted directory
+    (.mkdir (file *compile-path*))))</pre></td></tr><tr><td class="docs"><p>neko.init/start-repl</p>
 </td><td class="codes"><pre class="brush: clojure">(defn start-repl
   [&amp; repl-args]
   (binding [*ns* (create-ns 'user)]
@@ -4017,7 +4020,7 @@ net.brehaut.ClojureTools = (function (SH) {
             ;; comment out the middlewares that are incompatible with Dalvik
             (cider.nrepl.middleware apropos
                                     classpath
-                                    complete
+                                    ;;complete
                                     ;;info
                                     inspect
                                     macroexpand
@@ -4026,6 +4029,7 @@ net.brehaut.ClojureTools = (function (SH) {
                                     test
                                     ;;trace)
             ;;[cider.nrepl :refer [cider-nrepl-handler]]
+            compliment.core
             complete.core
             [clojure.stacktrace :refer [print-stack-trace]]
             [clojure.core.async
@@ -4061,7 +4065,7 @@ net.brehaut.ClojureTools = (function (SH) {
 </td><td class="codes"><pre class="brush: clojure">(def ^:private cider-middleware
   '[cider.nrepl.middleware.apropos/wrap-apropos
     cider.nrepl.middleware.classpath/wrap-classpath
-    cider.nrepl.middleware.complete/wrap-complete
+    ;;cider.nrepl.middleware.complete/wrap-complete
     ;;cider.nrepl.middleware.info/wrap-info
     cider.nrepl.middleware.inspect/wrap-inspect
     cider.nrepl.middleware.macroexpand/wrap-macroexpand

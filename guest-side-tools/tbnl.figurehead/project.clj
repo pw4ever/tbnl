@@ -11,15 +11,14 @@
   :java-source-paths ["src/java" "gen"]
   :javac-options ["-target" "1.6" "-source" "1.6" "-Xlint:-options"]
 
-  :dependencies [
-                 [org.clojure-android/clojure "1.6.0-RC1" :use-resources true]
+  :dependencies [[org.clojure-android/clojure "1.6.0-RC1" :use-resources true]
                  [org.clojars.pw4ever/neko-sdk18 "3.0.2"]
                  [info.voidstar/tbnl.core "0.1.0-SNAPSHOT"]
                  [org.clojure/core.async "0.1.303.0-886421-alpha"]
                  [org.clojure/tools.nrepl "0.2.3"]
                  [cider/cider-nrepl "0.7.0-SNAPSHOT"]
                  [clojure-complete "0.2.3"]
-                 ]
+                 [compliment "0.1.1"]]
 
   ;;:exclusions [cljs-tooling]
 

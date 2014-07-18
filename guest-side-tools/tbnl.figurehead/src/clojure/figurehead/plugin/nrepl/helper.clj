@@ -42,7 +42,7 @@
   "enable dynamic compilation; adapt from neko.compilation/init"
   [clojure-cache-dir]
   (let [path (get-absolute-path-from-cwd clojure-cache-dir)]
-    (.mkdir (clojure.java.io/file path))
+    (.mkdir (file path))
     (plugin/set-state-entry :repl-dynamic-compilation-path
                             path)
     (System/setProperty "clojure.compile.path" path)
@@ -52,10 +52,13 @@
 (defn clean-compile-path
   "clean dynamic compilation cache on compile path"
   []
-  (doseq [f (file-seq (file *compile-path*))]
-    (try
-      (delete-file f)
-      (catch Exception e))))
+  (when *compile-path*
+    (doseq [f (file-seq (file *compile-path*))]
+      (try
+        (delete-file f)
+        (catch Exception e)))
+    ;; recreate the deleted directory
+    (.mkdir (file *compile-path*))))
 
 (defn start-repl
   "neko.init/start-repl"
