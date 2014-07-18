@@ -1,4 +1,4 @@
-(defproject info.voidstar/tbnl.figurehead "0.0.1-SNAPSHOT"
+(defproject info.voidstar/tbnl.figurehead "0.1.0-SNAPSHOT"
   :description "figurehead sits on device and is controlled by mastermind"
   :url "https://github.com/pw4ever/tbnl"
   :license {:name "Eclipse Public License"
