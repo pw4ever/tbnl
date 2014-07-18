@@ -22,8 +22,6 @@ for i in android.jar; do
     echo unpacking done: $i
 done
 
-jar cf android-${target}.jar -C ${target} .
-
 # full
 target=full
 rm -rf ${target}
@@ -31,11 +29,28 @@ rm -rf ${target}
 for i in framework.jar core.jar; do
     echo unpacking: $i
     unzip -qo $i -d ${target}
+    unzip -qo $i -d final
     echo unpacking done: $i
 done
 
-### NOTE: the released Android.jar is known to work with Clojure; what we need is merely the *declaration* of spare classes; WE do NOT want the  
+# final
+target=final
+rm -rf ${target}
+for i in framework.jar core.jar; do
+    echo unpacking: $i
+    unzip -qo $i -d ${target}
+    unzip -qo $i -d final
+    echo unpacking done: $i
+done
 
-cp -r partial/* full
+# final processing
 
-jar cf android-${target}.jar -C ${target} .
+## NOTE: the released Android.jar is known to work with Clojure; what we need is merely the *declaration* of spare classes; WE do NOT want the  
+cp -r partial/* final
+
+## manual over-ride
+for i in $(cd full; find . -iname '*inputmanager*' -o -iname '*activitymanager*'); do
+    cp -v full/${i} final/$(dirname ${i})
+done
+
+jar cf android-final.jar -C final .

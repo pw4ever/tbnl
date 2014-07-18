@@ -12,7 +12,8 @@
          load-plugin unload-plugin
          populate-parse-opts-vector
          init-plugin run-plugin stop-plugin init-and-run-plugin load-init-and-run-plugin restart-plugin
-         block-thread unblock-thread)
+         block-thread unblock-thread
+         register-exit-hook unregister-exit-hook execute-all-exit-hooks)
 
 (def ^:dynamic *current-plugin*
   "bound to current plugin by the context")
@@ -31,6 +32,9 @@
   "current options"
   (atom nil))
 
+(def exit-hooks
+  "exit hooks that are executed on main-thread exit"
+  (atom {}))
 
 (defn list-all-plugins
   "list all plugins"
@@ -336,3 +340,19 @@ the convention is that 'I do not care'-priority is 1, and 'absolute first'-prior
                  :stop-condition '~stop-condition
                  :finalization '~finalization]))
          ~finalization))))
+
+(defn register-exit-hook
+  "register exit hook on the main thread"
+  [key hook]
+  (swap! exit-hooks assoc key hook))
+
+(defn unregister-exit-hook
+  "undo register-exit-hook"
+  [key]
+  (swap! exit-hooks dissoc key))
+
+(defn execute-all-exit-hooks
+  "execute all registered exit hooks"
+  []
+  (doseq [[_ hook] @exit-hooks]
+    (hook)))

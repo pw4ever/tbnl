@@ -1,7 +1,7 @@
 #! /bin/bash
 
 real_sdk_path=${1:-$HOME/android-sdk/}
-target=${2:-full}
+target=${2:-final}
 
 android_version=18
 fake_sdk_path=android-sdk

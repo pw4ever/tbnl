@@ -57,5 +57,6 @@
     (catch Throwable e
       (print-stack-trace e))
     (finally
+      (plugin/execute-all-exit-hooks)
       ;; http://clojuredocs.org/clojure_core/clojure.java.shell/sh#example_896
       (shutdown-agents))))

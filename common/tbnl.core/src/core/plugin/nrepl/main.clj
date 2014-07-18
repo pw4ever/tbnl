@@ -5,6 +5,7 @@
                   [plugin :as plugin]))
   (:require [clojure.tools.nrepl.server :as nrepl-server]
             [clojure.stacktrace :refer [print-stack-trace]]
+            [cider.nrepl :refer [cider-nrepl-handler]]
             [clojure.core.async
              :as async
              :refer [<!! chan]]))
@@ -51,7 +52,8 @@
                            verbose
                            ]
                           (plugin/set-state-entry :nrepl-server
-                                                  (nrepl-server/start-server :port nrepl-port)))))
+                                                  (nrepl-server/start-server :port nrepl-port
+                                                                             :handler cider-nrepl-handler)))))
 
 ;;; archetype of stopping blocking-jail
 (defn stop

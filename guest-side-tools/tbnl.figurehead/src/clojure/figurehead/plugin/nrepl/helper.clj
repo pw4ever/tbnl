@@ -1,19 +1,21 @@
 ;;; acknowledgement: https://github.com/clojure-android/neko
 (ns figurehead.plugin.nrepl.helper
   (:require (core [plugin :as plugin]))
-  (:require clojure.tools.nrepl.server
+  (:require [clojure.java.io :refer [file delete-file]]
+            [clojure.tools.nrepl.server :as nrepl-server]
             clojure.tools.nrepl.middleware.interruptible-eval)
   (:import java.io.File
            java.util.concurrent.atomic.AtomicLong
            java.util.concurrent.ThreadFactory))
 
 (declare enable-dynamic-compilation
+         clean-compile-path
          start-repl)
 
 (def defaults
   (atom
    {
-    :repl-worker-thread-stack-size 1048576     ; nrepl 1 M
+    :repl-worker-thread-stack-size 8388608     ; nrepl 8M
     }))
 
 (defn- android-thread-factory
@@ -35,6 +37,7 @@
                        (into [(System/getProperty "java.io.tmpdir")]
                              path-components)))
 
+
 (defn enable-dynamic-compilation
   "enable dynamic compilation; adapt from neko.compilation/init"
   [clojure-cache-dir]
@@ -46,12 +49,23 @@
     (alter-var-root #'clojure.core/*compile-path*
                     (constantly path))))
 
+(defn clean-compile-path
+  "clean dynamic compilation cache on compile path"
+  []
+  (doseq [f (file-seq (file *compile-path*))]
+    (try
+      (delete-file f)
+      (catch Exception e))))
+
 (defn start-repl
   "neko.init/start-repl"
   [& repl-args]
   (binding [*ns* (create-ns 'user)]
     (refer-clojure)
     (use 'clojure.tools.nrepl.server)
+    (use 'clojure.repl)
+    (require 'complete.core)
+    ;; (apply (resolve 'start-server) repl-args)
     (require '[clojure.tools.nrepl.middleware.interruptible-eval :as ie])
     (with-redefs-fn {(resolve 'ie/configure-thread-factory)
                      android-thread-factory}

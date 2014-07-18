@@ -1,4 +1,6 @@
+;;; https://github.com/android/platform_frameworks_base/blob/android-4.3_r3.1/cmds/am/src/com/android/commands/am/Am.java#L479
 (ns figurehead.api.content.intent
+  (:require (figurehead.util [routines :as routines]))
   (:import (android.content Intent
                             ComponentName)
            (android.os Bundle)
@@ -7,38 +9,45 @@
 (declare make-intent)
 
 (defn make-intent
-  "make an Intent object
-
-reference: https://github.com/android/platform_frameworks_base/blob/android-4.3_r3.1/cmds/am/src/com/android/commands/am/Am.java#L479"
-  [& args]
-  (let [args (into {} (map vec (partition 2 args)))
-        intent (Intent.)]
+  "make an Intent object"
+  [{:keys [action
+           categories
+           extras
+           package
+           component
+           flags
+           ^Uri data
+           type
+           wild-card
+           ]
+    :as args}]
+  (let [intent (Intent.)]
 
     ;; action
-    (when-let [action (:action args)]
+    (when action
       (.setAction ^Intent intent action))
 
     ;; a seq of categories
-    (when-let [categories (:categories args)]
+    (when categories
       (doseq [category categories]
         (.addCategory ^Intent intent category)))
 
     ;; a seq of extras
-    (when-let [extras (:extras args)]
+    (when extras
       (doseq [[key val] extras]
         (.putExtra ^Intent intent key val)))
 
     ;; package
-    (when-let [package (:package args)]
+    (when package
       (.setPackage ^Intent intent package))
 
     ;; component
-    (when-let [component (:component args)]
+    (when component
       (.setComponent ^Intent intent
                      (ComponentName/unflattenFromString component)))
 
     ;; flags can be either a number or a seq of individual flags (Intent/FLAG_*)
-    (when-let [flags (:flags args)]
+    (when flags
       (cond (number? flags)
             (.setFlags ^Intent intent
                        flags)
@@ -48,12 +57,10 @@ reference: https://github.com/android/platform_frameworks_base/blob/android-4.3_
               (.addFlags ^Intent intent flag))))
 
     ;; data and type
-    (let [data ^Uri (:data args)
-          type ^String (:type args)]
-      (.setDataAndType ^Intent intent data type))
+    (.setDataAndType ^Intent intent data type)
 
     ;; free-form wild-card
-    (when-let [wild-card (:wild-card args)]
+    (when wild-card
       (let [wild-card (str wild-card)]
         (cond (>= (.indexOf wild-card ":") 0)
               (do

@@ -17,13 +17,14 @@
                  [info.voidstar/tbnl.core "0.1.0-SNAPSHOT"]
                  [org.clojure/core.async "0.1.303.0-886421-alpha"]
                  [org.clojure/tools.nrepl "0.2.3"]
-                 [compliment "0.0.3"]
+                 [cider/cider-nrepl "0.7.0-SNAPSHOT"]
+                 [clojure-complete "0.2.3"]
                  ]
 
-  :plugins [
-            [lein-droid "0.2.3"]
-            [lein-marginalia "0.7.1"]
-            ]
+  ;;:exclusions [cljs-tooling]
+
+  :plugins [[lein-droid "0.2.3"]
+            [lein-marginalia "0.7.1"]]
 
   :profiles {:dev {
                    :android {

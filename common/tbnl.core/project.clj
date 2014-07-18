@@ -7,7 +7,10 @@
                  [org.clojure/tools.nrepl "0.2.3"]
                  [org.clojure/core.async "0.1.303.0-886421-alpha"]
                  [org.clojure/tools.cli "0.3.1"]
+                 [cider/cider-nrepl "0.7.0-SNAPSHOT"]
+                 [clojure-complete "0.2.3"]
                  [compliment "0.1.1"]]
+
   :profiles {
              :dev {
                    :plugins [

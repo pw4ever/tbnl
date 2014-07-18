@@ -3029,28 +3029,31 @@ net.brehaut.ClojureTools = (function (SH) {
   };
 })(SyntaxHighlighter);
 </script><title>info.voidstar/tbnl.figurehead -- Marginalia</title></head><body><table><tr><td class="docs"><div class="header"><h1 class="project-name">info.voidstar/tbnl.figurehead</h1><h2 class="project-version">0.0.1-SNAPSHOT</h2><br /><p>figurehead sits on device and is controlled by mastermind</p>
-</div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure-android/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.6.0-RC1</td></tr><tr><td class="dep-name">org.clojars.pw4ever/neko-sdk18</td><td class="dotted"><hr /></td><td class="dep-version">3.0.2</td></tr><tr><td class="dep-name">info.voidstar/tbnl.core</td><td class="dotted"><hr /></td><td class="dep-version">0.1.0-SNAPSHOT</td></tr><tr><td class="dep-name">org.clojure/core.async</td><td class="dotted"><hr /></td><td class="dep-version">0.1.303.0-886421-alpha</td></tr><tr><td class="dep-name">org.clojure/tools.nrepl</td><td class="dotted"><hr /></td><td class="dep-version">0.2.3</td></tr><tr><td class="dep-name">compliment</td><td class="dotted"><hr /></td><td class="dep-version">0.0.3</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left almost blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#figurehead.api.app.activity-manager">figurehead.api.app.activity-manager</a></li><li><a href="#figurehead.api.content.intent">figurehead.api.content.intent</a></li><li><a href="#figurehead.api.content.pm.package-info">figurehead.api.content.pm.package-info</a></li><li><a href="#figurehead.main">figurehead.main</a></li><li><a href="#figurehead.plugin.command-executor.main">figurehead.plugin.command-executor.main</a></li><li><a href="#figurehead.plugin.getinfo.main">figurehead.plugin.getinfo.main</a></li><li><a href="#figurehead.plugin.mastermind.main">figurehead.plugin.mastermind.main</a></li><li><a href="#figurehead.plugin.monitor.main">figurehead.plugin.monitor.main</a></li><li><a href="#figurehead.plugin.nrepl.helper">figurehead.plugin.nrepl.helper</a></li><li><a href="#figurehead.plugin.nrepl.main">figurehead.plugin.nrepl.main</a></li><li><a href="#figurehead.util.init">figurehead.util.init</a></li><li><a href="#figurehead.util.services">figurehead.util.services</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.app.activity-manager" name="figurehead.api.app.activity-manager"><h1 class="project-name">figurehead.api.app.activity-manager</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+</div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure-android/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.6.0-RC1</td></tr><tr><td class="dep-name">org.clojars.pw4ever/neko-sdk18</td><td class="dotted"><hr /></td><td class="dep-version">3.0.2</td></tr><tr><td class="dep-name">info.voidstar/tbnl.core</td><td class="dotted"><hr /></td><td class="dep-version">0.1.0-SNAPSHOT</td></tr><tr><td class="dep-name">org.clojure/core.async</td><td class="dotted"><hr /></td><td class="dep-version">0.1.303.0-886421-alpha</td></tr><tr><td class="dep-name">org.clojure/tools.nrepl</td><td class="dotted"><hr /></td><td class="dep-version">0.2.3</td></tr><tr><td class="dep-name">cider/cider-nrepl</td><td class="dotted"><hr /></td><td class="dep-version">0.7.0-SNAPSHOT</td></tr><tr><td class="dep-name">clojure-complete</td><td class="dotted"><hr /></td><td class="dep-version">0.2.3</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left almost blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#figurehead.api.app.activity-manager">figurehead.api.app.activity-manager</a></li><li><a href="#figurehead.api.content.intent">figurehead.api.content.intent</a></li><li><a href="#figurehead.api.content.pm.package-info">figurehead.api.content.pm.package-info</a></li><li><a href="#figurehead.api.view.input">figurehead.api.view.input</a></li><li><a href="#figurehead.main">figurehead.main</a></li><li><a href="#figurehead.plugin.command-executor.main">figurehead.plugin.command-executor.main</a></li><li><a href="#figurehead.plugin.getinfo.main">figurehead.plugin.getinfo.main</a></li><li><a href="#figurehead.plugin.mastermind.main">figurehead.plugin.mastermind.main</a></li><li><a href="#figurehead.plugin.monitor.main">figurehead.plugin.monitor.main</a></li><li><a href="#figurehead.plugin.nrepl.helper">figurehead.plugin.nrepl.helper</a></li><li><a href="#figurehead.plugin.nrepl.main">figurehead.plugin.nrepl.main</a></li><li><a href="#figurehead.util.init">figurehead.util.init</a></li><li><a href="#figurehead.util.routines">figurehead.util.routines</a></li><li><a href="#figurehead.util.services">figurehead.util.services</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.app.activity-manager" name="figurehead.api.app.activity-manager"><h1 class="project-name">figurehead.api.app.activity-manager</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.api.app.activity-manager
   (:require (figurehead.util [services :as services :refer [get-service]])
             (figurehead.api.content [intent :as intent]))
   (:require [clojure.string :as str]
             [clojure.java.io :as io])
-  (:import (android.app IActivityManager)
+  (:import (android.app IActivityManager
+                        AppOpsManager)
            (android.content Intent
+                            IIntentReceiver$Stub
                             ComponentName)
-           (android.net Uri)))</pre></td></tr><tr><td class="docs">
+           (android.net Uri)
+           (android.os Bundle
+                       Binder)))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(declare start-activity start-service
-         force-stop kill kill-all)</pre></td></tr><tr><td class="docs"><p>start an Activity</p>
-
-<p>:wild-card - URI, component name, or package name
-etc.</p>
+         force-stop kill kill-all
+         send-broadcast
+         hang
+         intent-to-uri)</pre></td></tr><tr><td class="docs"><p>start an Activity (accept all figurehead.api.content.intent/make-intent arguments)</p>
 </td><td class="codes"><pre class="brush: clojure">(defn start-activity
-  [&amp; param]
-  (let [intent ^Intent (apply intent/make-intent param)
-        param (into {} (map vec (partition 2 param)))
+  [{:keys [wait?]
+    :as args}]
+  (let [intent ^Intent (intent/make-intent args)
         activity-manager ^IActivityManager (get-service :activity-manager)
-        mime-type (atom nil)
-        wait? (:wait? param)]
+        mime-type (atom nil)]
     (when intent
       (reset! mime-type (.getType intent))
       (when (and (not @mime-type)
@@ -3068,67 +3071,104 @@ etc.</p>
         (.. activity-manager
             (startActivityAsUser nil nil ^Intent intent ^String @mime-type
                                  nil nil 0 0
-                                 nil nil nil 0))))))</pre></td></tr><tr><td class="docs"><p>start Service</p>
+                                 nil nil nil 0))))))</pre></td></tr><tr><td class="docs"><p>start Service (accept all figurehead.api.content.intent/make-intent arguments)</p>
 </td><td class="codes"><pre class="brush: clojure">(defn start-service
-  [&amp; param]
-  (let [intent ^Intent (apply intent/make-intent param)
-        param (into {} (map vec (partition 2 param)))
+  [{:keys []
+    :as args}]
+  (let [intent ^Intent (intent/make-intent args)
         activity-manager ^IActivityManager (get-service :activity-manager)]
     (when intent
       (.. activity-manager
           ^ComponentName (startService nil intent (.getType intent) 0)))))</pre></td></tr><tr><td class="docs"><p>force stop a Package</p>
-
-<p>:package - the package to force stop</p>
 </td><td class="codes"><pre class="brush: clojure">(defn force-stop
-  [&amp; param]
-  (let [param (into {} (map vec (partition 2 param)))
-        activity-manager ^IActivityManager (get-service :activity-manager)
-        package (:package param)]
+  [{:keys [package]
+    :as args}]
+  (let [activity-manager ^IActivityManager (get-service :activity-manager)]
     (.forceStopPackage activity-manager package 0)))</pre></td></tr><tr><td class="docs"><p>kill a Package</p>
-
-<p>:package - the package to kill</p>
 </td><td class="codes"><pre class="brush: clojure">(defn kill
-  [&amp; param]
-  (let [param (into {} (map vec (partition 2 param)))
-        activity-manager ^IActivityManager (get-service :activity-manager)
-        package (:package param)]
+  [{:keys [package]
+    :as args}]
+  (let [activity-manager ^IActivityManager (get-service :activity-manager)]
     (.killBackgroundProcesses activity-manager package 0)))</pre></td></tr><tr><td class="docs"><p>kill all Packages</p>
 </td><td class="codes"><pre class="brush: clojure">(defn kill-all
-  [&amp; param]
+  [{:keys []
+    :as args}]
   (let [activity-manager ^IActivityManager (get-service :activity-manager)]
-    (.killAllBackgroundProcesses activity-manager)))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.content.intent" name="figurehead.api.content.intent"><h1 class="project-name">figurehead.api.content.intent</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+    (.killAllBackgroundProcesses activity-manager)))</pre></td></tr><tr><td class="docs"><p>send broadcast</p>
+</td><td class="codes"><pre class="brush: clojure">(defn send-broadcast
+  [{:keys [perform-receive
+           receiver-permission]
+    :as args}]
+  (let [intent ^Intent (intent/make-intent args)
+        activity-manager ^IActivityManager (get-service :activity-manager)
+        intent-receiver (proxy
+                            [IIntentReceiver$Stub]
+                            []
+                          (performReceive [^Intent intent result-code ^String data ^Bundle extras
+                                           ordered sticky sending-user]
+                            (when perform-receive
+                              (perform-receive {:intent intent :result-code result-code
+                                                :data data :extras extras
+                                                :ordered ordered :sticky sticky
+                                                :sending-user sending-user}))))]
+    (when (and intent intent-receiver)
+      (.broadcastIntent activity-manager
+                        nil intent nil intent-receiver
+                        0 nil nil receiver-permission
+                        AppOpsManager/OP_NONE true false 0))))</pre></td></tr><tr><td class="docs"><p>hang</p>
+</td><td class="codes"><pre class="brush: clojure">(defn hang
+  [{:keys [allow-restart]
+    :as args}]
+  (let [activity-manager ^IActivityManager (get-service :activity-manager)]
+    (.hang activity-manager (Binder.) allow-restart)))</pre></td></tr><tr><td class="docs"><p>convert intent to URI</p>
+</td><td class="codes"><pre class="brush: clojure">(defn intent-to-uri
+  [{:keys [intent-scheme?]
+    :as args}]
+  (let [intent ^Intent (intent/make-intent args)]
+    (when (and intent)
+      (.toUri intent (if intent-scheme?
+                       Intent/URI_INTENT_SCHEME
+                       0)))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.content.intent" name="figurehead.api.content.intent"><h1 class="project-name">figurehead.api.content.intent</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>https://github.com/android/platform<em>frameworks</em>base/blob/android-4.3_r3.1/cmds/am/src/com/android/commands/am/Am.java#L479</p>
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.api.content.intent
+  (:require (figurehead.util [routines :as routines]))
   (:import (android.content Intent
                             ComponentName)
            (android.os Bundle)
            (android.net Uri)))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(declare make-intent)</pre></td></tr><tr><td class="docs"><p>make an Intent object</p>
-
-<p>reference: https://github.com/android/platform<em>frameworks</em>base/blob/android-4.3_r3.1/cmds/am/src/com/android/commands/am/Am.java#L479</p>
 </td><td class="codes"><pre class="brush: clojure">(defn make-intent
-  [&amp; args]
-  (let [args (into {} (map vec (partition 2 args)))
-        intent (Intent.)]
+  [{:keys [action
+           categories
+           extras
+           package
+           component
+           flags
+           ^Uri data
+           type
+           wild-card
+           ]
+    :as args}]
+  (let [intent (Intent.)]
     ;; action
-    (when-let [action (:action args)]
+    (when action
       (.setAction ^Intent intent action))
     ;; a seq of categories
-    (when-let [categories (:categories args)]
+    (when categories
       (doseq [category categories]
         (.addCategory ^Intent intent category)))
     ;; a seq of extras
-    (when-let [extras (:extras args)]
+    (when extras
       (doseq [[key val] extras]
         (.putExtra ^Intent intent key val)))
     ;; package
-    (when-let [package (:package args)]
+    (when package
       (.setPackage ^Intent intent package))
     ;; component
-    (when-let [component (:component args)]
+    (when component
       (.setComponent ^Intent intent
                      (ComponentName/unflattenFromString component)))
     ;; flags can be either a number or a seq of individual flags (Intent/FLAG_*)
-    (when-let [flags (:flags args)]
+    (when flags
       (cond (number? flags)
             (.setFlags ^Intent intent
                        flags)
@@ -3136,11 +3176,9 @@ etc.</p>
             (doseq [flag flags]
               (.addFlags ^Intent intent flag))))
     ;; data and type
-    (let [data ^Uri (:data args)
-          type ^String (:type args)]
-      (.setDataAndType ^Intent intent data type))
+    (.setDataAndType ^Intent intent data type)
     ;; free-form wild-card
-    (when-let [wild-card (:wild-card args)]
+    (when wild-card
       (let [wild-card (str wild-card)]
         (cond (&gt;= (.indexOf wild-card &quot;:&quot;) 0)
               (do
@@ -3188,15 +3226,248 @@ etc.</p>
                                                  PackageManager/GET_PERMISSIONS
                                                  PackageManager/GET_CONFIGURATIONS)
                                          0)]
-      {
-       :activities (for [^ActivityInfo activity (.activities pkg-info)]
+      {:activities (for [^ActivityInfo activity (.activities pkg-info)]
                      {:name (.name activity)})
        :services (for [^ServiceInfo service (.services pkg-info)]
                    {:name (.name service)})
        :providers (for [^ProviderInfo provider (.providers pkg-info)]
                     {:name (.name provider)})
        :receivers (for [^ActivityInfo receiver (.receivers pkg-info)]
-                    {:name (.name receiver)})})))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.main" name="figurehead.main"><h1 class="project-name">figurehead.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+                    {:name (.name receiver)})})))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.view.input" name="figurehead.api.view.input"><h1 class="project-name">figurehead.api.view.input</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>https://github.com/android/platform<em>frameworks</em>base/blob/android-4.3_r3.1/cmds/input/src/com/android/commands/input/Input.java</p>
+</td><td class="codes"><pre class="brush: clojure">(ns figurehead.api.view.input
+  (:require (figurehead.util [services :as services :refer [get-service]]))
+  (:require [clojure.string :as str]
+            [clojure.java.io :as io])
+  (:import (android.hardware.input InputManager)
+           (android.os SystemClock)
+           (android.view InputDevice
+                         KeyCharacterMap
+                         KeyEvent
+                         MotionEvent)))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(declare
+ ;; porcelain
+ text key-event tap swipe
+ touchscreen touchpad touch-navigation
+ trackball
+ ;; plumbing
+ send-text send-key-event
+ send-tap send-swipe send-move
+ inject-key-event inject-motion-event)</pre></td></tr><tr><td class="docs"><p>porcelain</p>
+</td><td class="codes"></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(defn text
+  [{:keys [^String text]
+    :as args}]
+  (when text
+    (send-text (merge args
+                      {:text text}))))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(defn key-event
+  [{:keys [^String key-code meta-state]
+    :or {meta-state 0}
+    :as args}]
+  (let [str-to-key-code (fn [str-key-code prefix]
+                          (let [key-code (KeyEvent/keyCodeFromString str-key-code)]
+                            (if (= key-code KeyEvent/KEYCODE_UNKNOWN)
+                              (KeyEvent/keyCodeFromString (str prefix
+                                                               (str/upper-case str-key-code)))
+                              key-code)))]
+    (let [key-code (cond (number? key-code)
+                         key-code
+                         (string? key-code)
+                         (str-to-key-code key-code &quot;KEYCODE_&quot;))
+          meta-state (cond (number? meta-state)
+                           meta-state
+                           (string? meta-state)
+                           (str-to-key-code meta-state &quot;META_&quot;)
+                           (sequential? meta-state)
+                           (reduce bit-or
+                                   0
+                                   (map #(str-to-key-code % &quot;META_&quot;) meta-state)))]
+      (when (and key-code meta-state)
+        (send-key-event (merge args
+                               {:key-code key-code
+                                :meta-state meta-state}))))))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(defn tap
+  [{:keys [x y]
+    :as args}]
+  (when (and x y)
+    (send-tap (merge args
+                     {:input-source InputDevice/SOURCE_TOUCHSCREEN
+                      :x x
+                      :y y}))))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(defn swipe
+  [{:keys [x1 y1 x2 y2]
+    :as args}]
+  (when (and x1 y1 x2 y2)
+    (send-swipe (merge args
+                       {:input-source InputDevice/SOURCE_TOUCHSCREEN
+                        :x1 x1 :y1 y1
+                        :x2 x2 :y2 y2
+                        :duration -1}))))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(let [common-procedure (fn [input-source action args]
+                         (case action
+                           :tap
+                           (do
+                             (let [{:keys [x y]} args]
+                               (when (and x y)
+                                 (send-tap (merge args
+                                                  {:input-source input-source
+                                                   :x x :y y})))))
+                           :swipe
+                           (do
+                             (let [{:keys [x1 y1 x2 y2 duration]} args]
+                               (when (and x1 y1 x2 y2)
+                                 (send-swipe (merge args
+                                                    {:input-source input-source
+                                                     :x1 x1 :y1 y1
+                                                     :x2 x2 :y2 y2
+                                                     :duration (if duration
+                                                                 duration
+                                                                 -1)})))))
+                           :else))]
+  (defn touchscreen
+    [{:keys [action]
+      :as args}]
+    (common-procedure InputDevice/SOURCE_TOUCHSCREEN (or action :tap) args))
+  (defn touchpad
+    [{:keys [action]
+      :as args}]
+    (common-procedure InputDevice/SOURCE_TOUCHPAD (or action :tap) args))
+  (defn touch-navigation
+    [{:keys [action]
+      :as args}]
+    (common-procedure InputDevice/SOURCE_TOUCH_NAVIGATION (or action :tap) args)))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(defn trackball
+  [{:keys [action]
+    :as args}]
+  (let [input-source InputDevice/SOURCE_TRACKBALL]
+    (case action
+      :press
+      (do
+        (send-tap (merge args
+                         {:input-source input-source
+                          :x 0.0 :y 0.0})))
+      :roll
+      (do
+        (let [{:keys [dx dy]} args]
+          (when (and dx dy)
+            (send-move (merge args
+                              {:input-source input-source
+                               :dx dx :dy dy})))))
+      :else)))</pre></td></tr><tr><td class="docs"><p>plumbing</p>
+</td><td class="codes"></td></tr><tr><td class="docs"><p>convert the characters of string text into key events and send to the device</p>
+</td><td class="codes"><pre class="brush: clojure">(defn send-text
+  [{:keys [^String text]
+    :as args}]
+  (let [kcm ^KeyCharacterMap (KeyCharacterMap/load KeyCharacterMap/VIRTUAL_KEYBOARD)]
+    (doseq [^KeyEvent event (.getEvents kcm (.toCharArray text))]
+      (inject-key-event {:event event}))))</pre></td></tr><tr><td class="docs"><p>send key event</p>
+</td><td class="codes"><pre class="brush: clojure">(defn send-key-event
+  [{:keys [key-code
+           meta-state]
+    :or {meta-state 0}
+    :as args}]
+  (let [now (SystemClock/uptimeMillis)
+]
+    (inject-key-event {:event (KeyEvent. now now KeyEvent/ACTION_DOWN key-code 0 meta-state
+                                         KeyCharacterMap/VIRTUAL_KEYBOARD 0 0 InputDevice/SOURCE_KEYBOARD)})
+    (inject-key-event {:event (KeyEvent. now now KeyEvent/ACTION_UP key-code 0 meta-state
+                                         KeyCharacterMap/VIRTUAL_KEYBOARD 0 0 InputDevice/SOURCE_KEYBOARD)})))</pre></td></tr><tr><td class="docs"><p>send tap event</p>
+</td><td class="codes"><pre class="brush: clojure">(defn send-tap
+  [{:keys [input-source
+           x y]
+    :or {input-source InputDevice/SOURCE_TOUCHSCREEN}
+    :as args}]
+  (let [now (SystemClock/uptimeMillis)]
+    (inject-motion-event {:input-source input-source
+                          :action MotionEvent/ACTION_DOWN
+                          :when now
+                          :x x
+                          :y y
+                          :pressure 1.0})
+    (inject-motion-event {:input-source input-source
+                          :action MotionEvent/ACTION_UP
+                          :when now
+                          :x x
+                          :y y
+                          :pressure 0.0})))</pre></td></tr><tr><td class="docs"><p>send swipe event</p>
+</td><td class="codes"><pre class="brush: clojure">(defn send-swipe
+  [{:keys [input-source
+           x1 y1
+           x2 y2
+           duration]
+    :or {input-source InputDevice/SOURCE_TOUCHSCREEN}
+    :as args}]
+  (let [now (SystemClock/uptimeMillis)
+        duration (if (&gt;= duration 0) duration 300)
+        start-time now
+        end-time (+ now duration)
+        lerp (fn [x y alpha]
+               (+ x
+                  (* alpha
+                     (- y x))))]
+    (inject-motion-event {:input-source input-source
+                          :action MotionEvent/ACTION_DOWN
+                          :when now
+                          :x x1
+                          :y y1
+                          :pressure 1.0})
+    (loop [now now]
+      (if (&lt; now end-time)
+        (do
+          (let [elapsed-time (- now start-time)
+                alpha (/ (float elapsed-time) duration)]
+            (inject-motion-event {:input-source input-source
+                                  :action MotionEvent/ACTION_MOVE
+                                  :when now
+                                  :x (lerp x1 x2 alpha)
+                                  :y (lerp y1 y2 alpha)
+                                  :pressure 1.0}))
+          (recur (SystemClock/uptimeMillis)))
+        (inject-motion-event {:input-source input-source
+                              :action MotionEvent/ACTION_UP
+                              :when now
+                              :x x2
+                              :y y2
+                              :pressure 0.0})))))</pre></td></tr><tr><td class="docs"><p>send a zero-pressure move event</p>
+</td><td class="codes"><pre class="brush: clojure">(defn send-move
+  [{:keys [input-source
+           dx dy]
+    :or {input-source InputDevice/SOURCE_TOUCHSCREEN}
+    :as args}]
+  (let [now (SystemClock/uptimeMillis)]
+    (inject-motion-event {:input-source input-source
+                          :action MotionEvent/ACTION_MOVE
+                          :when now
+                          :x dx
+                          :y dy
+                          :pressure 0.0})))</pre></td></tr><tr><td class="docs"><p>inject a key event</p>
+</td><td class="codes"><pre class="brush: clojure">(defn inject-key-event
+  [{:keys [^KeyEvent event]
+    :as args}]
+  (.. (InputManager/getInstance)
+      (injectInputEvent event
+                        InputManager/INJECT_INPUT_EVENT_MODE_WAIT_FOR_FINISH)))</pre></td></tr><tr><td class="docs"><p>inject a motion event</p>
+</td><td class="codes"><pre class="brush: clojure">(defn inject-motion-event
+  [{:keys [input-source
+           action
+           when
+           meta-state
+           x y
+           pressure]
+    :or {input-source InputDevice/SOURCE_TOUCHSCREEN
+         meta-state 0}    
+    :as args}]
+  (let [size 1.0
+        precision-x 1.0
+        precision-y 1.0
+        device-id 0
+        edge-flags 0
+        event (MotionEvent/obtain when when action x y pressure
+                                  size meta-state precision-x precision-y device-id edge-flags)]
+    (.setSource event input-source)
+    (.. (InputManager/getInstance)
+        (injectInputEvent event
+                          InputManager/INJECT_INPUT_EVENT_MODE_WAIT_FOR_FINISH))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.main" name="figurehead.main"><h1 class="project-name">figurehead.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.main
   (:require (figurehead.util [init :as init]))
   (:require (core main
@@ -3220,7 +3491,8 @@ etc.</p>
                                              figurehead.plugin.command-executor)
   (apply core.main/main args))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.plugin.command-executor.main" name="figurehead.plugin.command-executor.main"><h1 class="project-name">figurehead.plugin.command-executor.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.plugin.command-executor.main
-  (:require (figurehead.api.app [activity-manager :as activity-manager]))
+  (:require (figurehead.api.app [activity-manager :as activity-manager])
+            (figurehead.api.view [input :as input]))
   (:require (core [init :as init]
                   [state :as state]
                   [bus :as bus]
@@ -3273,20 +3545,54 @@ etc.</p>
                                     (case command
                                       :start-activity
                                       (do
-                                        ;; inject intent
-                                        (apply activity-manager/start-activity param))
+                                        (activity-manager/start-activity param))
                                       :start-service
                                       (do
-                                        (apply activity-manager/start-service param))
+                                        (activity-manager/start-service param))
                                       :force-stop
                                       (do
-                                        (apply activity-manager/force-stop param))
+                                        (activity-manager/force-stop param))
                                       :kill
                                       (do
-                                        (apply activity-manager/kill param))
+                                        (activity-manager/kill param))
                                       :kill-all
                                       (do
-                                        (apply activity-manager/kill-all param))
+                                        (activity-manager/kill-all param))
+                                      :send-broadcast
+                                      (do
+                                        (activity-manager/send-broadcast param))
+                                      :hang
+                                      (do
+                                        (activity-manager/hang param))
+                                      :intent-to-uri
+                                      (do
+                                        (bus/say!! :command-executor.intent-to-uri
+                                                   (activity-manager/intent-to-uri param)
+                                                   verbose))
+                                      :text
+                                      (do
+                                        (input/text param))
+                                      :key-event
+                                      (do
+                                        (input/key-event param))
+                                      :tap
+                                      (do
+                                        (input/tap param))
+                                      :swipe
+                                      (do
+                                        (input/swipe param))
+                                      :touchscreen
+                                      (do
+                                        (input/touchscreen param))
+                                      :touchpad
+                                      (do
+                                        (input/touchpad param))
+                                      :touch-navigation
+                                      (do
+                                        (input/touch-navigation param))
+                                      :trackball
+                                      (do
+                                        (input/trackball param))
                                       :else)))
                                 :else))
                             (recur (&lt;!! ch))))))</pre></td></tr><tr><td class="docs">
@@ -3644,17 +3950,19 @@ etc.</p>
            :auto-restart false}})</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.plugin.nrepl.helper" name="figurehead.plugin.nrepl.helper"><h1 class="project-name">figurehead.plugin.nrepl.helper</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>acknowledgement: https://github.com/clojure-android/neko</p>
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.plugin.nrepl.helper
   (:require (core [plugin :as plugin]))
-  (:require clojure.tools.nrepl.server
+  (:require [clojure.java.io :refer [file delete-file]]
+            [clojure.tools.nrepl.server :as nrepl-server]
             clojure.tools.nrepl.middleware.interruptible-eval)
   (:import java.io.File
            java.util.concurrent.atomic.AtomicLong
            java.util.concurrent.ThreadFactory))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(declare enable-dynamic-compilation
+         clean-compile-path
          start-repl)</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(def defaults
   (atom
    {
-    :repl-worker-thread-stack-size 1048576     ; nrepl 1 M
+    :repl-worker-thread-stack-size 8388608     ; nrepl 8M
     }))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(defn- android-thread-factory
   []
@@ -3680,16 +3988,25 @@ etc.</p>
                             path)
     (System/setProperty &quot;clojure.compile.path&quot; path)
     (alter-var-root #'clojure.core/*compile-path*
-                    (constantly path))))</pre></td></tr><tr><td class="docs"><p>neko.init/start-repl</p>
+                    (constantly path))))</pre></td></tr><tr><td class="docs"><p>clean dynamic compilation cache on compile path</p>
+</td><td class="codes"><pre class="brush: clojure">(defn clean-compile-path
+  []
+  (doseq [f (file-seq (file *compile-path*))]
+    (try
+      (delete-file f)
+      (catch Exception e))))</pre></td></tr><tr><td class="docs"><p>neko.init/start-repl</p>
 </td><td class="codes"><pre class="brush: clojure">(defn start-repl
   [&amp; repl-args]
   (binding [*ns* (create-ns 'user)]
     (refer-clojure)
     (use 'clojure.tools.nrepl.server)
+    (use 'clojure.repl)
+    (require 'complete.core)
+    ;; (apply (resolve 'start-server) repl-args)
     (require '[clojure.tools.nrepl.middleware.interruptible-eval :as ie])
     (with-redefs-fn {(resolve 'ie/configure-thread-factory)
                      android-thread-factory}
-      #(apply (resolve 'start-server) repl-args))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.plugin.nrepl.main" name="figurehead.plugin.nrepl.main"><h1 class="project-name">figurehead.plugin.nrepl.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+      #(apply (resolve 'start-server) repl-args))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.plugin.nrepl.main" name="figurehead.plugin.nrepl.main"><h1 class="project-name">figurehead.plugin.nrepl.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>nREPL server with cider-nrepl middleware support</p>
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.plugin.nrepl.main
   (:require (core [init :as init]
                   [state :as state]
@@ -3697,16 +4014,33 @@ etc.</p>
                   [plugin :as plugin]))
   (:require [figurehead.plugin.nrepl.helper :as helper])
   (:require [clojure.tools.nrepl.server :as nrepl-server]
+            ;; comment out the middlewares that are incompatible with Dalvik
+            (cider.nrepl.middleware apropos
+                                    classpath
+                                    complete
+                                    ;;info
+                                    inspect
+                                    macroexpand
+                                    resource
+                                    stacktrace
+                                    test
+                                    ;;trace)
+            ;;[cider.nrepl :refer [cider-nrepl-handler]]
+            complete.core
             [clojure.stacktrace :refer [print-stack-trace]]
             [clojure.core.async
              :as async
-             :refer [&lt;!! chan]]))</pre></td></tr><tr><td class="docs">
+             :refer [&lt;!! chan]])
+  (:import (java.util.concurrent TimeUnit
+                                 ScheduledThreadPoolExecutor
+                                 Executors
+                                 ScheduledFuture)))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(def defaults
   (atom
    {
     :repl-clojure-cache-dir &quot;clojure-cache&quot;
-    :repl-worker-thread-stack-size 1048576     ; nrepl 1 M
     :stop-unblock-tag :stop-figurehead.plugin.nrepl
+    :clean-compile-path-interval 120     ; in SECONDS
     }))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(defn populate-parse-opts-vector
   [current-parse-opts-vector]
@@ -3723,11 +4057,32 @@ etc.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn init
   [options]
   (when (:nrepl-port options)
-    true))</pre></td></tr><tr><td class="docs">
+    true))</pre></td></tr><tr><td class="docs"><p>A vector containing all CIDER middleware.</p>
+</td><td class="codes"><pre class="brush: clojure">(def ^:private cider-middleware
+  '[cider.nrepl.middleware.apropos/wrap-apropos
+    cider.nrepl.middleware.classpath/wrap-classpath
+    cider.nrepl.middleware.complete/wrap-complete
+    ;;cider.nrepl.middleware.info/wrap-info
+    cider.nrepl.middleware.inspect/wrap-inspect
+    cider.nrepl.middleware.macroexpand/wrap-macroexpand
+    cider.nrepl.middleware.resource/wrap-resource
+    cider.nrepl.middleware.stacktrace/wrap-stacktrace
+    cider.nrepl.middleware.test/wrap-test
+    ;;cider.nrepl.middleware.trace/wrap-trace
+    ])</pre></td></tr><tr><td class="docs"><p>CIDER's nREPL handler.</p>
+</td><td class="codes"><pre class="brush: clojure">(def ^:private cider-nrepl-handler
+  (apply nrepl-server/default-handler (map resolve cider-middleware)))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(defn run
   [options]
   (let [verbose (:verbose options)
-        nrepl-port (:nrepl-port options)]
+        nrepl-port (:nrepl-port options)
+        scheduler ^ScheduledThreadPoolExecutor (Executors/newScheduledThreadPool 1)
+        clean-compile-path-task (delay ^ScheduledFuture
+                                       (.scheduleAtFixedRate scheduler
+                                                             #(helper/clean-compile-path)
+                                                             (:clean-compile-path-interval @defaults)
+                                                             (:clean-compile-path-interval @defaults)
+                                                             TimeUnit/SECONDS))]
     (plugin/blocking-jail [
                            ;; timeout
                            nil
@@ -3736,17 +4091,21 @@ etc.</p>
                            ;; finalization
                            (do
                              (nrepl-server/stop-server (plugin/get-state-entry :nrepl-server))
-                             ;; TODO: clear (plugin/get-state-entry :repl-dynamic-compilation-path)  ;; could be dangerous)
+                             (.cancel ^ScheduledFuture @clean-compile-path-task true)
+                             (helper/clean-compile-path))
                            ;; verbose
                            verbose
                            ]
-                          ;; refer to neko.init/init and neko.compilation/init; replace all use of Context with regular file operation
                           (helper/enable-dynamic-compilation (:repl-clojure-cache-dir @defaults))
                           (when verbose
                             (prn [:repl-dynamic-compilation-path
                                   (plugin/get-state-entry :repl-dynamic-compilation-path)]))
                           (plugin/set-state-entry :nrepl-server
-                                                  (helper/start-repl :port nrepl-port)))))</pre></td></tr><tr><td class="docs">
+                                                  (helper/start-repl :port nrepl-port
+                                                                     :handler cider-nrepl-handler))
+                          (plugin/register-exit-hook :figurehead.plugin.nrepl.clean-compile-path
+                                                     #(helper/clean-compile-path))                          
+                          @clean-compile-path-task)))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(defn stop
   [options]
   (plugin/set-state-entry :core.plugin.nrepl
@@ -3779,7 +4138,12 @@ etc.</p>
                       (IPackageManager$Stub/asInterface))))</pre></td></tr><tr><td class="docs"><p>initialization</p>
 </td><td class="codes"><pre class="brush: clojure">(defn init
   []
-  (register-services))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.util.services" name="figurehead.util.services"><h1 class="project-name">figurehead.util.services</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+  (register-services))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.util.routines" name="figurehead.util.routines"><h1 class="project-name">figurehead.util.routines</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(ns figurehead.util.routines)</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(declare vector-to-map)</pre></td></tr><tr><td class="docs"><p>convert [:key1 val1 :key2 val2 ...] into {:key1 val1, key2 val2, ...}</p>
+</td><td class="codes"><pre class="brush: clojure">(defn vector-to-map
+  [v]
+  (into {} (map vec (partition 2 v))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.util.services" name="figurehead.util.services"><h1 class="project-name">figurehead.util.services</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.util.services
   (:require (core [bus :as bus])))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(declare policy services

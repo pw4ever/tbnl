@@ -3,25 +3,28 @@
             (figurehead.api.content [intent :as intent]))
   (:require [clojure.string :as str]
             [clojure.java.io :as io])
-  (:import (android.app IActivityManager)
+  (:import (android.app IActivityManager
+                        AppOpsManager)
            (android.content Intent
+                            IIntentReceiver$Stub
                             ComponentName)
-           (android.net Uri)))
+           (android.net Uri)
+           (android.os Bundle
+                       Binder)))
 
 (declare start-activity start-service
-         force-stop kill kill-all)
+         force-stop kill kill-all
+         send-broadcast
+         hang
+         intent-to-uri)
 
 (defn start-activity
-  "start an Activity
-
-:wild-card - URI, component name, or package name
-etc."
-  [& param]
-  (let [intent ^Intent (apply intent/make-intent param)
-        param (into {} (map vec (partition 2 param)))
+  "start an Activity (accept all figurehead.api.content.intent/make-intent arguments)"
+  [{:keys [wait?]
+    :as args}]
+  (let [intent ^Intent (intent/make-intent args)
         activity-manager ^IActivityManager (get-service :activity-manager)
-        mime-type (atom nil)
-        wait? (:wait? param)]
+        mime-type (atom nil)]
     (when intent
       (reset! mime-type (.getType intent))
       (when (and (not @mime-type)
@@ -42,39 +45,78 @@ etc."
                                  nil nil nil 0))))))
 
 (defn start-service
-  "start Service"
-  [& param]
-  (let [intent ^Intent (apply intent/make-intent param)
-        param (into {} (map vec (partition 2 param)))
+  "start Service (accept all figurehead.api.content.intent/make-intent arguments)"
+  [{:keys []
+    :as args}]
+  (let [intent ^Intent (intent/make-intent args)
         activity-manager ^IActivityManager (get-service :activity-manager)]
     (when intent
       (.. activity-manager
           ^ComponentName (startService nil intent (.getType intent) 0)))))
 
 (defn force-stop
-  "force stop a Package
-
-:package - the package to force stop"
-  [& param]
-  (let [param (into {} (map vec (partition 2 param)))
-        activity-manager ^IActivityManager (get-service :activity-manager)
-        package (:package param)]
+  "force stop a Package"
+  [{:keys [package]
+    :as args}]
+  (let [activity-manager ^IActivityManager (get-service :activity-manager)]
     (.forceStopPackage activity-manager package 0)))
 
 (defn kill
-  "kill a Package
-
-:package - the package to kill"
-  [& param]
-  (let [param (into {} (map vec (partition 2 param)))
-        activity-manager ^IActivityManager (get-service :activity-manager)
-        package (:package param)]
+  "kill a Package"
+  [{:keys [package]
+    :as args}]
+  (let [activity-manager ^IActivityManager (get-service :activity-manager)]
     (.killBackgroundProcesses activity-manager package 0)))
 
 (defn kill-all
   "kill all Packages"
-  [& param]
+  [{:keys []
+    :as args}]
   (let [activity-manager ^IActivityManager (get-service :activity-manager)]
     (.killAllBackgroundProcesses activity-manager)))
 
 
+(defn send-broadcast
+  "send broadcast"
+  [{:keys [perform-receive
+           receiver-permission]
+    :as args}]
+  (let [intent ^Intent (intent/make-intent args)
+
+        activity-manager ^IActivityManager (get-service :activity-manager)
+
+        intent-receiver (proxy
+                            [IIntentReceiver$Stub]
+                            []
+
+                          (performReceive [^Intent intent result-code ^String data ^Bundle extras
+                                           ordered sticky sending-user]
+                            (when perform-receive
+                              (perform-receive {:intent intent :result-code result-code
+                                                :data data :extras extras
+                                                :ordered ordered :sticky sticky
+                                                :sending-user sending-user})))
+
+                          )]
+    (when (and intent intent-receiver)
+      (.broadcastIntent activity-manager
+                        nil intent nil intent-receiver
+                        0 nil nil receiver-permission
+                        AppOpsManager/OP_NONE true false 0))))
+
+(defn hang
+  "hang"
+  [{:keys [allow-restart]
+    :as args}]
+  (let [activity-manager ^IActivityManager (get-service :activity-manager)]
+    (.hang activity-manager (Binder.) allow-restart)))
+
+(defn intent-to-uri
+  "convert intent to URI"
+  [{:keys [intent-scheme?]
+    :as args}]
+  (let [intent ^Intent (intent/make-intent args)]
+    (when (and intent)
+      (.toUri intent (if intent-scheme?
+                       Intent/URI_INTENT_SCHEME
+                       0)))))

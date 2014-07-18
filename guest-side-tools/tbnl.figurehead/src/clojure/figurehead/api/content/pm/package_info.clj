@@ -33,8 +33,7 @@
                                                  PackageManager/GET_PERMISSIONS
                                                  PackageManager/GET_CONFIGURATIONS)
                                          0)]
-      {
-       :activities (for [^ActivityInfo activity (.activities pkg-info)]
+      {:activities (for [^ActivityInfo activity (.activities pkg-info)]
                      {:name (.name activity)})
        :services (for [^ServiceInfo service (.services pkg-info)]
                    {:name (.name service)})
