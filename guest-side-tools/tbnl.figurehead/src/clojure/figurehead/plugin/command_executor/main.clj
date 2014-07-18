@@ -1,5 +1,7 @@
 (ns figurehead.plugin.command-executor.main
   (:require (figurehead.api.app [activity-manager :as activity-manager])
+            (figurehead.api.content.pm [package-info :as package-info])
+            (figurehead.api.content [intent :as intent])
             (figurehead.api.view [input :as input]))
   (:require (core [init :as init]
                   [state :as state]
@@ -59,6 +61,18 @@
                                   (let [command (:command content)
                                         param (:param content)]
                                     (case command
+                                      :get-all-packages
+                                      (do
+                                        (package-info/get-all-packages param))
+                                      
+                                      :get-package-info
+                                      (do
+                                        (package-info/get-package-info param))
+
+                                      :make-intent
+                                      (do
+                                        (intent/make-intent param))
+                                      
                                       :start-activity
                                       (do
                                         (activity-manager/start-activity param))

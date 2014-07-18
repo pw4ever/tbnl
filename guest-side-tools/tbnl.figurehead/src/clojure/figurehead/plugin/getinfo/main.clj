@@ -63,13 +63,14 @@
                            ]
                           (if package
                             (bus/say!! :package-manager.get-package-info 
-                                       (assoc (package-info/get-package-info package)
+                                       (assoc (package-info/get-package-info {:package package})
                                          :instance instance-id)
                                        verbose)
                             (bus/say!! :package-manager.get-all-packages
-                                       (assoc {:packages (into #{} (map (fn [^PackageInfo package-info]
-                                                                          (-> package-info .packageName keyword))
-                                                                        (package-info/get-all-packages)))}
+                                       (assoc {:packages (into #{}
+                                                               (map (fn [^PackageInfo package-info]
+                                                                      (-> package-info .packageName keyword))
+                                                                    (package-info/get-all-packages {})))}
                                          :instance instance-id)
                                        verbose)))))
 

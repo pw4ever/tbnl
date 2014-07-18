@@ -3199,6 +3199,7 @@ net.brehaut.ClojureTools = (function (SH) {
     intent))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.content.pm.package-info" name="figurehead.api.content.pm.package-info"><h1 class="project-name">figurehead.api.content.pm.package-info</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.api.content.pm.package-info
   (:require (figurehead.util [services :as services :refer [get-service]]))
+  (:require [clojure.string :as str])
   (:import
    (android.content.pm IPackageManager
                        PackageManager
@@ -3207,7 +3208,8 @@ net.brehaut.ClojureTools = (function (SH) {
                        ProviderInfo
                        PackageInfo)))</pre></td></tr><tr><td class="docs"><p>get all packages on this device</p>
 </td><td class="codes"><pre class="brush: clojure">(defn get-all-packages 
-  []
+  [{:keys []
+    :as args}]
   (let [package-manager ^IPackageManager (get-service :package-manager)]
     (let [packages  (.. package-manager
                         (getInstalledPackages 0 0)
@@ -3215,25 +3217,36 @@ net.brehaut.ClojureTools = (function (SH) {
       (for [^PackageInfo package-info packages]
         package-info))))</pre></td></tr><tr><td class="docs"><p>get app components for a specific package</p>
 </td><td class="codes"><pre class="brush: clojure">(defn get-package-info 
-  [package]
-  (let [package-manager ^IPackageManager (get-service :package-manager)]
-    (when-let [pkg-info (.getPackageInfo package-manager
-                                         package
-                                         (bit-or PackageManager/GET_ACTIVITIES
-                                                 PackageManager/GET_PROVIDERS
-                                                 PackageManager/GET_RECEIVERS
-                                                 PackageManager/GET_SERVICES
-                                                 PackageManager/GET_PERMISSIONS
-                                                 PackageManager/GET_CONFIGURATIONS)
-                                         0)]
-      {:activities (for [^ActivityInfo activity (.activities pkg-info)]
-                     {:name (.name activity)})
-       :services (for [^ServiceInfo service (.services pkg-info)]
-                   {:name (.name service)})
-       :providers (for [^ProviderInfo provider (.providers pkg-info)]
-                    {:name (.name provider)})
-       :receivers (for [^ActivityInfo receiver (.receivers pkg-info)]
-                    {:name (.name receiver)})})))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.view.input" name="figurehead.api.view.input"><h1 class="project-name">figurehead.api.view.input</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>https://github.com/android/platform<em>frameworks</em>base/blob/android-4.3_r3.1/cmds/input/src/com/android/commands/input/Input.java</p>
+  [{:keys [package]
+    :as args}]
+  (when package
+    (let [package-manager ^IPackageManager (get-service :package-manager)]
+      (when-let [pkg-info (.getPackageInfo package-manager
+                                           (cond
+                                             (keyword? package)
+                                             (name package)
+                                             (sequential? package)
+                                             (str/join &quot;.&quot;
+                                                       (map #(cond (keyword? %) (name %)
+                                                                   :else (str %))
+                                                            package))
+                                             :else
+                                             (str package))
+                                           (bit-or PackageManager/GET_ACTIVITIES
+                                                   PackageManager/GET_PROVIDERS
+                                                   PackageManager/GET_RECEIVERS
+                                                   PackageManager/GET_SERVICES
+                                                   PackageManager/GET_PERMISSIONS
+                                                   PackageManager/GET_CONFIGURATIONS)
+                                           0)]
+        {:activities (for [^ActivityInfo activity (.activities pkg-info)]
+                       {:name (.name activity)})
+         :services (for [^ServiceInfo service (.services pkg-info)]
+                     {:name (.name service)})
+         :providers (for [^ProviderInfo provider (.providers pkg-info)]
+                      {:name (.name provider)})
+         :receivers (for [^ActivityInfo receiver (.receivers pkg-info)]
+                      {:name (.name receiver)})}))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.view.input" name="figurehead.api.view.input"><h1 class="project-name">figurehead.api.view.input</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>https://github.com/android/platform<em>frameworks</em>base/blob/android-4.3_r3.1/cmds/input/src/com/android/commands/input/Input.java</p>
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.api.view.input
   (:require (figurehead.util [services :as services :refer [get-service]]))
   (:require [clojure.string :as str]
@@ -3492,6 +3505,8 @@ net.brehaut.ClojureTools = (function (SH) {
   (apply core.main/main args))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.plugin.command-executor.main" name="figurehead.plugin.command-executor.main"><h1 class="project-name">figurehead.plugin.command-executor.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.plugin.command-executor.main
   (:require (figurehead.api.app [activity-manager :as activity-manager])
+            (figurehead.api.content.pm [package-info :as package-info])
+            (figurehead.api.content [intent :as intent])
             (figurehead.api.view [input :as input]))
   (:require (core [init :as init]
                   [state :as state]
@@ -3543,6 +3558,15 @@ net.brehaut.ClojureTools = (function (SH) {
                                   (let [command (:command content)
                                         param (:param content)]
                                     (case command
+                                      :get-all-packages
+                                      (do
+                                        (package-info/get-all-packages param))
+                                      :get-package-info
+                                      (do
+                                        (package-info/get-package-info param))
+                                      :make-intent
+                                      (do
+                                        (intent/make-intent param))
                                       :start-activity
                                       (do
                                         (activity-manager/start-activity param))
@@ -3667,13 +3691,14 @@ net.brehaut.ClojureTools = (function (SH) {
                            ]
                           (if package
                             (bus/say!! :package-manager.get-package-info 
-                                       (assoc (package-info/get-package-info package)
+                                       (assoc (package-info/get-package-info {:package package})
                                          :instance instance-id)
                                        verbose)
                             (bus/say!! :package-manager.get-all-packages
-                                       (assoc {:packages (into #{} (map (fn [^PackageInfo package-info]
-                                                                          (-&gt; package-info .packageName keyword))
-                                                                        (package-info/get-all-packages)))}
+                                       (assoc {:packages (into #{}
+                                                               (map (fn [^PackageInfo package-info]
+                                                                      (-&gt; package-info .packageName keyword))
+                                                                    (package-info/get-all-packages {})))}
                                          :instance instance-id)
                                        verbose)))))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(defn stop
@@ -4004,7 +4029,8 @@ net.brehaut.ClojureTools = (function (SH) {
     (refer-clojure)
     (use 'clojure.tools.nrepl.server)
     (use 'clojure.repl)
-    (require 'complete.core)
+    (use 'clojure.pprint)
+    (use 'clojure.java.io)
     ;; (apply (resolve 'start-server) repl-args)
     (require '[clojure.tools.nrepl.middleware.interruptible-eval :as ie])
     (with-redefs-fn {(resolve 'ie/configure-thread-factory)
@@ -4044,7 +4070,7 @@ net.brehaut.ClojureTools = (function (SH) {
    {
     :repl-clojure-cache-dir &quot;clojure-cache&quot;
     :stop-unblock-tag :stop-figurehead.plugin.nrepl
-    :clean-compile-path-interval 120     ; in SECONDS
+    :clean-compile-path-interval (* 5 60)     ; in SECONDS
     }))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(defn populate-parse-opts-vector
   [current-parse-opts-vector]
@@ -4108,7 +4134,8 @@ net.brehaut.ClojureTools = (function (SH) {
                                                   (helper/start-repl :port nrepl-port
                                                                      :handler cider-nrepl-handler))
                           (plugin/register-exit-hook :figurehead.plugin.nrepl.clean-compile-path
-                                                     #(helper/clean-compile-path))                          
+                                                     #(helper/clean-compile-path))
+                          ;; trigger the delayed task
                           @clean-compile-path-task)))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(defn stop
   [options]

@@ -35,7 +35,7 @@
    {
     :repl-clojure-cache-dir "clojure-cache"
     :stop-unblock-tag :stop-figurehead.plugin.nrepl
-    :clean-compile-path-interval 120     ; in SECONDS
+    :clean-compile-path-interval (* 5 60)     ; in SECONDS
     }))
 
 (defn populate-parse-opts-vector
@@ -109,7 +109,8 @@
                                                                      :handler cider-nrepl-handler))
                           
                           (plugin/register-exit-hook :figurehead.plugin.nrepl.clean-compile-path
-                                                     #(helper/clean-compile-path))                          
+                                                     #(helper/clean-compile-path))
+                          ;; trigger the delayed task
                           @clean-compile-path-task)))
 
 (defn stop
