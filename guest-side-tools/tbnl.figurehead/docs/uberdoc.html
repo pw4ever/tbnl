@@ -4013,7 +4013,9 @@ net.brehaut.ClojureTools = (function (SH) {
                             path)
     (System/setProperty &quot;clojure.compile.path&quot; path)
     (alter-var-root #'clojure.core/*compile-path*
-                    (constantly path))))</pre></td></tr><tr><td class="docs"><p>clean dynamic compilation cache on compile path</p>
+                    (constantly path))
+    ;; clean staled cache
+    (clean-compile-path)))</pre></td></tr><tr><td class="docs"><p>clean dynamic compilation cache on compile path</p>
 </td><td class="codes"><pre class="brush: clojure">(defn clean-compile-path
   []
   (when *compile-path*
@@ -4070,7 +4072,7 @@ net.brehaut.ClojureTools = (function (SH) {
    {
     :repl-clojure-cache-dir &quot;clojure-cache&quot;
     :stop-unblock-tag :stop-figurehead.plugin.nrepl
-    :clean-compile-path-interval (* 5 60)     ; in SECONDS
+    :clean-compile-path-interval (* 30 60)
     }))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(defn populate-parse-opts-vector
   [current-parse-opts-vector]

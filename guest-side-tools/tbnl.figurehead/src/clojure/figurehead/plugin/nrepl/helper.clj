@@ -47,7 +47,9 @@
                             path)
     (System/setProperty "clojure.compile.path" path)
     (alter-var-root #'clojure.core/*compile-path*
-                    (constantly path))))
+                    (constantly path))
+    ;; clean staled cache
+    (clean-compile-path)))
 
 (defn clean-compile-path
   "clean dynamic compilation cache on compile path"
