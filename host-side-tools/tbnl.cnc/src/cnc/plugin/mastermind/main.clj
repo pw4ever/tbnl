@@ -96,7 +96,9 @@
                                                                  
                                                                  :information
                                                                  (do
-                                                                   (bus/say!! :information content))))
+                                                                   (bus/say!! :information content))
+
+                                                                 :else))
                                                              (catch RuntimeException e
                                                                (when verbose
                                                                  (print-stack-trace e)))))

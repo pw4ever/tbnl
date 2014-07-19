@@ -109,14 +109,14 @@
                                          (with-open [writer (io/writer sock)]
                                            (let [ch (chan (:writer-buffer @defaults))]
                                              (try
-                                               ;; (bus/sub-topic ch :information)
+                                               (bus/sub-topic ch :information)
                                                (bus/sub-topic ch :model-update)
                                                (while true
                                                  (let [line (<! ch)]
                                                    (.write writer (prn-str line))
                                                    (.flush writer)))
                                                (finally
-                                                 ;; (bus/unsub-topic ch :information)
+                                                 (bus/unsub-topic ch :information)
                                                  (bus/unsub-topic ch :model-update)))))
                                          (finally
                                            (.close sock))))

@@ -52,8 +52,8 @@ pkg2
   (atom {}))
 
 (defn update-model! [model state news]
-  (let [action (bus/get-message-topic news)
-        content (bus/remove-message-topic news)
+  (let [action (:event news)
+        content (dissoc news :event)
         instance (:instance content)
         package (:package content)
         package-name (name package)]
@@ -81,7 +81,7 @@ pkg2
              package)
 
       (case action
-        :activity-controller.starting
+        :starting
         (let [intent-component (:intent-component content)
               prev-intent-component (peek stack)
               intent-action (:intent-action content)
@@ -157,7 +157,7 @@ pkg2
              true ; model updated
              )))
 
-        :activity-controller.resuming  ; state is changed but no model update
+        :resuming  ; state is changed but no model update
         (when (peek stack)
           (when (= prev-current-package package)
             (swap! state update-in [instance :packages package]
@@ -167,7 +167,7 @@ pkg2
           false ; no model update
           )
 
-        :activity-controller.crashed
+        :crashed
         (let [
               packages (:packages content)
               ]

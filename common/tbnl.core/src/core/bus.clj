@@ -8,8 +8,7 @@
                      mult tap untap
                      >!! <!!]]))
 
-(declare 
-         sub-topic unsub-topic get-subscribers
+(declare sub-topic unsub-topic get-subscribers
          register-listener unregister-listener get-listeners
          get-message-topic remove-message-topic
          get-topics
@@ -29,9 +28,12 @@
                           :else message))
     :remove-message-topic (fn [message]
                             (cond
-                             (map? message) (:what message)
+                             (map? message) (:content message)
                              (sequential? message) (rest message)
                              :else nil))
+    :build-message (fn [topic content]
+                     {:topic topic
+                      :content content})
     :pub-buf-fn (fn [topic]
                   (buffer (:bus-pub-buffer-size
                            @defaults)))}))
@@ -110,17 +112,20 @@
     [message]
     ((:remove-message-topic @defaults) message))
 
-
+  (defn build-message
+    "build message from topic and content"
+    [topic content]
+    ((:build-message @defaults) topic content))
 
   (defn say
-    "say what with the topic"
-    ([topic what chan-op] (say topic what false chan-op))
-    ([topic what verbose? chan-op]
+    "say content with the topic"
+    ([topic content chan-op] (say topic content false chan-op))
+    ([topic content verbose? chan-op]
        (swap! topics conj topic)
-       (let [content {:topic topic :what what}]
-         (chan-op bus-chan content)
+       (let [message (build-message topic content)]
+         (chan-op bus-chan message)
          (when verbose?
-           (prn {:content content
+           (prn {:message message
                  :topics (get-topics)
                  :subscribers (get-subscribers)
                  :listeners (get-listeners)})))))
@@ -130,20 +135,20 @@
   ;; say! is omitted because >! may not work with Clojure on Android for SDK 18
   ;; !!! use say! within go block may deadlock
   ;; (defn say!
-  ;;   "say what with the topic (>! as chan-op)"
-  ;;   ([topic what] (say! topic what false))    
-  ;;   ([topic what verbose?]
+  ;;   "say content with the topic (>! as chan-op)"
+  ;;   ([topic content] (say! topic content false))    
+  ;;   ([topic content verbose?]
   ;;      (let [chan-op (fn [ch val]
   ;;                      (go >! ch val))]
-  ;;        (say topic what verbose? chan-op))))
+  ;;        (say topic content verbose? chan-op))))
 
   (defn say!!
-    "say what with the topic (>!! as chan-op)"
-    ([topic what] (say!! topic what false))
-    ([topic what verbose?]
+    "say content with the topic (>!! as chan-op)"
+    ([topic content] (say!! topic content false))
+    ([topic content verbose?]
        (let [chan-op (fn [ch val]
                        (>!! ch val))]
-         (say topic what verbose? chan-op))))
+         (say topic content verbose? chan-op))))
 
   (defn well-saying?
     "Is said a well saying?"
@@ -152,7 +157,7 @@
      said
      (map? said)
      (:topic said)
-     (:what said)))
+     (:content said)))
   
   (defn what-is-said
     "get what is from the sub-ch"
@@ -162,7 +167,7 @@
          (when verbose?
            (prn [:said said]))
          (cond (map? said)
-               (:what said)
+               (:content said)
 
                :else
                nil))))

@@ -111,8 +111,14 @@
                                     
                                     :information
                                     (do
-                                      (when (helper/activity-controller? content)
-                                        (>! model-ch content)))
+                                      (let [topic (bus/get-message-topic content)
+                                            content (bus/remove-message-topic content)]
+                                        (case topic
+                                          :activity-controller
+                                          (do
+                                            (>! model-ch content))
+
+                                          :else)))
 
                                     :else))
                                 (recur (<! ch))))
@@ -121,10 +127,9 @@
                               (loop [input @input-chans]
                                 (let [alt-chs (into [model-ch] (vals input))
                                       [news _] (alts! alt-chs)]
-                                  (when (helper/activity-controller? news)
-                                    (dump-monitor-trace news)
-                                    (when (model/update-model! model state news)
-                                      (model/broadcast-model @model))))
+                                  (dump-monitor-trace news)
+                                  (when (model/update-model! model state news)
+                                    (model/broadcast-model @model)))
                                 (recur @input-chans)))))))
 
 (defn stop

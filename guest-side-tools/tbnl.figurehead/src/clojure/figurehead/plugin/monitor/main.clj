@@ -43,7 +43,6 @@
 (defn run
   [options]
   (let [verbose (:verbose options)
-        instance-id (state/get-state :instance-id)
         now (Time.)
         activity-manager ^IActivityManager (get-service :activity-manager)
         ;; this is the meat
@@ -54,8 +53,8 @@
                               (activityStarting [^Intent intent package]
                                 (locking this
                                   (locking intent
-                                    (bus/say!! :activity-controller.starting
-                                               {:instance instance-id
+                                    (bus/say!! :activity-controller
+                                               {:event :starting
                                                 :timestamp (do (.setToNow now)
                                                                (.toMillis now true))
                                                 :package (-> package keyword)
@@ -71,13 +70,14 @@
                                                 :intent-data (-> intent .getDataString)
                                                 :intent-extras (-> intent .getExtras)
                                                 :intent-flags (-> intent .getFlags)
-                                                }))
+                                                }
+                                               verbose))
                                   true))
 
                               (activityResuming [package]
                                 (locking this
-                                  (bus/say!! :activity-controller.resuming
-                                             {:instance instance-id
+                                  (bus/say!! :activity-controller
+                                             {:event :resuming
                                               :timestamp (do (.setToNow now)
                                                              (.toMillis now true))
                                               :package (-> package keyword)
@@ -91,8 +91,8 @@
                                   (doseq [^ActivityManager$RunningAppProcessInfo app-proc (.getRunningAppProcesses activity-manager)]
                                     (when (and (= pid (.pid app-proc))
                                                (= process-name (.processName app-proc)))
-                                      (bus/say!! :activity-controller.crashed
-                                                 {:instance instance-id
+                                      (bus/say!! :activity-controller
+                                                 {:event :crashed
                                                   :timestamp (do (.setToNow now)
                                                                  (.toMillis now true))
                                                   :packages (into #{}

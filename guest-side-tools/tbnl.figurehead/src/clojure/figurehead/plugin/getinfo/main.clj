@@ -9,15 +9,14 @@
             [clojure.core.async
              :as async
              :refer [<!! >!! timeout]])
-  (:import
-   (android.content.pm IPackageManager
-                       PackageManager
-                       
-                       ActivityInfo
-                       ServiceInfo
-                       ProviderInfo
-                       
-                       PackageInfo)))
+  (:import (android.content.pm IPackageManager
+                               PackageManager
+                               
+                               ActivityInfo
+                               ServiceInfo
+                               ProviderInfo
+                               
+                               PackageInfo)))
 
 (def defaults
   (atom
@@ -49,8 +48,7 @@
 (defn run
   [options]
   (let [verbose (:verbose options)
-        package (:package options)
-        instance-id (state/get-state :instance-id)]
+        package (:package options)]
     (plugin/blocking-jail [
                            ;; timeout
                            nil
@@ -62,16 +60,14 @@
                            verbose
                            ]
                           (if package
-                            (bus/say!! :package-manager.get-package-info 
-                                       (assoc (package-info/get-package-info {:package package})
-                                         :instance instance-id)
+                            (bus/say!! :response
+                                       {:command :get-package-info
+                                        :result (package-info/get-package-info {:package package})}
                                        verbose)
-                            (bus/say!! :package-manager.get-all-packages
-                                       (assoc {:packages (into #{}
-                                                               (map (fn [^PackageInfo package-info]
-                                                                      (-> package-info .packageName keyword))
-                                                                    (package-info/get-all-packages {})))}
-                                         :instance instance-id)
+                            (bus/say!! :response
+                                       {:command :get-all-packages
+                                        :result (->> (package-info/get-all-packages {})
+                                                     (map #(.packageName ^PackageInfo %)))}
                                        verbose)))))
 
 (defn stop

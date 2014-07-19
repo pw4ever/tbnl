@@ -9,7 +9,8 @@
                   [plugin :as plugin]))
   (:require [clojure.core.async :as async :refer [chan close!
                                                   thread <!! >!!]]
-            [clojure.java.io :as io]))
+            [clojure.java.io :as io])
+  (:import (android.content.pm PackageInfo)))
 
 (def defaults
   (atom
@@ -63,11 +64,18 @@
                                     (case command
                                       :get-all-packages
                                       (do
-                                        (package-info/get-all-packages param))
+                                        (bus/say!! :response
+                                                   {:command :get-all-packages
+                                                    :result (->> (package-info/get-all-packages {})
+                                                                 (map #(.packageName ^PackageInfo %)))}
+                                                   verbose))
                                       
                                       :get-package-info
                                       (do
-                                        (package-info/get-package-info param))
+                                        (bus/say!! :response
+                                                   {:command :get-package-info
+                                                    :result (package-info/get-package-info param)}
+                                                   verbose))
 
                                       :make-intent
                                       (do
@@ -103,8 +111,9 @@
 
                                       :intent-to-uri
                                       (do
-                                        (bus/say!! :command-executor.intent-to-uri
-                                                   (activity-manager/intent-to-uri param)
+                                        (bus/say!! :response
+                                                   {:command :intent-to-uri
+                                                    :result (activity-manager/intent-to-uri param)}
                                                    verbose))
 
                                       :text

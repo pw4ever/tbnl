@@ -53,7 +53,8 @@
   [options]
   (let [verbose (:verbose options)
         mastermind-address (:mastermind-address options)
-        mastermind-port (:mastermind-port options)]
+        mastermind-port (:mastermind-port options)
+        instance-id (state/get-state :instance-id)]
     (try
       (let [sock (Socket. ^String mastermind-address
                           ^int mastermind-port)]
@@ -91,7 +92,9 @@
                                                                (case topic
                                                                  :command
                                                                  (do
-                                                                   (bus/say!! :command content))))
+                                                                   (bus/say!! :command content))
+
+                                                                 :else))
                                                              (catch RuntimeException e
                                                                (when verbose
                                                                  (print-stack-trace e)))))
@@ -114,12 +117,22 @@
                                                           verbose
                                                           ]
                                                          (let [message (<!! ch)
-                                                               topic (bus/get-message-topic message)]
+                                                               topic (bus/get-message-topic message)
+                                                               content (bus/remove-message-topic message)]
                                                            (cond
                                                             ;; do NOT echo these topics back
                                                             (not (contains? #{:command} topic))
                                                             (do
-                                                              (.write writer (prn-str message))
+                                                              (.write writer
+                                                                      (prn-str (bus/build-message topic
+                                                                                                  (cond
+                                                                                                   (map? content)
+                                                                                                   (merge content
+                                                                                                          {:instance instance-id})
+
+                                                                                                   :else
+                                                                                                   {:instance instance-id
+                                                                                                    :content message}))))
                                                               (.flush writer))))))))))
       (catch java.net.UnknownHostException e
         (when verbose

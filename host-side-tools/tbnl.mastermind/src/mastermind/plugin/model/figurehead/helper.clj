@@ -33,9 +33,3 @@
           (swap! input-chans dissoc session)
           (close! c))))
     input-chans))
-
-(defn activity-controller?
-  "Is said concerning ActivityController?"
-  [said]
-  (when-let [topic (bus/get-message-topic said)]
-    (re-matches #"^(?i)activity-controller.*$" (name topic))))
