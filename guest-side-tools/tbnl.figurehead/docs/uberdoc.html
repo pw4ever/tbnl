@@ -3385,7 +3385,7 @@ net.brehaut.ClojureTools = (function (SH) {
   (let [features (get-raw-features {})
         result (atom {})]
     (doseq [^FeatureInfo feature features]
-      (let [feature (parser/parse-feature-info)]
+      (let [feature (parser/parse-feature-info feature)]
         (swap! result assoc
                (keyword (:name feature))
                (when-not brief?
@@ -4853,7 +4853,7 @@ net.brehaut.ClojureTools = (function (SH) {
                                     macroexpand
                                     resource
                                     stacktrace
-                                    ;;test
+                                    test
                                     ;;trace)
             ;;[cider.nrepl :refer [cider-nrepl-handler]]
             compliment.core
@@ -4898,7 +4898,7 @@ net.brehaut.ClojureTools = (function (SH) {
     cider.nrepl.middleware.macroexpand/wrap-macroexpand
     cider.nrepl.middleware.resource/wrap-resource
     cider.nrepl.middleware.stacktrace/wrap-stacktrace
-    ;;cider.nrepl.middleware.test/wrap-test
+    cider.nrepl.middleware.test/wrap-test
     ;;cider.nrepl.middleware.trace/wrap-trace
     ])</pre></td></tr><tr><td class="docs"><p>CIDER's nREPL handler.</p>
 </td><td class="codes"><pre class="brush: clojure">(def ^:private cider-nrepl-handler

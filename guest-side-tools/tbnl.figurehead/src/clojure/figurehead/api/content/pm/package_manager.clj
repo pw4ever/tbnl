@@ -143,7 +143,7 @@
   (let [features (get-raw-features {})
         result (atom {})]
     (doseq [^FeatureInfo feature features]
-      (let [feature (parser/parse-feature-info)]
+      (let [feature (parser/parse-feature-info feature)]
         (swap! result assoc
                (keyword (:name feature))
                (when-not brief?
