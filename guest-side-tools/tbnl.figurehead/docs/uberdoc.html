@@ -3029,7 +3029,68 @@ net.brehaut.ClojureTools = (function (SH) {
   };
 })(SyntaxHighlighter);
 </script><title>info.voidstar/tbnl.figurehead -- Marginalia</title></head><body><table><tr><td class="docs"><div class="header"><h1 class="project-name">info.voidstar/tbnl.figurehead</h1><h2 class="project-version">0.1.0-SNAPSHOT</h2><br /><p>figurehead sits on device and is controlled by mastermind</p>
-</div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure-android/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.6.0-RC1</td></tr><tr><td class="dep-name">org.clojars.pw4ever/neko-sdk18</td><td class="dotted"><hr /></td><td class="dep-version">3.0.2</td></tr><tr><td class="dep-name">info.voidstar/tbnl.core</td><td class="dotted"><hr /></td><td class="dep-version">0.1.0-SNAPSHOT</td></tr><tr><td class="dep-name">org.clojure/core.async</td><td class="dotted"><hr /></td><td class="dep-version">0.1.303.0-886421-alpha</td></tr><tr><td class="dep-name">org.clojure/tools.nrepl</td><td class="dotted"><hr /></td><td class="dep-version">0.2.3</td></tr><tr><td class="dep-name">cider/cider-nrepl</td><td class="dotted"><hr /></td><td class="dep-version">0.7.0-SNAPSHOT</td></tr><tr><td class="dep-name">clojure-complete</td><td class="dotted"><hr /></td><td class="dep-version">0.2.3</td></tr><tr><td class="dep-name">compliment</td><td class="dotted"><hr /></td><td class="dep-version">0.1.1</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left almost blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#figurehead.api.app.activity-manager">figurehead.api.app.activity-manager</a></li><li><a href="#figurehead.api.content.intent">figurehead.api.content.intent</a></li><li><a href="#figurehead.api.content.pm.package-info">figurehead.api.content.pm.package-info</a></li><li><a href="#figurehead.api.view.input">figurehead.api.view.input</a></li><li><a href="#figurehead.main">figurehead.main</a></li><li><a href="#figurehead.plugin.command-executor.main">figurehead.plugin.command-executor.main</a></li><li><a href="#figurehead.plugin.getinfo.main">figurehead.plugin.getinfo.main</a></li><li><a href="#figurehead.plugin.mastermind.main">figurehead.plugin.mastermind.main</a></li><li><a href="#figurehead.plugin.monitor.main">figurehead.plugin.monitor.main</a></li><li><a href="#figurehead.plugin.nrepl.helper">figurehead.plugin.nrepl.helper</a></li><li><a href="#figurehead.plugin.nrepl.main">figurehead.plugin.nrepl.main</a></li><li><a href="#figurehead.util.init">figurehead.util.init</a></li><li><a href="#figurehead.util.routines">figurehead.util.routines</a></li><li><a href="#figurehead.util.services">figurehead.util.services</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.app.activity-manager" name="figurehead.api.app.activity-manager"><h1 class="project-name">figurehead.api.app.activity-manager</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+</div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure-android/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.6.0-RC1</td></tr><tr><td class="dep-name">org.clojars.pw4ever/neko-sdk18</td><td class="dotted"><hr /></td><td class="dep-version">3.0.2</td></tr><tr><td class="dep-name">info.voidstar/tbnl.core</td><td class="dotted"><hr /></td><td class="dep-version">0.1.0-SNAPSHOT</td></tr><tr><td class="dep-name">org.clojure/core.async</td><td class="dotted"><hr /></td><td class="dep-version">0.1.303.0-886421-alpha</td></tr><tr><td class="dep-name">org.clojure/tools.nrepl</td><td class="dotted"><hr /></td><td class="dep-version">0.2.3</td></tr><tr><td class="dep-name">cider/cider-nrepl</td><td class="dotted"><hr /></td><td class="dep-version">0.7.0-SNAPSHOT</td></tr><tr><td class="dep-name">clojure-complete</td><td class="dotted"><hr /></td><td class="dep-version">0.2.3</td></tr><tr><td class="dep-name">compliment</td><td class="dotted"><hr /></td><td class="dep-version">0.1.1</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left almost blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#figurehead.api.app.activity-controller">figurehead.api.app.activity-controller</a></li><li><a href="#figurehead.api.app.activity-manager">figurehead.api.app.activity-manager</a></li><li><a href="#figurehead.api.content.intent">figurehead.api.content.intent</a></li><li><a href="#figurehead.api.content.pm.package-manager">figurehead.api.content.pm.package-manager</a></li><li><a href="#figurehead.api.content.pm.package-manager-parser">figurehead.api.content.pm.package-manager-parser</a></li><li><a href="#figurehead.api.view.input">figurehead.api.view.input</a></li><li><a href="#figurehead.main">figurehead.main</a></li><li><a href="#figurehead.plugin.command-executor.main">figurehead.plugin.command-executor.main</a></li><li><a href="#figurehead.plugin.mastermind.main">figurehead.plugin.mastermind.main</a></li><li><a href="#figurehead.plugin.monitor.main">figurehead.plugin.monitor.main</a></li><li><a href="#figurehead.plugin.nrepl.helper">figurehead.plugin.nrepl.helper</a></li><li><a href="#figurehead.plugin.nrepl.main">figurehead.plugin.nrepl.main</a></li><li><a href="#figurehead.util.init">figurehead.util.init</a></li><li><a href="#figurehead.util.routines">figurehead.util.routines</a></li><li><a href="#figurehead.util.services">figurehead.util.services</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.app.activity-controller" name="figurehead.api.app.activity-controller"><h1 class="project-name">figurehead.api.app.activity-controller</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(ns figurehead.api.app.activity-controller
+  (:require (figurehead.util [services :as services :refer [get-service]]))
+  (:require [clojure.string :as str]
+            [clojure.java.io :as io])
+  (:import (android.app IActivityManager
+                        IActivityController$Stub)
+           (android.content Intent)))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(declare set-activity-controller)</pre></td></tr><tr><td class="docs"><p>set ActivityController</p>
+</td><td class="codes"><pre class="brush: clojure">(defn set-activity-controller
+  [{:keys [reset?
+           activity-controller
+           activity-starting
+           activity-resuming
+           app-crashed
+           app-early-not-responding
+           app-not-responding
+           system-not-responding]
+    :as args}]
+  (let [activity-manager ^IActivityManager (get-service :activity-manager)
+        activity-controller (cond reset? nil
+                                  activity-controller activity-controller
+                                  :else
+                                  (proxy
+                                      [IActivityController$Stub]
+                                      []
+                                    (activityStarting [^Intent intent package]
+                                      (locking this
+                                        (if activity-starting
+                                          (activity-starting intent package)
+                                          true)))
+                                    (activityResuming [package]
+                                      (locking this
+                                        (if activity-resuming
+                                          (activity-resuming package)
+                                          true)))
+                                    (appCrashed [process-name pid
+                                                 short-msg long-msg
+                                                 time-millis stack-trace]
+                                      (locking this
+                                        (if app-crashed
+                                          (app-crashed process-name pid
+                                                       short-msg long-msg
+                                                       time-millis stack-trace)
+                                          true)))
+                                    (appEarlyNotResponding [process-name pid annotation]
+                                      (locking this
+                                        (if app-early-not-responding
+                                          (app-early-not-responding process-name pid annotation)
+                                          1)))
+                                    (appNotResponding [process-name pid process-stats]
+                                      (locking this
+                                        (if app-not-responding
+                                          (app-not-responding process-name pid process-stats)
+                                          1)))
+                                    (systemNotResponding [msg]
+                                      (locking this
+                                        (if system-not-responding
+                                          (system-not-responding msg)
+                                          1)))))]
+    (.setActivityController activity-manager
+                            activity-controller)))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.app.activity-manager" name="figurehead.api.app.activity-manager"><h1 class="project-name">figurehead.api.app.activity-manager</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.api.app.activity-manager
   (:require (figurehead.util [services :as services :refer [get-service]])
             (figurehead.api.content [intent :as intent]))
@@ -3130,7 +3191,6 @@ net.brehaut.ClojureTools = (function (SH) {
                        Intent/URI_INTENT_SCHEME
                        0)))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.content.intent" name="figurehead.api.content.intent"><h1 class="project-name">figurehead.api.content.intent</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>https://github.com/android/platform<em>frameworks</em>base/blob/android-4.3_r3.1/cmds/am/src/com/android/commands/am/Am.java#L479</p>
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.api.content.intent
-  (:require (figurehead.util [routines :as routines]))
   (:import (android.content Intent
                             ComponentName)
            (android.os Bundle)
@@ -3196,27 +3256,91 @@ net.brehaut.ClojureTools = (function (SH) {
                 (.setAction ^Intent intent Intent/ACTION_MAIN)
                 (.addCategory ^Intent intent Intent/CATEGORY_LAUNCHER)
                 (.setPackage ^Intent intent wild-card)))))
-    intent))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.content.pm.package-info" name="figurehead.api.content.pm.package-info"><h1 class="project-name">figurehead.api.content.pm.package-info</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
-</td><td class="codes"><pre class="brush: clojure">(ns figurehead.api.content.pm.package-info
+    intent))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.content.pm.package-manager" name="figurehead.api.content.pm.package-manager"><h1 class="project-name">figurehead.api.content.pm.package-manager</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>https://github.com/android/platform<em>frameworks</em>base/blob/android-4.3_r3.1/cmds/pm/src/com/android/commands/pm/Pm.java</p>
+</td><td class="codes"><pre class="brush: clojure">(ns figurehead.api.content.pm.package-manager
   (:require (figurehead.util [services :as services :refer [get-service]]))
-  (:require [clojure.string :as str])
-  (:import
-   (android.content.pm IPackageManager
-                       PackageManager
-                       ActivityInfo
-                       ServiceInfo
-                       ProviderInfo
-                       PackageInfo)))</pre></td></tr><tr><td class="docs"><p>get all packages on this device</p>
-</td><td class="codes"><pre class="brush: clojure">(defn get-all-packages 
+  (:require [figurehead.api.content.pm.package-manager-parser :as parser])
+  (:require [clojure.string :as str])  
+  (:import (android.content ComponentName)
+           (android.content.pm ActivityInfo
+                               ApplicationInfo
+                               ContainerEncryptionParams
+                               FeatureInfo
+                               IPackageDataObserver
+                               IPackageDeleteObserver
+                               IPackageInstallObserver
+                               IPackageInstallObserver$Stub
+                               IPackageManager
+                               InstrumentationInfo
+                               PackageInfo
+                               PackageItemInfo
+                               PackageManager
+                               ParceledListSlice
+                               PermissionGroupInfo
+                               PermissionInfo
+                               ProviderInfo
+                               ServiceInfo
+                               UserInfo
+                               VerificationParams)
+           (android.content.res AssetManager
+                                Resources)
+           (android.net Uri)
+           (android.os IUserManager
+                       RemoteException
+                       ServiceManager
+                       UserHandle
+                       UserManager)
+           (javax.crypto SecretKey)
+           (javax.crypto.spec IvParameterSpec
+                              SecretKeySpec)))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(declare get-raw-packages get-packages get-all-package-names get-package-components
+         get-raw-features get-features
+         get-raw-libraries get-libraries
+         get-raw-instrumentations get-instrumentations
+         get-raw-permission-groups get-permissions-by-group)</pre></td></tr><tr><td class="docs"><p>get all packages on this device</p>
+</td><td class="codes"><pre class="brush: clojure">(defn get-raw-packages
   [{:keys []
     :as args}]
-  (let [package-manager ^IPackageManager (get-service :package-manager)]
+  (let [^IPackageManager package-manager (get-service :package-manager)]
     (let [packages  (.. package-manager
-                        (getInstalledPackages 0 0)
-                        (getList))]
-      (for [^PackageInfo package-info packages]
-        package-info))))</pre></td></tr><tr><td class="docs"><p>get app components for a specific package</p>
-</td><td class="codes"><pre class="brush: clojure">(defn get-package-info 
+                        (getInstalledPackages
+                         (bit-or PackageManager/GET_ACTIVITIES
+                                 PackageManager/GET_CONFIGURATIONS
+                                 PackageManager/GET_DISABLED_COMPONENTS
+                                 PackageManager/GET_DISABLED_UNTIL_USED_COMPONENTS
+                                 PackageManager/GET_GIDS
+                                 PackageManager/GET_INSTRUMENTATION
+                                 PackageManager/GET_INTENT_FILTERS
+                                 PackageManager/GET_PERMISSIONS
+                                 PackageManager/GET_PROVIDERS
+                                 PackageManager/GET_RECEIVERS
+                                 PackageManager/GET_SERVICES
+                                 PackageManager/GET_SIGNATURES)
+                         0)
+                        getList)]
+      (seq packages))))</pre></td></tr><tr><td class="docs"><p>get all packages on this device</p>
+</td><td class="codes"><pre class="brush: clojure">(defn get-packages
+  [{:keys [brief?]
+    :as args}]
+  (let [packages (get-raw-packages {})
+        result (atom {})]
+    (doseq [^PackageInfo package packages]
+      (let [package (parser/parse-package-info package)]
+        (swap! result assoc
+               (keyword (:package-name package))
+               (when-not brief?
+                 package))))
+    @result))</pre></td></tr><tr><td class="docs"><p>get list of package names</p>
+</td><td class="codes"><pre class="brush: clojure">(defn get-all-package-names
+  [{:keys []
+    :as args}]
+  (let [packages (get-raw-packages {})
+        result (atom #{})]
+    (doseq [^PackageInfo package packages]
+      (swap! result conj
+             (keyword (.packageName package))))
+    @result))</pre></td></tr><tr><td class="docs"><p>get app components for a specific package</p>
+</td><td class="codes"><pre class="brush: clojure">(defn get-package-components
   [{:keys [package]
     :as args}]
   (when package
@@ -3236,17 +3360,690 @@ net.brehaut.ClojureTools = (function (SH) {
                                                    PackageManager/GET_PROVIDERS
                                                    PackageManager/GET_RECEIVERS
                                                    PackageManager/GET_SERVICES
-                                                   PackageManager/GET_PERMISSIONS
-                                                   PackageManager/GET_CONFIGURATIONS)
+                                                   PackageManager/GET_PERMISSIONS)
                                            0)]
-        {:activities (for [^ActivityInfo activity (.activities pkg-info)]
-                       {:name (.name activity)})
-         :services (for [^ServiceInfo service (.services pkg-info)]
-                     {:name (.name service)})
-         :providers (for [^ProviderInfo provider (.providers pkg-info)]
-                      {:name (.name provider)})
-         :receivers (for [^ActivityInfo receiver (.receivers pkg-info)]
-                      {:name (.name receiver)})}))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.view.input" name="figurehead.api.view.input"><h1 class="project-name">figurehead.api.view.input</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>https://github.com/android/platform<em>frameworks</em>base/blob/android-4.3_r3.1/cmds/input/src/com/android/commands/input/Input.java</p>
+        {:activities (set (for [^ActivityInfo activity (.activities pkg-info)]
+                            (keyword (.name activity))))
+         :services (set (for [^ServiceInfo service (.services pkg-info)]
+                          (keyword (.name service))))
+         :providers (set (for [^ProviderInfo provider (.providers pkg-info)]
+                           (keyword (.name provider))))
+         :receivers (set (for [^ActivityInfo receiver (.receivers pkg-info)]
+                           (keyword (.name receiver))))
+         :permissions (set (for [^PermissionInfo permission (.permissions pkg-info)]
+                             (keyword (.name permission))))}))))</pre></td></tr><tr><td class="docs"><p>get all features on this device</p>
+</td><td class="codes"><pre class="brush: clojure">(defn get-raw-features
+  [{:keys []
+    :as args}]
+  (let [^IPackageManager package-manager (get-service :package-manager)]
+    (let [features  (.. package-manager
+                        getSystemAvailableFeatures)]
+      (seq features))))</pre></td></tr><tr><td class="docs"><p>get all features on this device</p>
+</td><td class="codes"><pre class="brush: clojure">(defn get-features
+  [{:keys [brief?]
+    :as args}]
+  (let [features (get-raw-features {})
+        result (atom {})]
+    (doseq [^FeatureInfo feature features]
+      (let [feature (parser/parse-feature-info)]
+        (swap! result assoc
+               (keyword (:name feature))
+               (when-not brief?
+                 feature))))
+    @result))</pre></td></tr><tr><td class="docs"><p>get all libraries on this device</p>
+</td><td class="codes"><pre class="brush: clojure">(defn get-raw-libraries
+  [{:keys []
+    :as args}]
+  (let [^IPackageManager package-manager (get-service :package-manager)]
+    (let [libraries  (.. package-manager
+                        getSystemSharedLibraryNames)]
+      (seq libraries))))</pre></td></tr><tr><td class="docs"><p>get all libraries on this device</p>
+</td><td class="codes"><pre class="brush: clojure">(defn get-libraries
+  [{:keys []
+    :as args}]
+  (let [libraries (get-raw-libraries {})
+        result (atom [])]
+    (doseq [^String library libraries]
+      (swap! result conj
+             library))
+    @result))</pre></td></tr><tr><td class="docs"><p>get installed instrumentations on this device, optional for a specific package</p>
+</td><td class="codes"><pre class="brush: clojure">(defn get-raw-instrumentations
+  [{:keys [^String package]
+    :as args}]
+  (let [^IPackageManager package-manager (get-service :package-manager)]
+    (let [instrumentations  (.. package-manager
+                                (queryInstrumentation package 0))]
+      (seq instrumentations))))</pre></td></tr><tr><td class="docs"><p>get installed instrumentations on this device, optional for a specific package</p>
+</td><td class="codes"><pre class="brush: clojure">(defn get-instrumentations
+  [{:keys [^String package
+           brief?]
+    :as args}]
+  (let [instrumentations (get-raw-instrumentations {:package package})
+        result (atom {})]
+    (doseq [^InstrumentationInfo instrumentation instrumentations]
+      (let [instrumentation (parser/parse-instrumentation-info instrumentation)]
+        (swap! result assoc
+               (keyword (:name instrumentation))
+               (when-not brief?
+                 instrumentation))))
+    @result))</pre></td></tr><tr><td class="docs"><p>get permission groups</p>
+</td><td class="codes"><pre class="brush: clojure">(defn get-raw-permission-groups
+  [{:keys []
+    :as args}]
+  (let [^IPackageManager package-manager (get-service :package-manager)]
+    (let [permission-groups (.. package-manager
+                                (getAllPermissionGroups 0))]
+      (seq permission-groups))))</pre></td></tr><tr><td class="docs"><p>get all permissions by group</p>
+</td><td class="codes"><pre class="brush: clojure">(defn get-permissions-by-group
+  [{:keys [brief?]
+    :as args}]
+  (let [permission-groups (get-raw-permission-groups {})
+        result (atom {})]
+    (doseq [^PermissionGroupInfo permission-group permission-groups]
+      (let [permission-group (parser/parse-permission-group-info permission-group)]
+        (swap! result assoc
+               (keyword (:name permission-group))
+               (merge {}
+                      (when-not brief?
+                        permission-group)
+                      {:permissions
+                       (let [^IPackageManager package-manager (get-service :package-manager)
+                             result (atom {})]
+                         (doseq [^PermissionInfo permission
+                                 (.queryPermissionsByGroup package-manager
+                                                           (:name permission-group)
+                                                           0)]
+                           (let [permission (parser/parse-permission-info permission)]
+                             (swap! result assoc
+                                    (keyword (:name permission))
+                                    (when-not brief?
+                                      permission))))
+                         @result)}))))
+    @result))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.content.pm.package-manager-parser" name="figurehead.api.content.pm.package-manager-parser"><h1 class="project-name">figurehead.api.content.pm.package-manager-parser</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(ns figurehead.api.content.pm.package-manager-parser
+  (:require (figurehead.util [services :as services :refer [get-service]]))
+  (:import (android.content ComponentName)
+           (android.content.pm ActivityInfo
+                               ApplicationInfo
+                               ComponentInfo
+                               ConfigurationInfo
+                               ContainerEncryptionParams
+                               FeatureInfo
+                               IPackageDataObserver
+                               IPackageDeleteObserver
+                               IPackageInstallObserver
+                               IPackageInstallObserver$Stub
+                               IPackageManager
+                               InstrumentationInfo
+                               PackageInfo
+                               PackageItemInfo
+                               PackageManager
+                               ParceledListSlice
+                               PermissionGroupInfo
+                               PermissionInfo
+                               ProviderInfo
+                               ServiceInfo
+                               UserInfo
+                               VerificationParams)
+           (android.content.res AssetManager
+                                Resources)
+           (android.net Uri)
+           (android.os IUserManager
+                       RemoteException
+                       ServiceManager
+                       UserHandle
+                       UserManager)
+           (android.graphics.drawable Drawable)
+           (java.util WeakHashMap)
+           (javax.crypto SecretKey)
+           (javax.crypto.spec IvParameterSpec
+                              SecretKeySpec)))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(declare resource-cache get-resources-by-package-name get-resources
+         load-res-string load-res-resource-name load-res-drawable
+         parse-package-info
+
+         parse-package-item-info
+         parse-component-info
+
+         parse-activity-info
+         parse-application-info
+         parse-configuration-info
+         parse-instrumentation-info
+         parse-permission-group-info
+         parse-permission-info
+         parse-provider-info
+         parse-feature-info
+         parse-service-info)</pre></td></tr><tr><td class="docs"><p>resource cache {package-name resources}</p>
+</td><td class="codes"><pre class="brush: clojure">(def resource-cache
+  (WeakHashMap.))</pre></td></tr><tr><td class="docs"><p>get resources by package name</p>
+</td><td class="codes"><pre class="brush: clojure">(defn ^Resources get-resources-by-package-name
+  [^String package-name]
+  (if-let [res (.get ^WeakHashMap resource-cache package-name)]
+    res
+    (let [^IPackageManager package-manager (get-service :package-manager)
+          ^ApplicationInfo application-info (.getApplicationInfo package-manager
+                                                                 package-name
+                                                                 0 0)
+          ^AssetManager asset-manager (AssetManager.)]
+      (.addAssetPath asset-manager (.publicSourceDir application-info))
+      (let [res (Resources. asset-manager nil nil)]
+        (.put ^WeakHashMap resource-cache package-name res)
+        res))))</pre></td></tr><tr><td class="docs"><p>get resources</p>
+</td><td class="codes"><pre class="brush: clojure">(defn ^Resources get-resources
+  [^PackageItemInfo package-item-info]
+  (let [package-name (.packageName package-item-info)]
+    (get-resources-by-package-name package-name)))</pre></td></tr><tr><td class="docs"><p>load string from resource</p>
+</td><td class="codes"><pre class="brush: clojure">(defn ^String load-res-string
+  [^PackageItemInfo package-item res non-localized]
+  (let [resource (get-resources package-item)]
+    (cond non-localized (str non-localized)
+          (and resource
+               res
+               (not= res 0))
+          (.getString resource res))))</pre></td></tr><tr><td class="docs"><p>load resource name from resource</p>
+</td><td class="codes"><pre class="brush: clojure">(defn ^String load-res-resource-name
+  [^PackageItemInfo package-item res]
+  (let [resource (get-resources package-item)]
+    (when (and resource
+               res
+               (not= res 0))
+      (.getResourceName resource res))))</pre></td></tr><tr><td class="docs"><p>load drawable from resource</p>
+</td><td class="codes"><pre class="brush: clojure">(defn ^Drawable load-res-drawable
+  [^PackageItemInfo package-item res]
+  (let [resource (get-resources package-item)]
+    (when (and resource
+               res
+               (not= res 0))
+      (.getDrawable resource res))))</pre></td></tr><tr><td class="docs"><p>parse PackageInfo</p>
+</td><td class="codes"><pre class="brush: clojure">(defn parse-package-info
+  [^PackageInfo package]
+  (merge {}
+         {:activities (set (map parse-activity-info
+                                (.activities package)))
+          :application-info (parse-application-info (.applicationInfo package))
+          :config-preferences (set (map parse-configuration-info
+                                        (.configPreferences package)))
+          :first-install-time (.firstInstallTime package)
+          :gids (set (.gids package))
+          :install-location (#(case %
+                                PackageInfo/INSTALL_LOCATION_AUTO
+                                :auto
+                                PackageInfo/INSTALL_LOCATION_INTERNAL_ONLY
+                                :internal-only
+                                PackageInfo/INSTALL_LOCATION_PREFER_EXTERNAL
+                                :prefer-external
+                                PackageInfo/INSTALL_LOCATION_UNSPECIFIED
+                                :unspecified
+                                %)
+                             (.installLocation package))
+          :instrumentation (set (map parse-instrumentation-info
+                                     (.instrumentation package)))
+          :last-update-time (.lastUpdateTime package)
+          :package-name (.packageName package)
+          :permissions (set (map parse-permission-info
+                                 (.permissions package)))
+          :providers (set (map parse-provider-info
+                               (.providers package)))
+          :receivers (set (map parse-activity-info
+                               (.receivers package)))
+          :req-features (set (map parse-feature-info
+                                  (.reqFeatures package)))
+          :requested-permissions (zipmap (vec (.requestedPermissions package))
+                                         (vec (map #(let [flags (atom #{})]
+                                                      (when (bit-and %
+                                                                     PackageInfo/REQUESTED_PERMISSION_GRANTED)
+                                                        (swap! flags conj :granted))
+                                                      (when (bit-and %
+                                                                     PackageInfo/REQUESTED_PERMISSION_REQUIRED)
+                                                        (swap! flags conj :required))
+                                                      @flags)
+                                                   (.requestedPermissionsFlags package))))
+          :required-account-type (.requiredAccountType package)
+          :required-for-all-users (.requiredForAllUsers package)
+          :restricted-account-type (.restrictedAccountType package)
+          :services (set (map parse-service-info
+                              (.services package)))
+          :shared-user-id (.sharedUserId package)
+          :shared-user-label (.sharedUserLabel package)
+          :signatures (set (.signatures package))
+          :version-code (.versionCode package)
+          :version-name (.versionName package)}))</pre></td></tr><tr><td class="docs"><p>parse PackageItemInfo</p>
+</td><td class="codes"><pre class="brush: clojure">(defn parse-package-item-info
+  [^PackageItemInfo package-item]
+  (merge {}
+         {:icon (load-res-drawable package-item
+                               (.icon package-item))
+          :label (load-res-string package-item
+                              (.labelRes package-item)
+                              (.nonLocalizedLabel package-item))
+          :label-res (.labelRes package-item)
+          :logo (load-res-drawable package-item
+                               (.logo package-item))
+          :meta-data (.metaData package-item)
+          :name (.name package-item)
+          :non-localized-label (str (.nonLocalizedLabel package-item))
+          :package-name (.packageName package-item)}))</pre></td></tr><tr><td class="docs"><p>parse ComponentInfo</p>
+</td><td class="codes"><pre class="brush: clojure">(defn parse-component-info
+  [^ComponentInfo component]
+  (merge {}
+         (parse-package-item-info component)
+         {:application-info (parse-application-info (.applicationInfo component))
+          :description  (load-res-string component
+                                     (.descriptionRes component)
+                                     nil)
+          :description-res (.descriptionRes component)
+          :enabled (.enabled component)
+          :exported (.exported component)
+          :process-name (.processName component)}))</pre></td></tr><tr><td class="docs"><p>parse ActivityInfo</p>
+</td><td class="codes"><pre class="brush: clojure">(defn parse-activity-info
+  [^ActivityInfo activity]
+  (merge {}
+         (parse-component-info activity)
+         {:config-changes (#(let [flags (atom #{})]
+                              (when (bit-and %
+                                             ActivityInfo/CONFIG_DENSITY)
+                                (swap! flags conj :density))
+                              (when (bit-and %
+                                             ActivityInfo/CONFIG_FONT_SCALE)
+                                (swap! flags conj :font-scal))
+                              (when (bit-and %
+                                             ActivityInfo/CONFIG_KEYBOARD)
+                                (swap! flags conj :keyboard))
+                              (when (bit-and %
+                                             ActivityInfo/CONFIG_KEYBOARD_HIDDEN)
+                                (swap! flags conj :keyboard-hidden))
+                              (when (bit-and %
+                                             ActivityInfo/CONFIG_LAYOUT_DIRECTION)
+                                (swap! flags conj :layout-direction))
+                              (when (bit-and %
+                                             ActivityInfo/CONFIG_LOCALE)
+                                (swap! flags conj :locale))
+                              (when (bit-and %
+                                             ActivityInfo/CONFIG_MCC)
+                                (swap! flags conj :mcc))
+                              (when (bit-and %
+                                             ActivityInfo/CONFIG_MNC)
+                                (swap! flags conj :mnc))
+                              (when (bit-and %
+                                             ActivityInfo/CONFIG_NAVIGATION)
+                                (swap! flags conj :navigation))
+                              (when (bit-and %
+                                             ActivityInfo/CONFIG_ORIENTATION)
+                                (swap! flags conj :orientation))
+                              (when (bit-and %
+                                             ActivityInfo/CONFIG_SCREEN_LAYOUT)
+                                (swap! flags conj :screen-layout))
+                              (when (bit-and %
+                                             ActivityInfo/CONFIG_SCREEN_SIZE)
+                                (swap! flags conj :screen-size))
+                              (when (bit-and %
+                                             ActivityInfo/CONFIG_SMALLEST_SCREEN_SIZE)
+                                (swap! flags conj :smallest-screen-size))
+                              (when (bit-and %
+                                             ActivityInfo/CONFIG_TOUCHSCREEN)
+                                (swap! flags conj :touchscreen))
+                              (when (bit-and %
+                                             ActivityInfo/CONFIG_UI_MODE)
+                                (swap! flags conj :ui-mode))
+                              @flags)
+                           (.configChanges activity))
+          :flags (#(let [flags (atom #{})]
+                     (when (bit-and %
+                                    ActivityInfo/FLAG_ALLOW_TASK_REPARENTING)
+                       (swap! flags conj :allow-task-reparenting))
+                     (when (bit-and %
+                                    ActivityInfo/FLAG_ALWAYS_RETAIN_TASK_STATE)
+                       (swap! flags conj :always-retain-task-state))
+                     (when (bit-and %
+                                    ActivityInfo/FLAG_CLEAR_TASK_ON_LAUNCH)
+                       (swap! flags conj :clear-task-on-launch))
+                     (when (bit-and %
+                                    ActivityInfo/FLAG_EXCLUDE_FROM_RECENTS)
+                       (swap! flags conj :exclude-from-recents))
+                     (when (bit-and %
+                                    ActivityInfo/FLAG_FINISH_ON_CLOSE_SYSTEM_DIALOGS)
+                       (swap! flags conj :finish-on-close-system-dialogs))
+                     (when (bit-and %
+                                    ActivityInfo/FLAG_FINISH_ON_TASK_LAUNCH)
+                       (swap! flags conj :finish-on-task-launch))
+                     (when (bit-and %
+                                    ActivityInfo/FLAG_HARDWARE_ACCELERATED)
+                       (swap! flags conj :hardware-accelerated))
+                     (when (bit-and %
+                                    ActivityInfo/FLAG_IMMERSIVE)
+                       (swap! flags conj :immersive))
+                     (when (bit-and %
+                                    ActivityInfo/FLAG_MULTIPROCESS)
+                       (swap! flags conj :multiprocess))
+                     (when (bit-and %
+                                    ActivityInfo/FLAG_NO_HISTORY)
+                       (swap! flags conj :no-history))
+                     (when (bit-and %
+                                    ActivityInfo/FLAG_PRIMARY_USER_ONLY)
+                       (swap! flags conj :primary-user-only))
+                     (when (bit-and %
+                                    ActivityInfo/FLAG_SHOW_ON_LOCK_SCREEN)
+                       (swap! flags conj :show-on-lock-screen))
+                     (when (bit-and %
+                                    ActivityInfo/FLAG_SINGLE_USER)
+                       (swap! flags conj :single-user))
+                     (when (bit-and %
+                                    ActivityInfo/FLAG_STATE_NOT_NEEDED)
+                       (swap! flags conj :state-not-needed))
+                     @flags)
+                  (.flags activity))
+          :launch-mode (#(case %
+                           ActivityInfo/LAUNCH_MULTIPLE
+                           :multiple
+                           ActivityInfo/LAUNCH_SINGLE_INSTANCE
+                           :single-instance
+                           ActivityInfo/LAUNCH_SINGLE_TASK
+                           :single-task
+                           ActivityInfo/LAUNCH_SINGLE_TOP
+                           :single-top
+                           %)
+                        (.launchMode activity))
+          :parent-activity-name (.parentActivityName activity)
+          :permission (.permission activity)
+          :screen-orientation (#(case %
+                                  ActivityInfo/SCREEN_ORIENTATION_BEHIND
+                                  :behind
+                                  ActivityInfo/SCREEN_ORIENTATION_FULL_SENSOR
+                                  :full-sensor
+                                  ActivityInfo/SCREEN_ORIENTATION_FULL_USER
+                                  :full-user
+                                  ActivityInfo/SCREEN_ORIENTATION_LANDSCAPE
+                                  :landscape
+                                  ActivityInfo/SCREEN_ORIENTATION_LOCKED
+                                  :locked
+                                  ActivityInfo/SCREEN_ORIENTATION_NOSENSOR
+                                  :nosensor
+                                  ActivityInfo/SCREEN_ORIENTATION_PORTRAIT
+                                  :portrait
+                                  ActivityInfo/SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+                                  :reverse-landscape
+                                  ActivityInfo/SCREEN_ORIENTATION_REVERSE_PORTRAIT
+                                  :reverse-potrait
+                                  ActivityInfo/SCREEN_ORIENTATION_SENSOR
+                                  :sensor
+                                  ActivityInfo/SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+                                  :sensor-landscape
+                                  ActivityInfo/SCREEN_ORIENTATION_SENSOR_PORTRAIT
+                                  :sensor-portrait
+                                  ActivityInfo/SCREEN_ORIENTATION_UNSPECIFIED
+                                  :unspecified
+                                  ActivityInfo/SCREEN_ORIENTATION_USER
+                                  :user
+                                  ActivityInfo/SCREEN_ORIENTATION_USER_LANDSCAPE
+                                  :user-landscape
+                                  ActivityInfo/SCREEN_ORIENTATION_USER_PORTRAIT
+                                  :user-portrait
+                                  %)
+                               (.screenOrientation activity))
+          :soft-input-mode (.softInputMode activity)
+          :target-activity (.targetActivity activity)
+          :task-affinity (.taskAffinity activity)
+          :theme (load-res-resource-name activity
+                                     (.theme activity))
+          :ui-options (#(case %
+                          ActivityInfo/UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW
+                          :split-action-bar-when-narrow
+                          %)
+                       (.uiOptions activity))}))</pre></td></tr><tr><td class="docs"><p>parse ApplicationInfo</p>
+</td><td class="codes"><pre class="brush: clojure">(defn parse-application-info
+  [^ApplicationInfo application]
+  (merge {}
+         (parse-package-item-info application)
+         {:backup-agent-name (.backupAgentName application)
+          :class-name (.className application)
+          :compatible-width-limit-dp (.compatibleWidthLimitDp application)
+          :data-dir (.dataDir application)
+          :description (load-res-string application
+                                    (.descriptionRes application)
+                                    nil)
+          :description-res (.descriptionRes application)
+          :enabled (.enabled application)
+          :enabled-setting (.enabledSetting application)
+          :flags (#(let [flags (atom #{})]
+                     (when (bit-and %
+                                    ApplicationInfo/FLAG_ALLOW_BACKUP)
+                       (swap! flags conj :allow-backup))
+                     (when (bit-and %
+                                    ApplicationInfo/FLAG_ALLOW_CLEAR_USER_DATA)
+                       (swap! flags conj :allow-clear-user-data))
+                     (when (bit-and %
+                                    ApplicationInfo/FLAG_ALLOW_TASK_REPARENTING)
+                       (swap! flags conj :allow-task-reparenting))
+                     (when (bit-and %
+                                    ApplicationInfo/FLAG_CANT_SAVE_STATE)
+                       (swap! flags conj :cant-save-state))
+                     (when (bit-and %
+                                    ApplicationInfo/FLAG_DEBUGGABLE)
+                       (swap! flags conj :debuggable))
+                     (when (bit-and %
+                                    ApplicationInfo/FLAG_EXTERNAL_STORAGE)
+                       (swap! flags conj :external-storage))
+                     (when (bit-and %
+                                    ApplicationInfo/FLAG_FACTORY_TEST)
+                       (swap! flags conj :factory-test))
+                     (when (bit-and %
+                                    ApplicationInfo/FLAG_FORWARD_LOCK)
+                       (swap! flags conj :forward-lock))
+                     (when (bit-and %
+                                    ApplicationInfo/FLAG_HAS_CODE)
+                       (swap! flags conj :has-code))
+                     (when (bit-and %
+                                    ApplicationInfo/FLAG_INSTALLED)
+                       (swap! flags conj :installed))
+                     (when (bit-and %
+                                    ApplicationInfo/FLAG_IS_DATA_ONLY)
+                       (swap! flags conj :is-data-only))
+                     (when (bit-and %
+                                    ApplicationInfo/FLAG_KILL_AFTER_RESTORE)
+                       (swap! flags conj :kill-after-restore))
+                     (when (bit-and %
+                                    ApplicationInfo/FLAG_LARGE_HEAP)
+                       (swap! flags conj :large-heap))
+                     (when (bit-and %
+                                    ApplicationInfo/FLAG_PERSISTENT)
+                       (swap! flags conj :persistent))
+                     (when (bit-and %
+                                    ApplicationInfo/FLAG_RESIZEABLE_FOR_SCREENS)
+                       (swap! flags conj :resizeable-for-screens))
+                     (when (bit-and %
+                                    ApplicationInfo/FLAG_RESTORE_ANY_VERSION)
+                       (swap! flags conj :restore-any-version))
+                     (when (bit-and %
+                                    ApplicationInfo/FLAG_STOPPED)
+                       (swap! flags conj :stopped))
+                     (when (bit-and %
+                                    ApplicationInfo/FLAG_SUPPORTS_LARGE_SCREENS)
+                       (swap! flags conj :supports-large-screens))
+                     (when (bit-and %
+                                    ApplicationInfo/FLAG_SUPPORTS_NORMAL_SCREENS)
+                       (swap! flags conj :supports-normal-screens))
+                     (when (bit-and %
+                                    ApplicationInfo/FLAG_SUPPORTS_RTL)
+                       (swap! flags conj :supports-rtl))
+                     (when (bit-and %
+                                    ApplicationInfo/FLAG_SUPPORTS_SCREEN_DENSITIES)
+                       (swap! flags conj :supports-screen-densities))
+                     (when (bit-and %
+                                    ApplicationInfo/FLAG_SUPPORTS_SMALL_SCREENS)
+                       (swap! flags conj :supports-small-screen))
+                     (when (bit-and %
+                                    ApplicationInfo/FLAG_SUPPORTS_XLARGE_SCREENS)
+                       (swap! flags conj :supports-xlarge-screen))
+                     (when (bit-and %
+                                    ApplicationInfo/FLAG_SYSTEM)
+                       (swap! flags conj :system))
+                     (when (bit-and %
+                                    ApplicationInfo/FLAG_TEST_ONLY)
+                       (swap! flags conj :test-only))
+                     (when (bit-and %
+                                    ApplicationInfo/FLAG_UPDATED_SYSTEM_APP)
+                       (swap! flags conj :updated-system-app))
+                     (when (bit-and %
+                                    ApplicationInfo/FLAG_VM_SAFE_MODE)
+                       (swap! flags conj :vm-safe-mode))
+                     @flags)
+                  (.flags application))
+          :install-location (.installLocation application)
+          :largest-width-limit-dp (.largestWidthLimitDp application)
+          :manage-space-activity-name (.manageSpaceActivityName application)
+          :native-library-dir (.nativeLibraryDir application)
+          :permission (.permission application)
+          :process-name (.processName application)
+          :public-source-dir (.publicSourceDir application)
+          :requires-smallest-width-dp (.requiresSmallestWidthDp application)
+          :resource-dirs (set (.resourceDirs application))
+          :seinfo (.seinfo application)
+          :shared-library-files (set (.sharedLibraryFiles application))
+          :source-dir (.sourceDir application)
+          :target-sdk-version (.targetSdkVersion application)
+          :task-affinity (.taskAffinity application)
+          :theme (load-res-resource-name application
+                                     (.theme application))
+          :uid (.uid application)
+          :ui-options (.uiOptions application)}))</pre></td></tr><tr><td class="docs"><p>parse ConfigurationInfo</p>
+</td><td class="codes"><pre class="brush: clojure">(defn parse-configuration-info
+  [^ConfigurationInfo configuration]
+  (merge {}
+         {:req-gles-version (#(case %
+                                ConfigurationInfo/GL_ES_VERSION_UNDEFINED
+                                :undefined
+                                %)
+                             (.reqGlEsVersion configuration))
+          :req-input-features (#(let [flags (atom #{})]
+                                  (when (bit-and %
+                                                 ConfigurationInfo/INPUT_FEATURE_FIVE_WAY_NAV)
+                                    (swap! flags conj :five-way-nav))
+                                  (when (bit-and %
+                                                 ConfigurationInfo/INPUT_FEATURE_HARD_KEYBOARD)
+                                    (swap! flags conj :hard-keyboard))
+                                  @flags)
+                               (.reqInputFeatures configuration))
+          :req-keyboard-type (.reqKeyboardType configuration)
+          :req-navigation (.reqNavigation configuration)
+          :req-touch-screen (.reqTouchScreen configuration)}))</pre></td></tr><tr><td class="docs"><p>parse InstrumentationInfo</p>
+</td><td class="codes"><pre class="brush: clojure">(defn parse-instrumentation-info
+  [^InstrumentationInfo instrumentation]
+  (merge {}
+         (parse-package-item-info instrumentation)
+         {:data-dir (.dataDir instrumentation)
+          :functional-test (.functionalTest instrumentation)
+          :handle-profiling (.handleProfiling instrumentation)
+          :native-library-dir (.nativeLibraryDir instrumentation)
+          :public-source-dir (.publicSourceDir instrumentation)
+          :source-dir (.sourceDir instrumentation)
+          :target-package (.targetPackage instrumentation)}))</pre></td></tr><tr><td class="docs"><p>parse PermissionGroupInfo</p>
+</td><td class="codes"><pre class="brush: clojure">(defn parse-permission-group-info
+  [^PermissionGroupInfo permission-group]
+  (merge {}
+         (parse-package-item-info permission-group)
+         {:description (load-res-string permission-group
+                                    (.descriptionRes permission-group)
+                                    (.nonLocalizedDescription permission-group))
+          :description-res (.descriptionRes permission-group)
+          :flags (#(let [flags (atom #{})]
+                     (swap! flags conj
+                            (case %
+                              PermissionGroupInfo/FLAG_PERSONAL_INFO :personal-info
+                              %))
+                     @flags)
+                  (.flags permission-group))
+          :non-localized-description (.nonLocalizedDescription permission-group)
+          :priority (.priority permission-group)}))</pre></td></tr><tr><td class="docs"><p>parse PermissionInfo</p>
+</td><td class="codes"><pre class="brush: clojure">(defn parse-permission-info
+  [^PermissionInfo permission]
+  (merge {}
+         (parse-package-item-info permission)
+         {:description (load-res-string permission
+                                    (.descriptionRes permission)
+                                    (.nonLocalizedDescription permission))
+          :description-res (.descriptionRes permission)
+          :flags (#(let [flags (atom #{})]
+                     (when (bit-and %
+                                    PermissionInfo/FLAG_COSTS_MONEY)
+                       (swap! flags conj :costs-money))
+                     @flags)
+                  (.flags permission))
+          :group (.group permission)
+          :non-localized-description (str (.nonLocalizedDescription permission))
+          :protection-level (#(let [flags (atom #{})
+                                    protection-basic (bit-and %
+                                                              PermissionInfo/PROTECTION_MASK_BASE)
+                                    protection-flags (bit-and %
+                                                              PermissionInfo/PROTECTION_MASK_FLAGS)]
+                                (swap! flags conj
+                                       (case protection-basic
+                                         PermissionInfo/PROTECTION_DANGEROUS
+                                         :dangerous
+                                         PermissionInfo/PROTECTION_NORMAL
+                                         :normal
+                                         PermissionInfo/PROTECTION_SIGNATURE
+                                         :signature
+                                         PermissionInfo/PROTECTION_SIGNATURE_OR_SYSTEM
+                                         :signature-or-system
+                                         :unknown-protection-basic-level))
+                                (when (bit-and protection-flags
+                                               PermissionInfo/PROTECTION_FLAG_DEVELOPMENT)
+                                  (swap! flags conj :development))
+                                (when (bit-and protection-flags
+                                               PermissionInfo/PROTECTION_FLAG_SYSTEM)
+                                  (swap! flags conj :system))
+                                @flags)
+                             (.protectionLevel permission))}))</pre></td></tr><tr><td class="docs"><p>parse ProviderInfo</p>
+</td><td class="codes"><pre class="brush: clojure">(defn parse-provider-info
+  [^ProviderInfo provider]
+  (merge {}
+         (parse-component-info provider)
+         {:authority (.authority provider)
+          :flags (#(let [flags (atom #{})]
+                     (when (bit-and %
+                                    ProviderInfo/FLAG_SINGLE_USER)
+                       (swap! flags conj
+                              :single-user))
+                     @flags)
+                  (.flags provider))
+          :grant-uri-permissions (.grantUriPermissions provider)
+          :init-order (.initOrder provider)
+          :multiprocess (.multiprocess provider)
+          :path-permissions (set (.pathPermissions provider))
+          :read-permission (.readPermission provider)
+          :uri-permission-patterns (set (.uriPermissionPatterns provider))
+          :write-permission (.writePermission provider)}))</pre></td></tr><tr><td class="docs"><p>parse FeatureInfo</p>
+</td><td class="codes"><pre class="brush: clojure">(defn parse-feature-info
+  [^FeatureInfo feature]
+  (merge {}
+         {:flags (set (#(let [flags (atom #{})]
+                          (when (bit-and %
+                                         FeatureInfo/FLAG_REQUIRED)
+                            (swap! flags conj :required))
+                          @flags)
+                       (.flags feature)))
+          :name (.name feature)
+          :req-gles-version (#(case %
+                                FeatureInfo/GL_ES_VERSION_UNDEFINED
+                                :undefined
+                                %)
+                             (.reqGlEsVersion feature))}))</pre></td></tr><tr><td class="docs"><p>parse ServiceInfo</p>
+</td><td class="codes"><pre class="brush: clojure">(defn parse-service-info
+  [^ServiceInfo service]
+  (merge {}
+         (parse-component-info service)
+         {:flags (#(let [flags (atom #{})]
+                     (when (bit-and %
+                                    ServiceInfo/FLAG_ISOLATED_PROCESS)
+                       (swap! flags conj :isolated-process))
+                     (when (bit-and %
+                                    ServiceInfo/FLAG_SINGLE_USER)
+                       (swap! flags conj :single-user))
+                     (when (bit-and %
+                                    ServiceInfo/FLAG_STOP_WITH_TASK)
+                       (swap! flags conj :stop-with-task)))
+                  (.flags service))
+          :permission (.permission service)}))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.view.input" name="figurehead.api.view.input"><h1 class="project-name">figurehead.api.view.input</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>https://github.com/android/platform<em>frameworks</em>base/blob/android-4.3_r3.1/cmds/input/src/com/android/commands/input/Input.java</p>
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.api.view.input
   (:require (figurehead.util [services :as services :refer [get-service]]))
   (:require [clojure.string :as str]
@@ -3489,7 +4286,6 @@ net.brehaut.ClojureTools = (function (SH) {
   (:require core.plugin.echo.main
             figurehead.plugin.nrepl.main
             figurehead.plugin.monitor.main
-            figurehead.plugin.getinfo.main
             figurehead.plugin.mastermind.main
             figurehead.plugin.command-executor.main)
   (:gen-class))</pre></td></tr><tr><td class="docs"><p>the main entry</p>
@@ -3499,13 +4295,13 @@ net.brehaut.ClojureTools = (function (SH) {
   (core.init/require-and-set-default-plugins core.plugin.echo
                                              figurehead.plugin.nrepl
                                              figurehead.plugin.monitor
-                                             figurehead.plugin.getinfo
                                              figurehead.plugin.mastermind
                                              figurehead.plugin.command-executor)
   (apply core.main/main args))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.plugin.command-executor.main" name="figurehead.plugin.command-executor.main"><h1 class="project-name">figurehead.plugin.command-executor.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.plugin.command-executor.main
   (:require (figurehead.api.app [activity-manager :as activity-manager])
-            (figurehead.api.content.pm [package-info :as package-info])
+            (figurehead.api.content.pm [package-manager :as package-manager]
+                                       [package-manager-parser :as package-manager-parser])
             (figurehead.api.content [intent :as intent])
             (figurehead.api.view [input :as input]))
   (:require (core [init :as init]
@@ -3514,7 +4310,8 @@ net.brehaut.ClojureTools = (function (SH) {
                   [plugin :as plugin]))
   (:require [clojure.core.async :as async :refer [chan close!
                                                   thread &lt;!! &gt;!!]]
-            [clojure.java.io :as io]))</pre></td></tr><tr><td class="docs">
+            [clojure.java.io :as io])
+  (:import (android.content.pm PackageInfo)))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(def defaults
   (atom
    {
@@ -3558,12 +4355,78 @@ net.brehaut.ClojureTools = (function (SH) {
                                   (let [command (:command content)
                                         param (:param content)]
                                     (case command
-                                      :get-all-packages
+                                      :get-raw-packages
                                       (do
-                                        (package-info/get-all-packages param))
-                                      :get-package-info
+                                        (bus/say!! :response
+                                                   {:command :get-raw-packages
+                                                    :result (package-manager/get-raw-packages param)}
+                                                   verbose))
+                                      :get-packages
                                       (do
-                                        (package-info/get-package-info param))
+                                        (bus/say!! :response
+                                                   {:command :get-packages
+                                                    :result (package-manager/get-packages param)}
+                                                   verbose))
+                                      :get-all-package-names
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :get-all-package-names
+                                                    :result (package-manager/get-all-package-names param)}
+                                                   verbose))
+                                      :get-package-components
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :get-package-components
+                                                    :result (package-manager/get-package-components param)}
+                                                   verbose))                                  
+                                      :get-raw-features
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :get-raw-features
+                                                    :result (package-manager/get-raw-features param)}
+                                                   verbose))
+                                      :get-features
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :get-features
+                                                    :result (package-manager/get-features param)}
+                                                   verbose))
+                                      :get-raw-libraries
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :get-raw-libraries
+                                                    :result (package-manager/get-raw-libraries param)}
+                                                   verbose))
+                                      :get-libraries
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :get-libraries
+                                                    :result (package-manager/get-libraries param)}
+                                                   verbose))
+                                      :get-raw-instrumentations
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :get-raw-instrumentations
+                                                    :result (package-manager/get-raw-instrumentations param)}
+                                                   verbose))
+                                      :get-instrumentations
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :get-instrumentations
+                                                    :result (package-manager/get-instrumentations param)}
+                                                   verbose))                                      
+                                      :get-raw-permission-groups
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :get-raw-permission-groups
+                                                    :result (package-manager/get-raw-permission-groups param)}
+                                                   verbose))
+                                      :get-permissions-by-group
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :get-permissions-by-group
+                                                    :result (package-manager/get-permissions-by-group param)}
+                                                   verbose))
                                       :make-intent
                                       (do
                                         (intent/make-intent param))
@@ -3590,8 +4453,9 @@ net.brehaut.ClojureTools = (function (SH) {
                                         (activity-manager/hang param))
                                       :intent-to-uri
                                       (do
-                                        (bus/say!! :command-executor.intent-to-uri
-                                                   (activity-manager/intent-to-uri param)
+                                        (bus/say!! :response
+                                                   {:command :intent-to-uri
+                                                    :result (activity-manager/intent-to-uri param)}
                                                    verbose))
                                       :text
                                       (do
@@ -3634,86 +4498,7 @@ net.brehaut.ClojureTools = (function (SH) {
    :param {
            :priority 1
            :auto-restart true
-           }})</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.plugin.getinfo.main" name="figurehead.plugin.getinfo.main"><h1 class="project-name">figurehead.plugin.getinfo.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
-</td><td class="codes"><pre class="brush: clojure">(ns figurehead.plugin.getinfo.main
-  (:require (figurehead.util [services :as services :refer [get-service]])
-            (figurehead.api.content.pm [package-info :as package-info]))
-  (:require (core [init :as init]
-                  [state :as state]
-                  [bus :as bus]
-                  [plugin :as plugin]))
-  (:require [clojure.string :as str]
-            [clojure.core.async
-             :as async
-             :refer [&lt;!! &gt;!! timeout]])
-  (:import
-   (android.content.pm IPackageManager
-                       PackageManager
-                       ActivityInfo
-                       ServiceInfo
-                       ProviderInfo
-                       PackageInfo)))</pre></td></tr><tr><td class="docs">
-</td><td class="codes"><pre class="brush: clojure">(def defaults
-  (atom
-   {
-    :stop-unblock-tag :stop-figurehead.plugin.getinfo
-    :repeat-interval 5000
-    :wait 1000
-    }))</pre></td></tr><tr><td class="docs">
-</td><td class="codes"><pre class="brush: clojure">(defn populate-parse-opts-vector
-  [current-parse-opts-vector]
-  (init/add-to-parse-opts-vector [
-                                  [&quot;-i&quot;
-                                   &quot;--getinfo&quot;
-                                   &quot;enter getinfo mode&quot;]
-                                  [nil
-                                   &quot;--package PACKAGE&quot;
-                                   &quot;specify a target package&quot;]
-                                  ]))</pre></td></tr><tr><td class="docs">
-</td><td class="codes"><pre class="brush: clojure">(defn init
-  [options]
-  (when (:getinfo options)
-    true))</pre></td></tr><tr><td class="docs">
-</td><td class="codes"><pre class="brush: clojure">(defn run
-  [options]
-  (let [verbose (:verbose options)
-        package (:package options)
-        instance-id (state/get-state :instance-id)]
-    (plugin/blocking-jail [
-                           ;; timeout
-                           nil
-                           ;; unblock-tag
-                           (:stop-unblock-tag @defaults)
-                           ;; finalization
-                           (do)
-                           ;; verbose
-                           verbose
-                           ]
-                          (if package
-                            (bus/say!! :package-manager.get-package-info 
-                                       (assoc (package-info/get-package-info {:package package})
-                                         :instance instance-id)
-                                       verbose)
-                            (bus/say!! :package-manager.get-all-packages
-                                       (assoc {:packages (into #{}
-                                                               (map (fn [^PackageInfo package-info]
-                                                                      (-&gt; package-info .packageName keyword))
-                                                                    (package-info/get-all-packages {})))}
-                                         :instance instance-id)
-                                       verbose)))))</pre></td></tr><tr><td class="docs">
-</td><td class="codes"><pre class="brush: clojure">(defn stop
-  [options]
-  (plugin/set-state-entry :figurehead.plugin.getinfo
-                          :stop true)
-  (plugin/unblock-thread (:stop-unblock-tag @defaults)))</pre></td></tr><tr><td class="docs"><p>the config map</p>
-</td><td class="codes"><pre class="brush: clojure">(def config-map
-  {:populate-parse-opts-vector populate-parse-opts-vector
-   :init init
-   :run run
-   :stop stop
-   :param {:priority 1
-           :auto-restart false
-           :wait (:wait @defaults)}})</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.plugin.mastermind.main" name="figurehead.plugin.mastermind.main"><h1 class="project-name">figurehead.plugin.mastermind.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+           }})</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.plugin.mastermind.main" name="figurehead.plugin.mastermind.main"><h1 class="project-name">figurehead.plugin.mastermind.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.plugin.mastermind.main
   (:require (core [init :as init]
                   [state :as state]
@@ -3762,7 +4547,8 @@ net.brehaut.ClojureTools = (function (SH) {
   [options]
   (let [verbose (:verbose options)
         mastermind-address (:mastermind-address options)
-        mastermind-port (:mastermind-port options)]
+        mastermind-port (:mastermind-port options)
+        instance-id (state/get-state :instance-id)]
     (try
       (let [sock (Socket. ^String mastermind-address
                           ^int mastermind-port)]
@@ -3799,7 +4585,8 @@ net.brehaut.ClojureTools = (function (SH) {
                                                                (case topic
                                                                  :command
                                                                  (do
-                                                                   (bus/say!! :command content))))
+                                                                   (bus/say!! :command content))
+                                                                 :else))
                                                              (catch RuntimeException e
                                                                (when verbose
                                                                  (print-stack-trace e)))))
@@ -3822,12 +4609,21 @@ net.brehaut.ClojureTools = (function (SH) {
                                                           verbose
                                                           ]
                                                          (let [message (&lt;!! ch)
-                                                               topic (bus/get-message-topic message)]
+                                                               topic (bus/get-message-topic message)
+                                                               content (bus/remove-message-topic message)]
                                                            (cond
                                                             ;; do NOT echo these topics back
                                                             (not (contains? #{:command} topic))
                                                             (do
-                                                              (.write writer (prn-str message))
+                                                              (.write writer
+                                                                      (prn-str (bus/build-message topic
+                                                                                                  (cond
+                                                                                                   (map? content)
+                                                                                                   (merge content
+                                                                                                          {:instance instance-id})
+                                                                                                   :else
+                                                                                                   {:instance instance-id
+                                                                                                    :content message}))))
                                                               (.flush writer))))))))))
       (catch java.net.UnknownHostException e
         (when verbose
@@ -3849,6 +4645,7 @@ net.brehaut.ClojureTools = (function (SH) {
            :auto-restart true}})</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.plugin.monitor.main" name="figurehead.plugin.monitor.main"><h1 class="project-name">figurehead.plugin.monitor.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.plugin.monitor.main
   (:require (figurehead.util [services :as services :refer [get-service]]))
+  (:require (figurehead.api.app [activity-controller :as activity-controller]))
   (:require (core [init :as init]
                   [state :as state]
                   [bus :as bus]
@@ -3885,68 +4682,59 @@ net.brehaut.ClojureTools = (function (SH) {
 </td><td class="codes"><pre class="brush: clojure">(defn run
   [options]
   (let [verbose (:verbose options)
-        instance-id (state/get-state :instance-id)
         now (Time.)
         activity-manager ^IActivityManager (get-service :activity-manager)
-        ;; this is the meat
-        activity-controller (proxy
-                                [IActivityController$Stub]
-                                []
-                              (activityStarting [^Intent intent package]
-                                (locking this
-                                  (locking intent
-                                    (bus/say!! :activity-controller.starting
-                                               {:instance instance-id
-                                                :timestamp (do (.setToNow now)
-                                                               (.toMillis now true))
-                                                :package (-&gt; package keyword)
-                                                :intent-action (-&gt; intent .getAction keyword)
-                                                ;; the &quot;/&quot; prevents straightforward keyword-ize
-                                                :intent-component (str 
-                                                                   (.. intent getComponent getPackageName)
-                                                                   &quot;/&quot;
-                                                                   (.. intent getComponent getShortClassName))
-                                                :intent-category (into #{} (map keyword
-                                                                                (.getCategories intent)))
-                                                ;; data and extras may contain non-keyword-izable content
-                                                :intent-data (-&gt; intent .getDataString)
-                                                :intent-extras (-&gt; intent .getExtras)
-                                                :intent-flags (-&gt; intent .getFlags)
-                                                }))
-                                  true))
-                              (activityResuming [package]
-                                (locking this
-                                  (bus/say!! :activity-controller.resuming
-                                             {:instance instance-id
-                                              :timestamp (do (.setToNow now)
-                                                             (.toMillis now true))
-                                              :package (-&gt; package keyword)
-                                              })
-                                  true))
-                              (appCrashed [process-name pid
-                                           short-msg long-msg
-                                           time-millis stack-trace]
-                                (locking this
-                                  (doseq [^ActivityManager$RunningAppProcessInfo app-proc (.getRunningAppProcesses activity-manager)]
-                                    (when (and (= pid (.pid app-proc))
-                                               (= process-name (.processName app-proc)))
-                                      (bus/say!! :activity-controller.crashed
-                                                 {:instance instance-id
-                                                  :timestamp (do (.setToNow now)
-                                                                 (.toMillis now true))
-                                                  :packages (into #{}
-                                                                  (map keyword
-                                                                       (.pkgList app-proc)))})))
-                                  true))
-                              (appEarlyNotResponding [process-name pid annotation]
-                                (locking this
-                                  1))
-                              (appNotResponding [process-name pid process-stats]
-                                (locking this
-                                  1))
-                              (systemNotResponding [msg]
-                                (locking this
-                                  1)))]
+        activity-starting (fn [^Intent intent package]
+                            (locking intent
+                              (bus/say!! :activity-controller
+                                         {:event :starting
+                                          :timestamp (do (.setToNow now)
+                                                         (.toMillis now true))
+                                          :package (-&gt; package keyword)
+                                          :intent-action (-&gt; intent .getAction keyword)
+                                          ;; the &quot;/&quot; prevents straightforward keyword-ize
+                                          :intent-component (str 
+                                                             (.. intent getComponent getPackageName)
+                                                             &quot;/&quot;
+                                                             (.. intent getComponent getShortClassName))
+                                          :intent-category (into #{} (map keyword
+                                                                          (.getCategories intent)))
+                                          ;; data and extras may contain non-keyword-izable content
+                                          :intent-data (-&gt; intent .getDataString)
+                                          :intent-extras (-&gt; intent .getExtras)
+                                          :intent-flags (-&gt; intent .getFlags)
+                                          }
+                                         verbose))
+                            true)
+        activity-resuming (fn [package]
+                            (bus/say!! :activity-controller
+                                       {:event :resuming
+                                        :timestamp (do (.setToNow now)
+                                                       (.toMillis now true))
+                                        :package (-&gt; package keyword)
+                                        })
+                            true)
+        app-crashed (fn  [process-name pid
+                          short-msg long-msg
+                          time-millis stack-trace]
+                      (doseq [^ActivityManager$RunningAppProcessInfo app-proc
+                              (.getRunningAppProcesses activity-manager)]
+                        (when (and (= pid (.pid app-proc))
+                                   (= process-name (.processName app-proc)))
+                          (bus/say!! :activity-controller
+                                     {:event :crashed
+                                      :timestamp (do (.setToNow now)
+                                                     (.toMillis now true))
+                                      :packages (into #{}
+                                                      (map keyword
+                                                           (.pkgList app-proc)))})))
+                      true)
+        app-early-not-responding (fn [process-name pid annotation]
+                                   1)
+        app-not-responding (fn [process-name pid process-stats]
+                             1)
+        system-not-responding (fn [msg]
+                                1)]
     (plugin/blocking-jail [
                            ;; timeout
                            nil
@@ -3954,13 +4742,18 @@ net.brehaut.ClojureTools = (function (SH) {
                            (:stop-unblock-tag @defaults)
                            ;; finalization
                            (do
-                             (.setActivityController activity-manager
-                                                     nil))
+                             (activity-controller/set-activity-controller
+                              {:reset? true}))
                            ;; verbose
                            verbose
                            ]
-                          (.setActivityController activity-manager
-                                                  activity-controller))))</pre></td></tr><tr><td class="docs">
+                          (activity-controller/set-activity-controller
+                           {:activity-starting activity-starting
+                            :activity-resuming activity-resuming
+                            :app-crashed app-crashed
+                            :app-early-not-responding app-early-not-responding
+                            :app-not-responding app-not-responding
+                            :system-not-responding system-not-responding}))))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(defn stop
   [options]
   (plugin/set-state-entry :figurehead.plugin.monitor
@@ -4029,11 +4822,17 @@ net.brehaut.ClojureTools = (function (SH) {
   [&amp; repl-args]
   (binding [*ns* (create-ns 'user)]
     (refer-clojure)
-    (use 'clojure.tools.nrepl.server)
+    ;; Clojure convenience funcs
     (use 'clojure.repl)
     (use 'clojure.pprint)
     (use 'clojure.java.io)
-    ;; (apply (resolve 'start-server) repl-args)
+    ;; Android API wrapper
+    (require '[figurehead.api.app.activity-manager :as activity-manager])
+    (require '[figurehead.api.content.intent :as intent])
+    (require '[figurehead.api.content.pm.package-manager :as package-manager])
+    (require '[figurehead.api.content.pm.package-manager-parser :as package-manager-parser])
+    (require '[figurehead.api.view.input :as input])
+    (use 'clojure.tools.nrepl.server)
     (require '[clojure.tools.nrepl.middleware.interruptible-eval :as ie])
     (with-redefs-fn {(resolve 'ie/configure-thread-factory)
                      android-thread-factory}
@@ -4054,7 +4853,7 @@ net.brehaut.ClojureTools = (function (SH) {
                                     macroexpand
                                     resource
                                     stacktrace
-                                    test
+                                    ;;test
                                     ;;trace)
             ;;[cider.nrepl :refer [cider-nrepl-handler]]
             compliment.core
@@ -4099,7 +4898,7 @@ net.brehaut.ClojureTools = (function (SH) {
     cider.nrepl.middleware.macroexpand/wrap-macroexpand
     cider.nrepl.middleware.resource/wrap-resource
     cider.nrepl.middleware.stacktrace/wrap-stacktrace
-    cider.nrepl.middleware.test/wrap-test
+    ;;cider.nrepl.middleware.test/wrap-test
     ;;cider.nrepl.middleware.trace/wrap-trace
     ])</pre></td></tr><tr><td class="docs"><p>CIDER's nREPL handler.</p>
 </td><td class="codes"><pre class="brush: clojure">(def ^:private cider-nrepl-handler

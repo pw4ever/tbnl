@@ -1,5 +1,6 @@
 (ns figurehead.plugin.monitor.main
   (:require (figurehead.util [services :as services :refer [get-service]]))
+  (:require (figurehead.api.app [activity-controller :as activity-controller]))
   (:require (core [init :as init]
                   [state :as state]
                   [bus :as bus]
@@ -45,74 +46,63 @@
   (let [verbose (:verbose options)
         now (Time.)
         activity-manager ^IActivityManager (get-service :activity-manager)
-        ;; this is the meat
-        activity-controller (proxy
-                                [IActivityController$Stub]
-                                []
 
-                              (activityStarting [^Intent intent package]
-                                (locking this
-                                  (locking intent
-                                    (bus/say!! :activity-controller
-                                               {:event :starting
-                                                :timestamp (do (.setToNow now)
-                                                               (.toMillis now true))
-                                                :package (-> package keyword)
-                                                :intent-action (-> intent .getAction keyword)
-                                                ;; the "/" prevents straightforward keyword-ize
-                                                :intent-component (str 
-                                                                   (.. intent getComponent getPackageName)
-                                                                   "/"
-                                                                   (.. intent getComponent getShortClassName))
-                                                :intent-category (into #{} (map keyword
-                                                                                (.getCategories intent)))
-                                                ;; data and extras may contain non-keyword-izable content
-                                                :intent-data (-> intent .getDataString)
-                                                :intent-extras (-> intent .getExtras)
-                                                :intent-flags (-> intent .getFlags)
-                                                }
-                                               verbose))
-                                  true))
+        activity-starting (fn [^Intent intent package]
+                            (locking intent
+                              (bus/say!! :activity-controller
+                                         {:event :starting
+                                          :timestamp (do (.setToNow now)
+                                                         (.toMillis now true))
+                                          :package (-> package keyword)
+                                          :intent-action (-> intent .getAction keyword)
+                                          ;; the "/" prevents straightforward keyword-ize
+                                          :intent-component (str 
+                                                             (.. intent getComponent getPackageName)
+                                                             "/"
+                                                             (.. intent getComponent getShortClassName))
+                                          :intent-category (into #{} (map keyword
+                                                                          (.getCategories intent)))
+                                          ;; data and extras may contain non-keyword-izable content
+                                          :intent-data (-> intent .getDataString)
+                                          :intent-extras (-> intent .getExtras)
+                                          :intent-flags (-> intent .getFlags)
+                                          }
+                                         verbose))
+                            true)
 
-                              (activityResuming [package]
-                                (locking this
-                                  (bus/say!! :activity-controller
-                                             {:event :resuming
-                                              :timestamp (do (.setToNow now)
-                                                             (.toMillis now true))
-                                              :package (-> package keyword)
-                                              })
-                                  true))
+        activity-resuming (fn [package]
+                            (bus/say!! :activity-controller
+                                       {:event :resuming
+                                        :timestamp (do (.setToNow now)
+                                                       (.toMillis now true))
+                                        :package (-> package keyword)
+                                        })
+                            true)
 
-                              (appCrashed [process-name pid
-                                           short-msg long-msg
-                                           time-millis stack-trace]
-                                (locking this
-                                  (doseq [^ActivityManager$RunningAppProcessInfo app-proc (.getRunningAppProcesses activity-manager)]
-                                    (when (and (= pid (.pid app-proc))
-                                               (= process-name (.processName app-proc)))
-                                      (bus/say!! :activity-controller
-                                                 {:event :crashed
-                                                  :timestamp (do (.setToNow now)
-                                                                 (.toMillis now true))
-                                                  :packages (into #{}
-                                                                  (map keyword
-                                                                       (.pkgList app-proc)))})))
-                                  true))
+        app-crashed (fn  [process-name pid
+                          short-msg long-msg
+                          time-millis stack-trace]
+                      (doseq [^ActivityManager$RunningAppProcessInfo app-proc
+                              (.getRunningAppProcesses activity-manager)]
+                        (when (and (= pid (.pid app-proc))
+                                   (= process-name (.processName app-proc)))
+                          (bus/say!! :activity-controller
+                                     {:event :crashed
+                                      :timestamp (do (.setToNow now)
+                                                     (.toMillis now true))
+                                      :packages (into #{}
+                                                      (map keyword
+                                                           (.pkgList app-proc)))})))
+                      true)
 
-                              (appEarlyNotResponding [process-name pid annotation]
-                                (locking this
-                                  1))
+        app-early-not-responding (fn [process-name pid annotation]
+                                   1)
 
-                              (appNotResponding [process-name pid process-stats]
-                                (locking this
-                                  1))
+        app-not-responding (fn [process-name pid process-stats]
+                             1)
 
-                              (systemNotResponding [msg]
-                                (locking this
-                                  1))
-                              
-                              )]
+        system-not-responding (fn [msg]
+                                1)]
     (plugin/blocking-jail [
                            ;; timeout
                            nil
@@ -120,13 +110,18 @@
                            (:stop-unblock-tag @defaults)
                            ;; finalization
                            (do
-                             (.setActivityController activity-manager
-                                                     nil))
+                             (activity-controller/set-activity-controller
+                              {:reset? true}))
                            ;; verbose
                            verbose
                            ]
-                          (.setActivityController activity-manager
-                                                  activity-controller))))
+                          (activity-controller/set-activity-controller
+                           {:activity-starting activity-starting
+                            :activity-resuming activity-resuming
+                            :app-crashed app-crashed
+                            :app-early-not-responding app-early-not-responding
+                            :app-not-responding app-not-responding
+                            :system-not-responding system-not-responding}))))
 
 (defn stop
   [options]

@@ -1,6 +1,7 @@
 (ns figurehead.plugin.command-executor.main
   (:require (figurehead.api.app [activity-manager :as activity-manager])
-            (figurehead.api.content.pm [package-info :as package-info])
+            (figurehead.api.content.pm [package-manager :as package-manager]
+                                       [package-manager-parser :as package-manager-parser])
             (figurehead.api.content [intent :as intent])
             (figurehead.api.view [input :as input]))
   (:require (core [init :as init]
@@ -62,19 +63,89 @@
                                   (let [command (:command content)
                                         param (:param content)]
                                     (case command
-                                      :get-all-packages
-                                      (do
-                                        (bus/say!! :response
-                                                   {:command :get-all-packages
-                                                    :result (->> (package-info/get-all-packages {})
-                                                                 (map #(.packageName ^PackageInfo %)))}
-                                                   verbose))
                                       
-                                      :get-package-info
+                                      :get-raw-packages
                                       (do
                                         (bus/say!! :response
-                                                   {:command :get-package-info
-                                                    :result (package-info/get-package-info param)}
+                                                   {:command :get-raw-packages
+                                                    :result (package-manager/get-raw-packages param)}
+                                                   verbose))
+
+                                      :get-packages
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :get-packages
+                                                    :result (package-manager/get-packages param)}
+                                                   verbose))
+
+                                      :get-all-package-names
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :get-all-package-names
+                                                    :result (package-manager/get-all-package-names param)}
+                                                   verbose))
+
+                                      :get-package-components
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :get-package-components
+                                                    :result (package-manager/get-package-components param)}
+                                                   verbose))                                  
+                                      
+                                      :get-raw-features
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :get-raw-features
+                                                    :result (package-manager/get-raw-features param)}
+                                                   verbose))
+
+                                      :get-features
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :get-features
+                                                    :result (package-manager/get-features param)}
+                                                   verbose))
+
+                                      :get-raw-libraries
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :get-raw-libraries
+                                                    :result (package-manager/get-raw-libraries param)}
+                                                   verbose))
+
+                                      :get-libraries
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :get-libraries
+                                                    :result (package-manager/get-libraries param)}
+                                                   verbose))
+
+                                      :get-raw-instrumentations
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :get-raw-instrumentations
+                                                    :result (package-manager/get-raw-instrumentations param)}
+                                                   verbose))
+
+                                      :get-instrumentations
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :get-instrumentations
+                                                    :result (package-manager/get-instrumentations param)}
+                                                   verbose))                                      
+
+                                      :get-raw-permission-groups
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :get-raw-permission-groups
+                                                    :result (package-manager/get-raw-permission-groups param)}
+                                                   verbose))
+
+                                      :get-permissions-by-group
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :get-permissions-by-group
+                                                    :result (package-manager/get-permissions-by-group param)}
                                                    verbose))
 
                                       :make-intent

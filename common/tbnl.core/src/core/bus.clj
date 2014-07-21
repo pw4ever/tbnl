@@ -10,7 +10,7 @@
 
 (declare sub-topic unsub-topic get-subscribers
          register-listener unregister-listener get-listeners
-         get-message-topic remove-message-topic
+         get-message-topic remove-message-topic build-message
          get-topics
          say say!! well-saying?
          what-is-said what-is-said!!)
@@ -21,6 +21,10 @@
    {
     :bus-main-buffer-size 10000
     :bus-pub-buffer-size 10000
+    :pub-buf-fn (fn [topic]
+                  (buffer (:bus-pub-buffer-size
+                           @defaults)))
+
     :get-message-topic (fn [message]
                          (cond
                           (map? message) (:topic message)
@@ -34,9 +38,11 @@
     :build-message (fn [topic content]
                      {:topic topic
                       :content content})
-    :pub-buf-fn (fn [topic]
-                  (buffer (:bus-pub-buffer-size
-                           @defaults)))}))
+    :well-saying? (fn [said]
+                    (and said
+                         (map? said)
+                         (:topic said)
+                         (:content said)))}))
 
 (let [bus-chan (chan (:bus-main-buffer-size @defaults))
       bus-chan-mult (mult bus-chan)
@@ -130,8 +136,6 @@
                  :subscribers (get-subscribers)
                  :listeners (get-listeners)})))))
 
-  
-
   ;; say! is omitted because >! may not work with Clojure on Android for SDK 18
   ;; !!! use say! within go block may deadlock
   ;; (defn say!
@@ -153,11 +157,7 @@
   (defn well-saying?
     "Is said a well saying?"
     [said]
-    (and
-     said
-     (map? said)
-     (:topic said)
-     (:content said)))
+    ((:well-saying? defaults) said))
   
   (defn what-is-said
     "get what is from the sub-ch"
@@ -166,11 +166,7 @@
        (let [said (chan-op sub-ch)]
          (when verbose?
            (prn [:said said]))
-         (cond (map? said)
-               (:content said)
-
-               :else
-               nil))))
+         (remove-message-topic said))))
 
   (defn what-is-said!!
     "get what is said on sub-ch (<!! as chan-go)"

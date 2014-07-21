@@ -67,11 +67,20 @@
   [& repl-args]
   (binding [*ns* (create-ns 'user)]
     (refer-clojure)
-    (use 'clojure.tools.nrepl.server)
+
+    ;; Clojure convenience funcs
     (use 'clojure.repl)
     (use 'clojure.pprint)
     (use 'clojure.java.io)
-    ;; (apply (resolve 'start-server) repl-args)
+
+    ;; Android API wrapper
+    (require '[figurehead.api.app.activity-manager :as activity-manager])
+    (require '[figurehead.api.content.intent :as intent])
+    (require '[figurehead.api.content.pm.package-manager :as package-manager])
+    (require '[figurehead.api.content.pm.package-manager-parser :as package-manager-parser])
+    (require '[figurehead.api.view.input :as input])
+
+    (use 'clojure.tools.nrepl.server)
     (require '[clojure.tools.nrepl.middleware.interruptible-eval :as ie])
     (with-redefs-fn {(resolve 'ie/configure-thread-factory)
                      android-thread-factory}

@@ -15,7 +15,7 @@
                                     macroexpand
                                     resource
                                     stacktrace
-                                    test
+                                    ;;test
                                     ;;trace
                                     )
             ;;[cider.nrepl :refer [cider-nrepl-handler]]
@@ -68,7 +68,7 @@
     cider.nrepl.middleware.macroexpand/wrap-macroexpand
     cider.nrepl.middleware.resource/wrap-resource
     cider.nrepl.middleware.stacktrace/wrap-stacktrace
-    cider.nrepl.middleware.test/wrap-test
+    ;;cider.nrepl.middleware.test/wrap-test
     ;;cider.nrepl.middleware.trace/wrap-trace
     ])
 

@@ -1,6 +1,5 @@
 ;;; https://github.com/android/platform_frameworks_base/blob/android-4.3_r3.1/cmds/am/src/com/android/commands/am/Am.java#L479
 (ns figurehead.api.content.intent
-  (:require (figurehead.util [routines :as routines]))
   (:import (android.content Intent
                             ComponentName)
            (android.os Bundle)

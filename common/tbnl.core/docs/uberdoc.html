@@ -3039,10 +3039,9 @@ net.brehaut.ClojureTools = (function (SH) {
                      pub sub unsub
                      mult tap untap
                      &gt;!! &lt;!!]]))</pre></td></tr><tr><td class="docs">
-</td><td class="codes"><pre class="brush: clojure">(declare 
-         sub-topic unsub-topic get-subscribers
+</td><td class="codes"><pre class="brush: clojure">(declare sub-topic unsub-topic get-subscribers
          register-listener unregister-listener get-listeners
-         get-message-topic remove-message-topic
+         get-message-topic remove-message-topic build-message
          get-topics
          say say!! well-saying?
          what-is-said what-is-said!!)</pre></td></tr><tr><td class="docs"><p>the defaults</p>
@@ -3051,6 +3050,9 @@ net.brehaut.ClojureTools = (function (SH) {
    {
     :bus-main-buffer-size 10000
     :bus-pub-buffer-size 10000
+    :pub-buf-fn (fn [topic]
+                  (buffer (:bus-pub-buffer-size
+                           @defaults)))
     :get-message-topic (fn [message]
                          (cond
                           (map? message) (:topic message)
@@ -3058,12 +3060,17 @@ net.brehaut.ClojureTools = (function (SH) {
                           :else message))
     :remove-message-topic (fn [message]
                             (cond
-                             (map? message) (:what message)
+                             (map? message) (:content message)
                              (sequential? message) (rest message)
                              :else nil))
-    :pub-buf-fn (fn [topic]
-                  (buffer (:bus-pub-buffer-size
-                           @defaults)))}))</pre></td></tr><tr><td class="docs"><p>subscribe the ch(an) to the topic on bus-pub, with close? as in clojure.core.async/subunsubscribe the ch(an) from the topic on bus-pubget subscribersregister as a listener of all messages over bus-chanundo register-listenerget listenersget all said topicsget the topic of the messageremove the topic from the messagesay what with the topicsay what with the topic (>!! as chan-op)Is said a well saying?get what is from the sub-chget what is said on sub-ch (<!! as chan-go)</p>
+    :build-message (fn [topic content]
+                     {:topic topic
+                      :content content})
+    :well-saying? (fn [said]
+                    (and said
+                         (map? said)
+                         (:topic said)
+                         (:content said)))}))</pre></td></tr><tr><td class="docs"><p>subscribe the ch(an) to the topic on bus-pub, with close? as in clojure.core.async/subunsubscribe the ch(an) from the topic on bus-pubget subscribersregister as a listener of all messages over bus-chanundo register-listenerget listenersget all said topicsget the topic of the messageremove the topic from the messagebuild message from topic and contentsay content with the topicsay content with the topic (>!! as chan-op)Is said a well saying?get what is from the sub-chget what is said on sub-ch (<!! as chan-go)</p>
 </td><td class="codes"><pre class="brush: clojure">(let [bus-chan (chan (:bus-main-buffer-size @defaults))
       bus-chan-mult (mult bus-chan)
       bus-chan-1 (chan)
@@ -3116,49 +3123,45 @@ net.brehaut.ClojureTools = (function (SH) {
   (defn remove-message-topic
     [message]
     ((:remove-message-topic @defaults) message))
+  (defn build-message
+    [topic content]
+    ((:build-message @defaults) topic content))
   (defn say
-    ([topic what chan-op] (say topic what false chan-op))
-    ([topic what verbose? chan-op]
+    ([topic content chan-op] (say topic content false chan-op))
+    ([topic content verbose? chan-op]
        (swap! topics conj topic)
-       (let [content {:topic topic :what what}]
-         (chan-op bus-chan content)
+       (let [message (build-message topic content)]
+         (chan-op bus-chan message)
          (when verbose?
-           (prn {:content content
+           (prn {:message message
                  :topics (get-topics)
                  :subscribers (get-subscribers)
                  :listeners (get-listeners)})))))
   ;; say! is omitted because &gt;! may not work with Clojure on Android for SDK 18
   ;; !!! use say! within go block may deadlock
   ;; (defn say!
-  ;;   &quot;say what with the topic (&gt;! as chan-op)&quot;
-  ;;   ([topic what] (say! topic what false))    
-  ;;   ([topic what verbose?]
+  ;;   &quot;say content with the topic (&gt;! as chan-op)&quot;
+  ;;   ([topic content] (say! topic content false))    
+  ;;   ([topic content verbose?]
   ;;      (let [chan-op (fn [ch val]
   ;;                      (go &gt;! ch val))]
-  ;;        (say topic what verbose? chan-op))))
+  ;;        (say topic content verbose? chan-op))))
   (defn say!!
-    ([topic what] (say!! topic what false))
-    ([topic what verbose?]
+    ([topic content] (say!! topic content false))
+    ([topic content verbose?]
        (let [chan-op (fn [ch val]
                        (&gt;!! ch val))]
-         (say topic what verbose? chan-op))))
+         (say topic content verbose? chan-op))))
   (defn well-saying?
     [said]
-    (and
-     said
-     (map? said)
-     (:topic said)
-     (:what said)))
+    ((:well-saying? defaults) said))
   (defn what-is-said
     ([sub-ch chan-op] (what-is-said sub-ch false chan-op))
     ([sub-ch verbose? chan-op]
        (let [said (chan-op sub-ch)]
          (when verbose?
            (prn [:said said]))
-         (cond (map? said)
-               (:what said)
-               :else
-               nil))))
+         (remove-message-topic said))))
   (defn what-is-said!!
     ([sub-ch] (what-is-said!! sub-ch false))
     ([sub-ch verbose?]

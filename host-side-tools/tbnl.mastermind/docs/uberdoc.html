@@ -3150,14 +3150,14 @@ net.brehaut.ClojureTools = (function (SH) {
                                          (with-open [writer (io/writer sock)]
                                            (let [ch (chan (:writer-buffer @defaults))]
                                              (try
-                                               ;; (bus/sub-topic ch :information)
+                                               (bus/sub-topic ch :information)
                                                (bus/sub-topic ch :model-update)
                                                (while true
                                                  (let [line (&lt;! ch)]
                                                    (.write writer (prn-str line))
                                                    (.flush writer)))
                                                (finally
-                                                 ;; (bus/unsub-topic ch :information)
+                                                 (bus/unsub-topic ch :information)
                                                  (bus/unsub-topic ch :model-update)))))
                                          (finally
                                            (.close sock))))
@@ -3349,11 +3349,7 @@ net.brehaut.ClojureTools = (function (SH) {
           ;; need to remove itself from input-chans
           (swap! input-chans dissoc session)
           (close! c))))
-    input-chans))</pre></td></tr><tr><td class="docs"><p>Is said concerning ActivityController?</p>
-</td><td class="codes"><pre class="brush: clojure">(defn activity-controller?
-  [said]
-  (when-let [topic (bus/get-message-topic said)]
-    (re-matches #&quot;^(?i)activity-controller.*$&quot; (name topic))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#mastermind.plugin.model.figurehead.main" name="mastermind.plugin.model.figurehead.main"><h1 class="project-name">mastermind.plugin.model.figurehead.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+    input-chans))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#mastermind.plugin.model.figurehead.main" name="mastermind.plugin.model.figurehead.main"><h1 class="project-name">mastermind.plugin.model.figurehead.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(ns mastermind.plugin.model.figurehead.main
   (:require (core [init :as init]
                   [state :as state]
@@ -3454,8 +3450,13 @@ net.brehaut.ClojureTools = (function (SH) {
                                           :else)))
                                     :information
                                     (do
-                                      (when (helper/activity-controller? content)
-                                        (&gt;! model-ch content)))
+                                      (let [topic (bus/get-message-topic content)
+                                            content (bus/remove-message-topic content)]
+                                        (case topic
+                                          :activity-controller
+                                          (do
+                                            (&gt;! model-ch content))
+                                          :else)))
                                     :else))
                                 (recur (&lt;! ch))))
                             ;; update model
@@ -3463,10 +3464,9 @@ net.brehaut.ClojureTools = (function (SH) {
                               (loop [input @input-chans]
                                 (let [alt-chs (into [model-ch] (vals input))
                                       [news _] (alts! alt-chs)]
-                                  (when (helper/activity-controller? news)
-                                    (dump-monitor-trace news)
-                                    (when (model/update-model! model state news)
-                                      (model/broadcast-model @model))))
+                                  (dump-monitor-trace news)
+                                  (when (model/update-model! model state news)
+                                    (model/broadcast-model @model)))
                                 (recur @input-chans)))))))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(defn stop
   []
@@ -3531,8 +3531,8 @@ pkg2
   &quot;initialize state space&quot;
   (atom {}))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(defn update-model! [model state news]
-  (let [action (bus/get-message-topic news)
-        content (bus/remove-message-topic news)
+  (let [action (:event news)
+        content (dissoc news :event)
         instance (:instance content)
         package (:package content)
         package-name (name package)]
@@ -3555,7 +3555,7 @@ pkg2
       (swap! state assoc-in [instance :current :package]
              package)
       (case action
-        :activity-controller.starting
+        :starting
         (let [intent-component (:intent-component content)
               prev-intent-component (peek stack)
               intent-action (:intent-action content)
@@ -3614,7 +3614,7 @@ pkg2
                          1
                          (inc %))))
              true ; model updated)))
-        :activity-controller.resuming  ; state is changed but no model update
+        :resuming  ; state is changed but no model update
         (when (peek stack)
           (when (= prev-current-package package)
             (swap! state update-in [instance :packages package]
@@ -3622,7 +3622,7 @@ pkg2
           (swap! state assoc-in [instance :current :component]
                  (peek (get-in @state [instance :packages package])))
           false ; no model update)
-        :activity-controller.crashed
+        :crashed
         (let [
               packages (:packages content)
               ]
