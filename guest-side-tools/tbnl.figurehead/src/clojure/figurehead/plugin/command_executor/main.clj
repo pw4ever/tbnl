@@ -148,6 +148,55 @@
                                                     :result (package-manager/get-permissions-by-group param)}
                                                    verbose))
 
+                                      :get-install-location
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :get-install-location
+                                                    :result (package-manager/get-install-location param)}
+                                                   verbose))                                      
+
+                                      :set-install-location
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :set-install-location
+                                                    :result (package-manager/set-install-location param)}
+                                                   verbose))                                      
+
+                                      :push-file
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :push-file
+                                                    :result (package-manager/push-file param)}
+                                                   verbose))                                      
+
+                                      :pull-file
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :pull-file
+                                                    :result (package-manager/pull-file param)}
+                                                   verbose))                                      
+
+                                      :install-package
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :install-package
+                                                    :result (package-manager/install-package param)}
+                                                   verbose))                                      
+
+                                      :uninstall-package
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :uninstall-package
+                                                    :result (package-manager/uninstall-package param)}
+                                                   verbose))
+
+                                      :clear-package-data
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :clear-package-data
+                                                    :result (package-manager/clear-package-data param)}
+                                                   verbose))
+
                                       :make-intent
                                       (do
                                         (intent/make-intent param))

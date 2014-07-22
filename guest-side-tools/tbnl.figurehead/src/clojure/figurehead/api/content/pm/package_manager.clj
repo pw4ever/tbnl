@@ -2,14 +2,18 @@
 (ns figurehead.api.content.pm.package-manager
   (:require (figurehead.util [services :as services :refer [get-service]]))
   (:require [figurehead.api.content.pm.package-manager-parser :as parser])
-  (:require [clojure.string :as str])  
-  (:import (android.content ComponentName)
+  (:require [clojure.string :as str]
+            [clojure.java.io :as io])  
+  (:import (android.app IActivityManager)
+           (android.content ComponentName)
            (android.content.pm ActivityInfo
                                ApplicationInfo
                                ContainerEncryptionParams
                                FeatureInfo
                                IPackageDataObserver
+                               IPackageDataObserver$Stub
                                IPackageDeleteObserver
+                               IPackageDeleteObserver$Stub
                                IPackageInstallObserver
                                IPackageInstallObserver$Stub
                                IPackageManager
@@ -32,15 +36,25 @@
                        ServiceManager
                        UserHandle
                        UserManager)
+           (android.util Base64)
+           (com.android.internal.content PackageHelper)
+           (java.io File)
            (javax.crypto SecretKey)
            (javax.crypto.spec IvParameterSpec
-                              SecretKeySpec)))
+                              SecretKeySpec)
+           (org.apache.commons.io FileUtils)))
 
 (declare get-raw-packages get-packages get-all-package-names get-package-components
          get-raw-features get-features
          get-raw-libraries get-libraries
          get-raw-instrumentations get-instrumentations
-         get-raw-permission-groups get-permissions-by-group)
+         get-raw-permission-groups get-permissions-by-group
+
+         get-install-location set-install-location
+         push-file pull-file
+         make-package-install-observer install-package
+         make-package-delete-observer uninstall-package
+         make-package-data-observer clear-package-data)
 
 (defn get-raw-packages
   "get all packages on this device"
@@ -231,5 +245,185 @@
                                       permission))))
                          @result)}))))
     @result))
+
+
+(defn get-install-location
+  "get install location"
+  [{:keys []
+    :as args}]
+  (let [^IPackageManager package-manager (get-service :package-manager)
+        location (.getInstallLocation package-manager)]
+    (cond
+     (= location PackageHelper/APP_INSTALL_AUTO) :auto
+     (= location PackageHelper/APP_INSTALL_EXTERNAL) :external
+     (= location PackageHelper/APP_INSTALL_INTERNAL) :internal
+     :else location)))
+
+(defn set-install-location
+  "set install location"
+  [{:keys [location]
+    :or {location 0}
+    :as args}]
+  {:pre [(contains? #{PackageHelper/APP_INSTALL_AUTO
+                      PackageHelper/APP_INSTALL_EXTERNAL
+                      PackageHelper/APP_INSTALL_INTERNAL
+                      :auto :internal :external} location)]}
+  (let [location (cond
+                  (contains? #{PackageHelper/APP_INSTALL_AUTO
+                               PackageHelper/APP_INSTALL_EXTERNAL
+                               PackageHelper/APP_INSTALL_INTERNAL}
+                             location)
+                  location
+
+                  (contains? #{:auto :internal :external} location)
+                  ({:auto PackageHelper/APP_INSTALL_AUTO
+                    :internal PackageHelper/APP_INSTALL_INTERNAL
+                    :external PackageHelper/APP_INSTALL_EXTERNAL} location))]
+    (when location
+      (let [^IPackageManager package-manager (get-service :package-manager)]
+        (.setInstallLocation package-manager location)))))
+
+(defn push-file
+  "push file to device"
+  [{:keys [^String content-in-base64
+           file-name]
+    :as args}]
+  (when (and content-in-base64 file-name)
+    (with-open [the-file (io/output-stream (io/file file-name))]
+      (.write the-file ^bytes (Base64/decode content-in-base64
+                                             Base64/DEFAULT)))))
+
+(defn pull-file
+  "pull file from device"
+  [{:keys [file-name]
+    :as args}]
+  (when (and file-name)
+    (Base64/encodeToString
+     (FileUtils/readFileToByteArray (io/file file-name))
+     (bit-or Base64/NO_WRAP
+             0))))
+
+(defn make-package-install-observer
+  "make instance of IPackageInstallObserver$Stub"
+  [{:keys [package-installed]
+    :as args}]
+  (proxy
+      [IPackageInstallObserver$Stub]
+      []
+    (packageInstalled [package-name status]
+      (locking this
+        (when package-installed
+          (package-installed package-name status))))))
+
+(defn install-package
+  "install package"
+  [{:keys [apk-file-name
+           package-name
+           forward-lock?
+           replace-existing?
+           allow-test?
+           external?
+           internal?
+           allow-downgrade?]
+    :as args}]
+  (when (and apk-file-name package-name)
+    (let [^IPackageManager package-manager (get-service :package-manager)
+          flags (atom 0)
+          apk-uri (Uri/fromFile (io/file apk-file-name))]
+      (when (and apk-uri)
+        (when forward-lock?
+          (swap! flags bit-or PackageManager/INSTALL_FORWARD_LOCK))
+        (when replace-existing?
+          (swap! flags bit-or PackageManager/INSTALL_REPLACE_EXISTING))
+        (when allow-test?
+          (swap! flags bit-or PackageManager/INSTALL_ALLOW_TEST))
+        (when external?
+          (swap! flags bit-or PackageManager/INSTALL_EXTERNAL))
+        (when internal?
+          (swap! flags bit-or PackageManager/INSTALL_INTERNAL))
+        (when allow-downgrade?
+          (swap! flags bit-or PackageManager/INSTALL_ALLOW_DOWNGRADE))
+        (let [finished? (promise)
+              result (atom 0)]
+          (.installPackage package-manager
+                           apk-uri
+                           (make-package-install-observer
+                            {:package-installed (fn [package-name status]
+                                                  (reset! result status)
+                                                  (deliver finished? true))})
+                           @flags
+                           package-name)
+          @finished?
+          @result)))))
+
+(defn make-package-delete-observer
+  "make instance of IPackageDeleteObserver$Stub"
+  [{:keys [package-deleted]
+    :as args}]
+  (proxy
+      [IPackageDeleteObserver$Stub]
+      []
+    (packageDeleted [package-name return-code]
+      (locking this
+        (when package-deleted
+          (package-deleted package-name return-code))))))
+
+(defn uninstall-package
+  "uninstall package"
+  [{:keys [package
+           keep-data?]
+    :or {keep-data? true}
+    :as args}]
+  (when package
+    (let [^IPackageManager package-manager (get-service :package-manager)
+          flags (atom PackageManager/DELETE_ALL_USERS)
+          finished? (promise)
+          successful? (atom false)]
+      (when keep-data?
+        (swap! flags bit-or PackageManager/DELETE_KEEP_DATA))
+      (.deletePackageAsUser package-manager
+                            package
+                            (make-package-delete-observer
+                             {:package-deleted
+                              (fn [package-name return-code]
+                                (reset! successful?
+                                        (= return-code PackageManager/DELETE_SUCCEEDED))
+                                (deliver finished? true))})
+                            UserHandle/USER_OWNER
+                            @flags)
+      @finished?
+      @successful?)))
+
+(defn make-package-data-observer
+  "make instance of IPackageDataObserver$Stub"
+  [{:keys [on-remove-completed]
+    :as args}]
+  (proxy
+      [IPackageDataObserver$Stub]
+      []
+    (onRemoveCompleted [package-name succeeded]
+      (locking this
+        (when on-remove-completed
+          (on-remove-completed package-name succeeded))))))
+
+(defn clear-package-data
+  "clear package data"
+  [{:keys [package]
+    :as args}]
+  (when package
+    (let [^IActivityManager activity-manager (get-service :activity-manager)
+          finished? (promise)
+          successful? (atom false)]
+      (.clearApplicationUserData activity-manager
+                                 package
+                                 (make-package-data-observer
+                                  {:on-remove-completed
+                                   (fn [package-name succeeded]
+                                     (reset! successful?
+                                             succeeded)
+                                     (deliver finished? true))})
+                                 UserHandle/USER_OWNER)
+      @finished?
+      @successful?)))
 
 

@@ -17,6 +17,7 @@
                  [org.clojure/core.async "0.1.303.0-886421-alpha"]
                  [org.clojure/tools.nrepl "0.2.3"]
                  [cider/cider-nrepl "0.7.0-SNAPSHOT"]
+                 [commons-io/commons-io "2.4"]
                  [clojure-complete "0.2.3"]
                  [compliment "0.1.1"]]
 

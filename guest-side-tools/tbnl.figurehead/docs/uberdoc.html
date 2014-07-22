@@ -3029,7 +3029,7 @@ net.brehaut.ClojureTools = (function (SH) {
   };
 })(SyntaxHighlighter);
 </script><title>info.voidstar/tbnl.figurehead -- Marginalia</title></head><body><table><tr><td class="docs"><div class="header"><h1 class="project-name">info.voidstar/tbnl.figurehead</h1><h2 class="project-version">0.1.0-SNAPSHOT</h2><br /><p>figurehead sits on device and is controlled by mastermind</p>
-</div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure-android/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.6.0-RC1</td></tr><tr><td class="dep-name">org.clojars.pw4ever/neko-sdk18</td><td class="dotted"><hr /></td><td class="dep-version">3.0.2</td></tr><tr><td class="dep-name">info.voidstar/tbnl.core</td><td class="dotted"><hr /></td><td class="dep-version">0.1.0-SNAPSHOT</td></tr><tr><td class="dep-name">org.clojure/core.async</td><td class="dotted"><hr /></td><td class="dep-version">0.1.303.0-886421-alpha</td></tr><tr><td class="dep-name">org.clojure/tools.nrepl</td><td class="dotted"><hr /></td><td class="dep-version">0.2.3</td></tr><tr><td class="dep-name">cider/cider-nrepl</td><td class="dotted"><hr /></td><td class="dep-version">0.7.0-SNAPSHOT</td></tr><tr><td class="dep-name">clojure-complete</td><td class="dotted"><hr /></td><td class="dep-version">0.2.3</td></tr><tr><td class="dep-name">compliment</td><td class="dotted"><hr /></td><td class="dep-version">0.1.1</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left almost blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#figurehead.api.app.activity-controller">figurehead.api.app.activity-controller</a></li><li><a href="#figurehead.api.app.activity-manager">figurehead.api.app.activity-manager</a></li><li><a href="#figurehead.api.content.intent">figurehead.api.content.intent</a></li><li><a href="#figurehead.api.content.pm.package-manager">figurehead.api.content.pm.package-manager</a></li><li><a href="#figurehead.api.content.pm.package-manager-parser">figurehead.api.content.pm.package-manager-parser</a></li><li><a href="#figurehead.api.view.input">figurehead.api.view.input</a></li><li><a href="#figurehead.main">figurehead.main</a></li><li><a href="#figurehead.plugin.command-executor.main">figurehead.plugin.command-executor.main</a></li><li><a href="#figurehead.plugin.mastermind.main">figurehead.plugin.mastermind.main</a></li><li><a href="#figurehead.plugin.monitor.main">figurehead.plugin.monitor.main</a></li><li><a href="#figurehead.plugin.nrepl.helper">figurehead.plugin.nrepl.helper</a></li><li><a href="#figurehead.plugin.nrepl.main">figurehead.plugin.nrepl.main</a></li><li><a href="#figurehead.util.init">figurehead.util.init</a></li><li><a href="#figurehead.util.routines">figurehead.util.routines</a></li><li><a href="#figurehead.util.services">figurehead.util.services</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.app.activity-controller" name="figurehead.api.app.activity-controller"><h1 class="project-name">figurehead.api.app.activity-controller</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+</div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure-android/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.6.0-RC1</td></tr><tr><td class="dep-name">org.clojars.pw4ever/neko-sdk18</td><td class="dotted"><hr /></td><td class="dep-version">3.0.2</td></tr><tr><td class="dep-name">info.voidstar/tbnl.core</td><td class="dotted"><hr /></td><td class="dep-version">0.1.0-SNAPSHOT</td></tr><tr><td class="dep-name">org.clojure/core.async</td><td class="dotted"><hr /></td><td class="dep-version">0.1.303.0-886421-alpha</td></tr><tr><td class="dep-name">org.clojure/tools.nrepl</td><td class="dotted"><hr /></td><td class="dep-version">0.2.3</td></tr><tr><td class="dep-name">cider/cider-nrepl</td><td class="dotted"><hr /></td><td class="dep-version">0.7.0-SNAPSHOT</td></tr><tr><td class="dep-name">commons-io/commons-io</td><td class="dotted"><hr /></td><td class="dep-version">2.4</td></tr><tr><td class="dep-name">clojure-complete</td><td class="dotted"><hr /></td><td class="dep-version">0.2.3</td></tr><tr><td class="dep-name">compliment</td><td class="dotted"><hr /></td><td class="dep-version">0.1.1</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left almost blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#figurehead.api.app.activity-controller">figurehead.api.app.activity-controller</a></li><li><a href="#figurehead.api.app.activity-manager">figurehead.api.app.activity-manager</a></li><li><a href="#figurehead.api.content.intent">figurehead.api.content.intent</a></li><li><a href="#figurehead.api.content.pm.package-manager">figurehead.api.content.pm.package-manager</a></li><li><a href="#figurehead.api.content.pm.package-manager-parser">figurehead.api.content.pm.package-manager-parser</a></li><li><a href="#figurehead.api.view.input">figurehead.api.view.input</a></li><li><a href="#figurehead.main">figurehead.main</a></li><li><a href="#figurehead.plugin.command-executor.main">figurehead.plugin.command-executor.main</a></li><li><a href="#figurehead.plugin.mastermind.main">figurehead.plugin.mastermind.main</a></li><li><a href="#figurehead.plugin.monitor.main">figurehead.plugin.monitor.main</a></li><li><a href="#figurehead.plugin.nrepl.helper">figurehead.plugin.nrepl.helper</a></li><li><a href="#figurehead.plugin.nrepl.main">figurehead.plugin.nrepl.main</a></li><li><a href="#figurehead.util.init">figurehead.util.init</a></li><li><a href="#figurehead.util.routines">figurehead.util.routines</a></li><li><a href="#figurehead.util.services">figurehead.util.services</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.app.activity-controller" name="figurehead.api.app.activity-controller"><h1 class="project-name">figurehead.api.app.activity-controller</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.api.app.activity-controller
   (:require (figurehead.util [services :as services :refer [get-service]]))
   (:require [clojure.string :as str]
@@ -3260,14 +3260,18 @@ net.brehaut.ClojureTools = (function (SH) {
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.api.content.pm.package-manager
   (:require (figurehead.util [services :as services :refer [get-service]]))
   (:require [figurehead.api.content.pm.package-manager-parser :as parser])
-  (:require [clojure.string :as str])  
-  (:import (android.content ComponentName)
+  (:require [clojure.string :as str]
+            [clojure.java.io :as io])  
+  (:import (android.app IActivityManager)
+           (android.content ComponentName)
            (android.content.pm ActivityInfo
                                ApplicationInfo
                                ContainerEncryptionParams
                                FeatureInfo
                                IPackageDataObserver
+                               IPackageDataObserver$Stub
                                IPackageDeleteObserver
+                               IPackageDeleteObserver$Stub
                                IPackageInstallObserver
                                IPackageInstallObserver$Stub
                                IPackageManager
@@ -3290,14 +3294,24 @@ net.brehaut.ClojureTools = (function (SH) {
                        ServiceManager
                        UserHandle
                        UserManager)
+           (android.util Base64)
+           (com.android.internal.content PackageHelper)
+           (java.io File)
            (javax.crypto SecretKey)
            (javax.crypto.spec IvParameterSpec
-                              SecretKeySpec)))</pre></td></tr><tr><td class="docs">
+                              SecretKeySpec)
+           (org.apache.commons.io FileUtils)))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(declare get-raw-packages get-packages get-all-package-names get-package-components
          get-raw-features get-features
          get-raw-libraries get-libraries
          get-raw-instrumentations get-instrumentations
-         get-raw-permission-groups get-permissions-by-group)</pre></td></tr><tr><td class="docs"><p>get all packages on this device</p>
+         get-raw-permission-groups get-permissions-by-group
+
+         get-install-location set-install-location
+         push-file pull-file
+         make-package-install-observer install-package
+         make-package-delete-observer uninstall-package
+         make-package-data-observer clear-package-data)</pre></td></tr><tr><td class="docs"><p>get all packages on this device</p>
 </td><td class="codes"><pre class="brush: clojure">(defn get-raw-packages
   [{:keys []
     :as args}]
@@ -3459,7 +3473,165 @@ net.brehaut.ClojureTools = (function (SH) {
                                     (when-not brief?
                                       permission))))
                          @result)}))))
-    @result))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.content.pm.package-manager-parser" name="figurehead.api.content.pm.package-manager-parser"><h1 class="project-name">figurehead.api.content.pm.package-manager-parser</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+    @result))</pre></td></tr><tr><td class="docs"><p>get install location</p>
+</td><td class="codes"><pre class="brush: clojure">(defn get-install-location
+  [{:keys []
+    :as args}]
+  (let [^IPackageManager package-manager (get-service :package-manager)
+        location (.getInstallLocation package-manager)]
+    (cond
+     (= location PackageHelper/APP_INSTALL_AUTO) :auto
+     (= location PackageHelper/APP_INSTALL_EXTERNAL) :external
+     (= location PackageHelper/APP_INSTALL_INTERNAL) :internal
+     :else location)))</pre></td></tr><tr><td class="docs"><p>set install location</p>
+</td><td class="codes"><pre class="brush: clojure">(defn set-install-location
+  [{:keys [location]
+    :or {location 0}
+    :as args}]
+  {:pre [(contains? #{PackageHelper/APP_INSTALL_AUTO
+                      PackageHelper/APP_INSTALL_EXTERNAL
+                      PackageHelper/APP_INSTALL_INTERNAL
+                      :auto :internal :external} location)]}
+  (let [location (cond
+                  (contains? #{PackageHelper/APP_INSTALL_AUTO
+                               PackageHelper/APP_INSTALL_EXTERNAL
+                               PackageHelper/APP_INSTALL_INTERNAL}
+                             location)
+                  location
+                  (contains? #{:auto :internal :external} location)
+                  ({:auto PackageHelper/APP_INSTALL_AUTO
+                    :internal PackageHelper/APP_INSTALL_INTERNAL
+                    :external PackageHelper/APP_INSTALL_EXTERNAL} location))]
+    (when location
+      (let [^IPackageManager package-manager (get-service :package-manager)]
+        (.setInstallLocation package-manager location)))))</pre></td></tr><tr><td class="docs"><p>push file to device</p>
+</td><td class="codes"><pre class="brush: clojure">(defn push-file
+  [{:keys [^String content-in-base64
+           file-name]
+    :as args}]
+  (when (and content-in-base64 file-name)
+    (with-open [the-file (io/output-stream (io/file file-name))]
+      (.write the-file ^bytes (Base64/decode content-in-base64
+                                             Base64/DEFAULT)))))</pre></td></tr><tr><td class="docs"><p>pull file from device</p>
+</td><td class="codes"><pre class="brush: clojure">(defn pull-file
+  [{:keys [file-name]
+    :as args}]
+  (when (and file-name)
+    (Base64/encodeToString
+     (FileUtils/readFileToByteArray (io/file file-name))
+     (bit-or Base64/NO_WRAP
+             0))))</pre></td></tr><tr><td class="docs"><p>make instance of IPackageInstallObserver$Stub</p>
+</td><td class="codes"><pre class="brush: clojure">(defn make-package-install-observer
+  [{:keys [package-installed]
+    :as args}]
+  (proxy
+      [IPackageInstallObserver$Stub]
+      []
+    (packageInstalled [package-name status]
+      (locking this
+        (when package-installed
+          (package-installed package-name status))))))</pre></td></tr><tr><td class="docs"><p>install package</p>
+</td><td class="codes"><pre class="brush: clojure">(defn install-package
+  [{:keys [apk-file-name
+           package-name
+           forward-lock?
+           replace-existing?
+           allow-test?
+           external?
+           internal?
+           allow-downgrade?]
+    :as args}]
+  (when (and apk-file-name package-name)
+    (let [^IPackageManager package-manager (get-service :package-manager)
+          flags (atom 0)
+          apk-uri (Uri/fromFile (io/file apk-file-name))]
+      (when (and apk-uri)
+        (when forward-lock?
+          (swap! flags bit-or PackageManager/INSTALL_FORWARD_LOCK))
+        (when replace-existing?
+          (swap! flags bit-or PackageManager/INSTALL_REPLACE_EXISTING))
+        (when allow-test?
+          (swap! flags bit-or PackageManager/INSTALL_ALLOW_TEST))
+        (when external?
+          (swap! flags bit-or PackageManager/INSTALL_EXTERNAL))
+        (when internal?
+          (swap! flags bit-or PackageManager/INSTALL_INTERNAL))
+        (when allow-downgrade?
+          (swap! flags bit-or PackageManager/INSTALL_ALLOW_DOWNGRADE))
+        (let [finished? (promise)
+              result (atom 0)]
+          (.installPackage package-manager
+                           apk-uri
+                           (make-package-install-observer
+                            {:package-installed (fn [package-name status]
+                                                  (reset! result status)
+                                                  (deliver finished? true))})
+                           @flags
+                           package-name)
+          @finished?
+          @result)))))</pre></td></tr><tr><td class="docs"><p>make instance of IPackageDeleteObserver$Stub</p>
+</td><td class="codes"><pre class="brush: clojure">(defn make-package-delete-observer
+  [{:keys [package-deleted]
+    :as args}]
+  (proxy
+      [IPackageDeleteObserver$Stub]
+      []
+    (packageDeleted [package-name return-code]
+      (locking this
+        (when package-deleted
+          (package-deleted package-name return-code))))))</pre></td></tr><tr><td class="docs"><p>uninstall package</p>
+</td><td class="codes"><pre class="brush: clojure">(defn uninstall-package
+  [{:keys [package
+           keep-data?]
+    :or {keep-data? true}
+    :as args}]
+  (when package
+    (let [^IPackageManager package-manager (get-service :package-manager)
+          flags (atom PackageManager/DELETE_ALL_USERS)
+          finished? (promise)
+          successful? (atom false)]
+      (when keep-data?
+        (swap! flags bit-or PackageManager/DELETE_KEEP_DATA))
+      (.deletePackageAsUser package-manager
+                            package
+                            (make-package-delete-observer
+                             {:package-deleted
+                              (fn [package-name return-code]
+                                (reset! successful?
+                                        (= return-code PackageManager/DELETE_SUCCEEDED))
+                                (deliver finished? true))})
+                            UserHandle/USER_OWNER
+                            @flags)
+      @finished?
+      @successful?)))</pre></td></tr><tr><td class="docs"><p>make instance of IPackageDataObserver$Stub</p>
+</td><td class="codes"><pre class="brush: clojure">(defn make-package-data-observer
+  [{:keys [on-remove-completed]
+    :as args}]
+  (proxy
+      [IPackageDataObserver$Stub]
+      []
+    (onRemoveCompleted [package-name succeeded]
+      (locking this
+        (when on-remove-completed
+          (on-remove-completed package-name succeeded))))))</pre></td></tr><tr><td class="docs"><p>clear package data</p>
+</td><td class="codes"><pre class="brush: clojure">(defn clear-package-data
+  [{:keys [package]
+    :as args}]
+  (when package
+    (let [^IActivityManager activity-manager (get-service :activity-manager)
+          finished? (promise)
+          successful? (atom false)]
+      (.clearApplicationUserData activity-manager
+                                 package
+                                 (make-package-data-observer
+                                  {:on-remove-completed
+                                   (fn [package-name succeeded]
+                                     (reset! successful?
+                                             succeeded)
+                                     (deliver finished? true))})
+                                 UserHandle/USER_OWNER)
+      @finished?
+      @successful?)))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.content.pm.package-manager-parser" name="figurehead.api.content.pm.package-manager-parser"><h1 class="project-name">figurehead.api.content.pm.package-manager-parser</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.api.content.pm.package-manager-parser
   (:require (figurehead.util [services :as services :refer [get-service]]))
   (:import (android.content ComponentName)
@@ -4426,6 +4598,48 @@ net.brehaut.ClojureTools = (function (SH) {
                                         (bus/say!! :response
                                                    {:command :get-permissions-by-group
                                                     :result (package-manager/get-permissions-by-group param)}
+                                                   verbose))
+                                      :get-install-location
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :get-install-location
+                                                    :result (package-manager/get-install-location param)}
+                                                   verbose))                                      
+                                      :set-install-location
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :set-install-location
+                                                    :result (package-manager/set-install-location param)}
+                                                   verbose))                                      
+                                      :push-file
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :push-file
+                                                    :result (package-manager/push-file param)}
+                                                   verbose))                                      
+                                      :pull-file
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :pull-file
+                                                    :result (package-manager/pull-file param)}
+                                                   verbose))                                      
+                                      :install-package
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :install-package
+                                                    :result (package-manager/install-package param)}
+                                                   verbose))                                      
+                                      :uninstall-package
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :uninstall-package
+                                                    :result (package-manager/uninstall-package param)}
+                                                   verbose))
+                                      :clear-package-data
+                                      (do
+                                        (bus/say!! :response
+                                                   {:command :clear-package-data
+                                                    :result (package-manager/clear-package-data param)}
                                                    verbose))
                                       :make-intent
                                       (do
