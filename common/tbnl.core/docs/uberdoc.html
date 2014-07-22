@@ -3276,7 +3276,8 @@ net.brehaut.ClojureTools = (function (SH) {
       (shutdown-agents))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#core.plugin" name="core.plugin"><h1 class="project-name">core.plugin</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(ns core.plugin
   (:require (core [bus :as bus]))
-  (:require [clojure.core.async
+  (:require [clojure.stacktrace :refer [print-stack-trace]]
+            [clojure.core.async
              :as async
              :refer [thread &lt;!! chan timeout]]))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(declare list-all-plugins list-all-plugins-by-priority
@@ -3435,11 +3436,19 @@ net.brehaut.ClojureTools = (function (SH) {
            (set-state-entry plugin :stop false)
            (if (get-param-entry plugin :sync)
              (when-not (get-state-entry plugin :stop)
-               (run options))
+               (try
+                 (run options)
+                 (catch Exception e
+                   (when verbose
+                     (print-stack-trace e)))))
              (thread
                ;; only :async plugin can auto-restart
                (loop []
-                 (run options)
+                 (try
+                   (run options)
+                   (catch Exception e
+                     (when verbose
+                       (print-stack-trace e))))
                  (when (and
                         ;; auto-restart has been requested and...
                         (get-param-entry plugin :auto-restart)

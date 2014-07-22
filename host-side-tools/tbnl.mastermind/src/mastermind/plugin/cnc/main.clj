@@ -9,14 +9,11 @@
             [clojure.core.async
              :as async
              :refer [chan
+                     thread
                      go <! >!]]
    )
-  (:import [java.net
-            ServerSocket
-            SocketException
-            ]
-           [java.io
-            IOException]))
+  (:import (java.net ServerSocket
+                     SocketException)))
 
 (def defaults
   (atom
@@ -54,80 +51,68 @@
   [options]
   (let [verbose (:verbose options)
         cnc-port (:cnc-port options)]
-    (try
-      (with-open [server-sock (ServerSocket. cnc-port)]
-        (plugin/looping-jail [
-                              ;; stop condition
-                              (plugin/get-state-entry :stop)
-                              ;; finalization
-                              (do)
-                              ;; verbose
-                              verbose
-                              ]
-                             ;; .accept blocks until new connection
-                             (let [sock (.accept server-sock)]
-                               (.run
-                                (Thread. 
-                                 (fn []
-                                   (try
-                                     ;; reader
-                                     (go
+    (with-open [server-sock (ServerSocket. cnc-port)]
+      (plugin/looping-jail [
+                            ;; stop condition
+                            (plugin/get-state-entry :stop)
+                            ;; finalization
+                            (do)
+                            ;; verbose
+                            verbose
+                            ]
+                           ;; .accept blocks until new connection
+                           (let [sock (.accept server-sock)]
+                             (thread
+                               ;; reader
+                               (go
+                                 (try
+                                   (with-open [reader (io/reader sock)]
+                                     (while true
                                        (try
-                                         (with-open [reader (io/reader sock)]
-                                           (while true
-                                             (try
-                                               (when-let [line (.readLine reader)]
-                                                 (try
-                                                   (let [line (read-string line)]
-                                                     ;; cannot use say! -> deadlock!!
-                                                     (bus/say!! :command line verbose))
-                                                   (catch RuntimeException e
-                                                     ;; read-string error
-                                                     (when verbose
-                                                       (prn [:cnc :reader :RuntimeException])
-                                                       (print-stack-trace e)))))
-                                               (catch SocketException e
-                                                 ;; !! do not let IOException mask this
-                                                 (when verbose
-                                                   (prn [:cnc :reader :SocketException])
-                                                   (print-stack-trace e))
-                                                 (throw e))
-                                               (catch IOException e
-                                                 (when verbose
-                                                   (prn [:cnc :reader :IOException])
-                                                   (print-stack-trace e)))
-                                               (catch Exception e
-                                                 (when verbose
-                                                   (prn [:cnc :reader :Exception])
-                                                   (print-stack-trace e))
-                                                 (throw e)))))
-                                         (finally
-                                           (.close sock))))
-                                     ;; writer
-                                     (go
+                                         (when-let [line (.readLine reader)]
+                                           (try
+                                             (let [line (read-string line)]
+                                               ;; cannot use say! -> deadlock!!
+                                               (bus/say!! :command line verbose))
+                                             (catch RuntimeException e
+                                               ;; read-string error
+                                               (when verbose
+                                                 (prn [:cnc :reader :RuntimeException])
+                                                 (print-stack-trace e)))))
+                                         (catch SocketException e
+                                           (when verbose
+                                             (prn [:cnc :reader :SocketException])
+                                             (print-stack-trace e))
+                                           (throw e)))))
+                                   (catch Exception e
+                                     (when verbose
+                                       (prn [:cnc :reader :Exception])
+                                       (print-stack-trace e))
+                                     (throw e))
+                                   (finally
+                                     (.close sock))))
+                               ;; writer
+                               (go
+                                 (try
+                                   (with-open [writer (io/writer sock)]
+                                     (let [ch (chan (:writer-buffer @defaults))]
                                        (try
-                                         (with-open [writer (io/writer sock)]
-                                           (let [ch (chan (:writer-buffer @defaults))]
-                                             (try
-                                               (bus/sub-topic ch :information)
-                                               (bus/sub-topic ch :model-update)
-                                               (while true
-                                                 (let [line (<! ch)]
-                                                   (.write writer (prn-str line))
-                                                   (.flush writer)))
-                                               (finally
-                                                 (bus/unsub-topic ch :information)
-                                                 (bus/unsub-topic ch :model-update)))))
+                                         (bus/sub-topic ch :information)
+                                         (bus/sub-topic ch :model-update)
+                                         (while true
+                                           (let [line (<! ch)]
+                                             (.write writer (prn-str line))
+                                             (.flush writer)))
                                          (finally
-                                           (.close sock))))
-                                     (catch IOException e
-                                       (when verbose
-                                         (print-stack-trace e))
-                                       (.close sock)))))))))
-      (catch IOException e
-        (when verbose
-          (prn [:cnc :IOException])
-          (print-stack-trace e))))))
+                                           (bus/unsub-topic ch :information)
+                                           (bus/unsub-topic ch :model-update)))))
+                                   (catch Exception e
+                                     (when verbose
+                                       (prn [:cnc :writer :Exception])
+                                       (print-stack-trace e))
+                                     (throw e))
+                                   (finally
+                                     (.close sock))))))))))
 
 (defn stop
   []

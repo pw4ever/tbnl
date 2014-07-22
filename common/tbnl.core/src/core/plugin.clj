@@ -1,6 +1,7 @@
 (ns core.plugin
   (:require (core [bus :as bus]))
-  (:require [clojure.core.async
+  (:require [clojure.stacktrace :refer [print-stack-trace]]
+            [clojure.core.async
              :as async
              :refer [thread <!! chan timeout]]))
 
@@ -211,11 +212,19 @@ the convention is that 'I do not care'-priority is 1, and 'absolute first'-prior
            (set-state-entry plugin :stop false)
            (if (get-param-entry plugin :sync)
              (when-not (get-state-entry plugin :stop)
-               (run options))
+               (try
+                 (run options)
+                 (catch Exception e
+                   (when verbose
+                     (print-stack-trace e)))))
              (thread
                ;; only :async plugin can auto-restart
                (loop []
-                 (run options)
+                 (try
+                   (run options)
+                   (catch Exception e
+                     (when verbose
+                       (print-stack-trace e))))
                  (when (and
                         ;; auto-restart has been requested and...
                         (get-param-entry plugin :auto-restart)
