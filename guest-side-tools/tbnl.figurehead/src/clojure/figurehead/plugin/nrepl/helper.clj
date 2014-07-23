@@ -68,7 +68,6 @@
   (binding [*ns* (create-ns 'user)]
     (refer-clojure)
 
-    ;; Clojure convenience funcs
     (use 'clojure.repl)
     (use 'clojure.pprint)
     (use 'clojure.java.io)
@@ -79,6 +78,10 @@
     (require '[figurehead.api.content.pm.package-manager :as package-manager])
     (require '[figurehead.api.content.pm.package-manager-parser :as package-manager-parser])
     (require '[figurehead.api.view.input :as input])
+
+    (require '(core [bus :as bus]
+                    [plugin :as plugin]
+                    [state :as state]))
 
     (use 'clojure.tools.nrepl.server)
     (require '[clojure.tools.nrepl.middleware.interruptible-eval :as ie])

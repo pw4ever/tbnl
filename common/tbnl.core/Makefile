@@ -1,7 +1,9 @@
-BUILD_TIMESTAMP=_timestamp_
+# author: Wei Peng <write.to.peng.wei@gmail.com>
+
+BUILD_TIMESTAMP:=_timestamp_
 SRC:=$(shell find src -type f) project.clj
 
-.PHONY: default build doc clean
+.PHONY: default build doc clean dist-clean
 
 default: build
 
@@ -16,3 +18,6 @@ docs/uberdoc.html: $(BUILD_TIMESTAMP)
 
 clean:
 	lein clean
+
+dist-clean: clean
+	rm -rf $(BUILD_TIMESTAMP)

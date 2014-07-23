@@ -51,9 +51,22 @@
                            ;; verbose
                            verbose
                            ]
-                          (plugin/set-state-entry :nrepl-server
-                                                  (nrepl-server/start-server :port nrepl-port
-                                                                             :handler cider-nrepl-handler)))))
+                          (binding [*ns* (create-ns 'user)]
+                            (refer-clojure)
+
+                            (use 'clojure.repl)
+                            (use 'clojure.pprint)
+                            (use 'clojure.java.io)
+
+                            (require '(core [bus :as bus]
+                                            [plugin :as plugin]
+                                            [state :as state]))
+                            (require '[clojure.tools.nrepl.server :as nrepl-server])
+                            
+                            (plugin/set-state-entry :nrepl-server
+                                                    ((resolve 'nrepl-server/start-server)
+                                                     :port nrepl-port
+                                                     :handler cider-nrepl-handler))))))
 
 ;;; archetype of stopping blocking-jail
 (defn stop
