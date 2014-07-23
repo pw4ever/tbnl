@@ -9,33 +9,32 @@ default: build
 build: $(COMPONENTS)
 
 mastermind: core
-	cd host-side-tools/tbnl.mastermind/; time lein uberjar
-mastermind-doc:
-	cd host-side-tools/tbnl.mastermind/; time lein marg
+	$(MAKE) -C host-side-tools/tbnl.mastermind/ build
+mastermind-doc: 
+	$(MAKE) -C host-side-tools/tbnl.mastermind/ doc
 
 cnc: core
-	cd host-side-tools/tbnl.cnc/; time lein uberjar
-cnc-doc:
-	cd host-side-tools/tbnl.cnc/; time lein marg
+	$(MAKE) -C host-side-tools/tbnl.cnc/ build
+cnc-doc: 
+	$(MAKE) -C host-side-tools/tbnl.cnc/ doc
 
 figurehead: core
-	cd guest-side-tools/tbnl.figurehead/; [[ -d android-sdk ]] || ./00prepare-full-android-sdk.sh; time lein do clean, release
-figurehead-doc:
-	# https://groups.google.com/forum/#!topic/clojure-android/ATO-DZNZExY
-	cd guest-side-tools/tbnl.figurehead/; time lein do clean, droid jar, marg
+	$(MAKE) -C guest-side-tools/tbnl.figurehead/ build
+figurehead-doc: 
+	$(MAKE) -C guest-side-tools/tbnl.figurehead/ doc
 
 core: 
-	cd common/tbnl.core/; time lein check && ./00lein-install.sh
+	$(MAKE) -C common/tbnl.core/ build
 core-doc:
-	cd common/tbnl.core/; time lein marg
+	$(MAKE) -C common/tbnl.core/ doc
 
 prepare:
 	SCRIPTS/00stage-prepare.sh
 
-install:
+install: prepare
 	SCRIPTS/01stage-install.sh
 
-package:
+package: prepare
 	tar cvf tbnl.tar tbnl
 
 doc: $(foreach comp,$(COMPONENTS),$(comp)-doc)
