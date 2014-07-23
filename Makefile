@@ -31,16 +31,16 @@ get_dep=$(if $(DEP_$(1)),$(PREFIX_$(DEP_$(1)))/$(BUILD_TIMESTAMP_FNAME),)
 
 prebuild: $(foreach comp,$(COMPONENTS),prebuild-$(comp))
 build: prebuild $(foreach comp,$(COMPONENTS),$(call get_target,$(comp)))
-doc: $(foreach comp,$(COMPONENTS),doc-$(comp))
+doc: build $(foreach comp,$(COMPONENTS),doc-$(comp))
 clean: $(foreach comp,$(COMPONENTS),clean-$(comp))
 distclean: $(foreach comp,$(COMPONENTS),distclean-$(comp))
 
 define comp_body
-$$(call get_target,$(comp)): $$(call get_dep,$(comp))
+$$(call get_target,$(comp)): $$(call get_dep,$(comp)) | prebuild
 	$$(MAKE) -BC $$(PREFIX_$(comp)) build
-prebuild-$(comp):
+prebuild-$(comp): $(if $(DEP_$(comp)),prebuild-$(DEP_$(comp)),)
 	$$(MAKE) -C $$(PREFIX_$(comp)) build
-doc-$(comp):
+doc-$(comp): | build
 	$$(MAKE) -C $$(PREFIX_$(comp)) doc
 clean-$(comp):
 	$$(MAKE) -C $$(PREFIX_$(comp)) clean
@@ -50,13 +50,13 @@ endef
 
 $(foreach comp,$(COMPONENTS),$(eval $(comp_body)))
 
-prepare:
+prepare: | build
 	SCRIPTS/00stage-prepare.sh
 
-install: prepare
+install: | build prepare
 	SCRIPTS/01stage-install.sh
 
-package: prepare
+package: | build prepare
 	tar cvf tbnl.tar tbnl
 
 help:
