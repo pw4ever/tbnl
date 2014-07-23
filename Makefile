@@ -5,16 +5,16 @@ BUILD_TIMESTAMP_FNAME:=_timestamp_
 COMPONENTS:=core mastermind cnc figurehead
 
 PREFIX_core:=common/tbnl.core
-DEP_core:=
+DEPS_core:=
 
 PREFIX_mastermind:=host-side-tools/tbnl.mastermind
-DEP_mastermind:=core
+DEPS_mastermind:=core
 
 PREFIX_cnc:=host-side-tools/tbnl.cnc
-DEP_cnc:=core
+DEPS_cnc:=core
 
 PREFIX_figurehead:=guest-side-tools/tbnl.figurehead
-DEP_figurehead:=core
+DEPS_figurehead:=core
 
 .PHONY: default build prepare install package doc help all all-install
 .PHONY: force
@@ -26,7 +26,7 @@ all: build doc prepare package
 all-install: all install
 
 get_target=$(PREFIX_$(1))/$(BUILD_TIMESTAMP_FNAME)
-get_dep=$(if $(DEP_$(1)),$(PREFIX_$(DEP_$(1)))/$(BUILD_TIMESTAMP_FNAME),)
+get_dep=$(foreach dep,$(DEPS_$(1)),$(PREFIX_$(dep))/$(BUILD_TIMESTAMP_FNAME))
 
 
 prebuild: $(foreach comp,$(COMPONENTS),prebuild-$(comp))
@@ -38,7 +38,7 @@ distclean: $(foreach comp,$(COMPONENTS),distclean-$(comp))
 define comp_body
 $$(call get_target,$(comp)): $$(call get_dep,$(comp)) | prebuild
 	$$(MAKE) -BC $$(PREFIX_$(comp)) build
-prebuild-$(comp): $(if $(DEP_$(comp)),prebuild-$(DEP_$(comp)),)
+prebuild-$(comp): $(foreach dep,$(DEPS_$(comp)),$(if $(dep),prebuild-$(dep),))
 	$$(MAKE) -C $$(PREFIX_$(comp)) build
 doc-$(comp): | build
 	$$(MAKE) -C $$(PREFIX_$(comp)) doc
