@@ -3029,7 +3029,7 @@ net.brehaut.ClojureTools = (function (SH) {
   };
 })(SyntaxHighlighter);
 </script><title>info.voidstar/tbnl.cnc -- Marginalia</title></head><body><table><tr><td class="docs"><div class="header"><h1 class="project-name">info.voidstar/tbnl.cnc</h1><h2 class="project-version">0.1.0-SNAPSHOT</h2><br /><p>C&amp;C controls figureheads through mastermind</p>
-</div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.6.0</td></tr><tr><td class="dep-name">org.clojure/core.async</td><td class="dotted"><hr /></td><td class="dep-version">0.1.303.0-886421-alpha</td></tr><tr><td class="dep-name">info.voidstar/tbnl.core</td><td class="dotted"><hr /></td><td class="dep-version">0.1.0-SNAPSHOT</td></tr><tr><td class="dep-name">alembic</td><td class="dotted"><hr /></td><td class="dep-version">0.2.1</td></tr><tr><td class="dep-name">dorothy</td><td class="dotted"><hr /></td><td class="dep-version">0.0.5</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left almost blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#cnc.main">cnc.main</a></li><li><a href="#cnc.plugin.mastermind.main">cnc.plugin.mastermind.main</a></li><li><a href="#cnc.plugin.model.figurehead.visualize.helper">cnc.plugin.model.figurehead.visualize.helper</a></li><li><a href="#cnc.plugin.model.figurehead.visualize.main">cnc.plugin.model.figurehead.visualize.main</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#cnc.main" name="cnc.main"><h1 class="project-name">cnc.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+</div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.6.0</td></tr><tr><td class="dep-name">org.clojure/core.async</td><td class="dotted"><hr /></td><td class="dep-version">0.1.303.0-886421-alpha</td></tr><tr><td class="dep-name">info.voidstar/tbnl.core</td><td class="dotted"><hr /></td><td class="dep-version">0.1.0-SNAPSHOT</td></tr><tr><td class="dep-name">alembic</td><td class="dotted"><hr /></td><td class="dep-version">0.2.1</td></tr><tr><td class="dep-name">dorothy</td><td class="dotted"><hr /></td><td class="dep-version">0.0.5</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left almost blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#cnc.main">cnc.main</a></li><li><a href="#cnc.plugin.mastermind.main">cnc.plugin.mastermind.main</a></li><li><a href="#cnc.plugin.model.figurehead.visualize.helper">cnc.plugin.model.figurehead.visualize.helper</a></li><li><a href="#cnc.plugin.model.figurehead.visualize.main">cnc.plugin.model.figurehead.visualize.main</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#cnc.main" name="cnc.main"><h1 class="project-name">cnc.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>main entry into C&amp;C</p>
 </td><td class="codes"><pre class="brush: clojure">(ns cnc.main
   (:require (core main
                   init))
@@ -3044,7 +3044,7 @@ net.brehaut.ClojureTools = (function (SH) {
                                              core.plugin.nrepl
                                              cnc.plugin.mastermind
                                              cnc.plugin.model.figurehead.visualize)
-  (apply core.main/main args))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#cnc.plugin.mastermind.main" name="cnc.plugin.mastermind.main"><h1 class="project-name">cnc.plugin.mastermind.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+  (apply core.main/main args))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#cnc.plugin.mastermind.main" name="cnc.plugin.mastermind.main"><h1 class="project-name">cnc.plugin.mastermind.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>connect to Mastermind</p>
 </td><td class="codes"><pre class="brush: clojure">(ns cnc.plugin.mastermind.main
   (:require (core [init :as init]
                   [state :as state]
@@ -3053,6 +3053,7 @@ net.brehaut.ClojureTools = (function (SH) {
   (:require [clojure.string :as str]
             [clojure.java.io :as io]
             [clojure.stacktrace :refer [print-stack-trace]]
+            [clojure.pprint :refer [pprint]]
             [clojure.core.async
              :as async
              :refer [chan thread &lt;!! &gt;!!]])
@@ -3127,6 +3128,8 @@ net.brehaut.ClojureTools = (function (SH) {
                                                            (let [message (read-string line)
                                                                  topic (bus/get-message-topic message)
                                                                  content (bus/remove-message-topic message)]
+                                                             (when verbose
+                                                               (pprint [:mastermind :reader message]))
                                                              (case topic
                                                                :model-update
                                                                (do
@@ -3162,17 +3165,18 @@ net.brehaut.ClojureTools = (function (SH) {
                                                          (cond
                                                           ;; do NOT echo these topics back
                                                           (not (contains? #{:information :model-update} topic))
-                                                          (do
+                                                          (let [message (bus/build-message topic
+                                                                                           (cond
+                                                                                            (map? content)
+                                                                                            (merge content
+                                                                                                   {:instance instance-id})
+                                                                                            :else
+                                                                                            {:instance instance-id
+                                                                                             :content message}))]
+                                                            (when verbose
+                                                              (pprint [:mastermind :writer message]))
                                                             (.write writer
-                                                                    (prn-str
-                                                                     (bus/build-message topic
-                                                                                        (cond
-                                                                                         (map? content)
-                                                                                         (merge content
-                                                                                                {:instance instance-id})
-                                                                                         :else
-                                                                                         {:instance instance-id
-                                                                                          :content message}))))
+                                                                    (prn-str message))
                                                             (.flush writer))))))))))))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(defn stop
   []
@@ -3185,7 +3189,7 @@ net.brehaut.ClojureTools = (function (SH) {
    :run run
    :stop stop
    :param {:priority 90
-           :auto-restart true}})</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#cnc.plugin.model.figurehead.visualize.helper" name="cnc.plugin.model.figurehead.visualize.helper"><h1 class="project-name">cnc.plugin.model.figurehead.visualize.helper</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+           :auto-restart true}})</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#cnc.plugin.model.figurehead.visualize.helper" name="cnc.plugin.model.figurehead.visualize.helper"><h1 class="project-name">cnc.plugin.model.figurehead.visualize.helper</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>helpers for visualizing figurehead monitor model</p>
 </td><td class="codes"><pre class="brush: clojure">(ns cnc.plugin.model.figurehead.visualize.helper
   (:use
    [clojure.core.async :as async
@@ -3246,7 +3250,7 @@ net.brehaut.ClojureTools = (function (SH) {
           fname-root (str viz-root &quot;_&quot; viz-counter)]
       (spit (str fname-root &quot;.dot&quot;) d)
       (save! d (str fname-root &quot;.pdf&quot;) {:format :pdf}) 
-      (save! d (str fname-root &quot;.png&quot;) {:format :png}))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#cnc.plugin.model.figurehead.visualize.main" name="cnc.plugin.model.figurehead.visualize.main"><h1 class="project-name">cnc.plugin.model.figurehead.visualize.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+      (save! d (str fname-root &quot;.png&quot;) {:format :png}))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#cnc.plugin.model.figurehead.visualize.main" name="cnc.plugin.model.figurehead.visualize.main"><h1 class="project-name">cnc.plugin.model.figurehead.visualize.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>visualize figurehead monitor model</p>
 </td><td class="codes"><pre class="brush: clojure">(ns cnc.plugin.model.figurehead.visualize.main
   (:require (core [init :as init]
                   [state :as state]

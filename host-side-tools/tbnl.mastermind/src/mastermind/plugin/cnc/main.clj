@@ -1,4 +1,5 @@
 (ns mastermind.plugin.cnc.main
+  "connect to C&C"
   (:require (core [init :as init]
                   [state :as state]
                   [bus :as bus]
@@ -6,6 +7,7 @@
 
   (:require [clojure.java.io :as io]
             [clojure.stacktrace :refer [print-stack-trace]]
+            [clojure.pprint :refer [pprint]]
             [clojure.core.async
              :as async
              :refer [chan
@@ -72,6 +74,8 @@
                                          (when-let [line (.readLine reader)]
                                            (try
                                              (let [line (read-string line)]
+                                               (when verbose
+                                                 (pprint [:cnc :reader line]))
                                                ;; cannot use say! -> deadlock!!
                                                (bus/say!! :command line verbose))
                                              (catch RuntimeException e
@@ -101,6 +105,8 @@
                                          (bus/sub-topic ch :model-update)
                                          (while true
                                            (let [line (<! ch)]
+                                             (when verbose
+                                               (pprint [:cnc :writer line]))
                                              (.write writer (prn-str line))
                                              (.flush writer)))
                                          (finally

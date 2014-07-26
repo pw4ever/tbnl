@@ -1,4 +1,5 @@
 (ns cnc.main
+  "main entry into C&C"
   (:require (core main
                   init))
   (:require core.plugin.echo.main

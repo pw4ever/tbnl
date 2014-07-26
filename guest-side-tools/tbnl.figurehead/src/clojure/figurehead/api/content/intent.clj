@@ -1,5 +1,7 @@
 ;;; https://github.com/android/platform_frameworks_base/blob/android-4.3_r3.1/cmds/am/src/com/android/commands/am/Am.java#L479
 (ns figurehead.api.content.intent
+  "create android.content.Intent"
+  (:require (core [state :as state :refer [defcommand]]))
   (:import (android.content Intent
                             ComponentName)
            (android.os Bundle)
@@ -7,7 +9,7 @@
 
 (declare make-intent)
 
-(defn make-intent
+(defcommand make-intent
   "make an Intent object"
   [{:keys [action
            categories

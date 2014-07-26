@@ -1,4 +1,5 @@
 (ns cnc.plugin.model.figurehead.visualize.main
+  "visualize figurehead monitor model"
   (:require (core [init :as init]
                   [state :as state]
                   [bus :as bus]

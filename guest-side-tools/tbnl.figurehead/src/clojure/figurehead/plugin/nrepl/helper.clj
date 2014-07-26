@@ -1,5 +1,6 @@
 ;;; acknowledgement: https://github.com/clojure-android/neko
 (ns figurehead.plugin.nrepl.helper
+  "helper for starting nREPL server"
   (:require (core [plugin :as plugin]))
   (:require [clojure.java.io :refer [file delete-file]]
             [clojure.tools.nrepl.server :as nrepl-server]

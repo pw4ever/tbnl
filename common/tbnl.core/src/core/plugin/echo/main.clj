@@ -1,4 +1,5 @@
 (ns core.plugin.echo.main
+  "echo bus messages"
   (:require (core [init :as init]
                   [state :as state]
                   [bus :as bus]

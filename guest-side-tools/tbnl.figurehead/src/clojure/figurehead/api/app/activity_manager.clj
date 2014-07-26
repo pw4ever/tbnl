@@ -1,4 +1,6 @@
 (ns figurehead.api.app.activity-manager
+  "am (Activity Manager) wrapper"
+  (:require (core [state :as state :refer [defcommand]]))
   (:require (figurehead.util [services :as services :refer [get-service]])
             (figurehead.api.content [intent :as intent]))
   (:require [clojure.string :as str]
@@ -18,7 +20,7 @@
          hang
          intent-to-uri)
 
-(defn start-activity
+(defcommand start-activity
   "start an Activity (accept all figurehead.api.content.intent/make-intent arguments)"
   [{:keys [wait?]
     :as args}]
@@ -44,7 +46,7 @@
                                  nil nil 0 0
                                  nil nil nil 0))))))
 
-(defn start-service
+(defcommand start-service
   "start Service (accept all figurehead.api.content.intent/make-intent arguments)"
   [{:keys []
     :as args}]
@@ -54,21 +56,21 @@
       (.. activity-manager
           ^ComponentName (startService nil intent (.getType intent) 0)))))
 
-(defn force-stop
+(defcommand force-stop
   "force stop a Package"
   [{:keys [package]
     :as args}]
   (let [activity-manager ^IActivityManager (get-service :activity-manager)]
     (.forceStopPackage activity-manager package 0)))
 
-(defn kill
+(defcommand kill
   "kill a Package"
   [{:keys [package]
     :as args}]
   (let [activity-manager ^IActivityManager (get-service :activity-manager)]
     (.killBackgroundProcesses activity-manager package 0)))
 
-(defn kill-all
+(defcommand kill-all
   "kill all Packages"
   [{:keys []
     :as args}]
@@ -76,7 +78,7 @@
     (.killAllBackgroundProcesses activity-manager)))
 
 
-(defn send-broadcast
+(defcommand send-broadcast
   "send broadcast"
   [{:keys [perform-receive
            receiver-permission]
@@ -104,14 +106,14 @@
                         0 nil nil receiver-permission
                         AppOpsManager/OP_NONE true false 0))))
 
-(defn hang
+(defcommand hang
   "hang"
   [{:keys [allow-restart]
     :as args}]
   (let [activity-manager ^IActivityManager (get-service :activity-manager)]
     (.hang activity-manager (Binder.) allow-restart)))
 
-(defn intent-to-uri
+(defcommand intent-to-uri
   "convert intent to URI"
   [{:keys [intent-scheme?]
     :as args}]

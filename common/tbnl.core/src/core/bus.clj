@@ -1,4 +1,5 @@
 (ns core.bus
+  "the common message bus"
   (:require (core [state :as state]))
   (:require [clojure.core.async
              :as async

@@ -1,4 +1,5 @@
 (ns core.plugin
+  "the plugin infrastructure"
   (:require (core [bus :as bus]))
   (:require [clojure.stacktrace :refer [print-stack-trace]]
             [clojure.core.async

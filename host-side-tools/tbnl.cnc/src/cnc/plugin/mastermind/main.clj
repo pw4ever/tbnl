@@ -1,4 +1,5 @@
 (ns cnc.plugin.mastermind.main
+  "connect to Mastermind"
   (:require (core [init :as init]
                   [state :as state]
                   [bus :as bus]
@@ -6,6 +7,7 @@
   (:require [clojure.string :as str]
             [clojure.java.io :as io]
             [clojure.stacktrace :refer [print-stack-trace]]
+            [clojure.pprint :refer [pprint]]
             [clojure.core.async
              :as async
              :refer [chan thread <!! >!!]])
@@ -88,6 +90,8 @@
                                                            (let [message (read-string line)
                                                                  topic (bus/get-message-topic message)
                                                                  content (bus/remove-message-topic message)]
+                                                             (when verbose
+                                                               (pprint [:mastermind :reader message]))
                                                              (case topic
                                                                :model-update
                                                                (do
@@ -125,18 +129,20 @@
                                                          (cond
                                                           ;; do NOT echo these topics back
                                                           (not (contains? #{:information :model-update} topic))
-                                                          (do
-                                                            (.write writer
-                                                                    (prn-str
-                                                                     (bus/build-message topic
-                                                                                        (cond
-                                                                                         (map? content)
-                                                                                         (merge content
-                                                                                                {:instance instance-id})
+                                                          (let [message (bus/build-message topic
+                                                                                           (cond
+                                                                                            (map? content)
+                                                                                            (merge content
+                                                                                                   {:instance instance-id})
 
-                                                                                         :else
-                                                                                         {:instance instance-id
-                                                                                          :content message}))))
+                                                                                            :else
+                                                                                            {:instance instance-id
+                                                                                             :content message}))]
+                                                            (when verbose
+                                                              (pprint [:mastermind :writer message]))
+
+                                                            (.write writer
+                                                                    (prn-str message))
                                                             (.flush writer))))))))))))
 
 

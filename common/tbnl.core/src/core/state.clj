@@ -1,10 +1,9 @@
-(ns core.state)
+(ns core.state
+  "global (rather than plugin) state")
 
-(declare add-state
-         get-state
-         reset-state
-         update-state
-         remove-state)
+(declare add-state get-state reset-state update-state remove-state
+
+         register-command get-command)
 
 (def ^:dynamic *state*
   "global state"
@@ -34,3 +33,37 @@
   "remote the state"
   [state]
   (swap! *state* dissoc state))
+
+;;; special states
+
+;;; command dispatcher
+(let [state-name :command-dispatch]
+  (defn register-command
+    "register command to command dispatcher"
+    [command command-impl]
+    (update-state state-name
+                  assoc command command-impl))
+
+  (defn unregister-command
+    "undo register-command"
+    [command]
+    (update-state state-name
+                  dissoc command))
+
+  (defn get-command
+    "get command"
+    [command]
+    (get (get-state state-name) command))
+
+  (defn list-commands
+    "list all commands"
+    []
+    (keys (get-state state-name)))
+
+  (defmacro defcommand
+    "define and register the command"
+    [command & body]
+    `(do
+       (defn ~command
+         ~@body)
+       (register-command ~(keyword command) ~command))))

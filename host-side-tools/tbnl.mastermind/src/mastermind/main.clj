@@ -1,4 +1,5 @@
 (ns mastermind.main
+  "main entry into Mastermind"
   (:require (core main
                   init))
   (:require core.plugin.echo.main

@@ -1,4 +1,5 @@
 (ns figurehead.api.content.pm.package-manager-parser
+  "parse Package Manager objects into Clojure data structures"
   (:require (figurehead.util [services :as services :refer [get-service]]))
   (:import (android.content ComponentName)
            (android.content.pm ActivityInfo

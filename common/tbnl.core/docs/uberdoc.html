@@ -3029,7 +3029,7 @@ net.brehaut.ClojureTools = (function (SH) {
   };
 })(SyntaxHighlighter);
 </script><title>info.voidstar/tbnl.core -- Marginalia</title></head><body><table><tr><td class="docs"><div class="header"><h1 class="project-name">info.voidstar/tbnl.core</h1><h2 class="project-version">0.1.0-SNAPSHOT</h2><br /><p>the infrastructure shared by mastermind and figurehead</p>
-</div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.6.0</td></tr><tr><td class="dep-name">org.clojure/tools.nrepl</td><td class="dotted"><hr /></td><td class="dep-version">0.2.3</td></tr><tr><td class="dep-name">org.clojure/core.async</td><td class="dotted"><hr /></td><td class="dep-version">0.1.303.0-886421-alpha</td></tr><tr><td class="dep-name">org.clojure/tools.cli</td><td class="dotted"><hr /></td><td class="dep-version">0.3.1</td></tr><tr><td class="dep-name">cider/cider-nrepl</td><td class="dotted"><hr /></td><td class="dep-version">0.7.0-SNAPSHOT</td></tr><tr><td class="dep-name">compliment</td><td class="dotted"><hr /></td><td class="dep-version">0.1.1</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left almost blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#core.bus">core.bus</a></li><li><a href="#core.init">core.init</a></li><li><a href="#core.main">core.main</a></li><li><a href="#core.plugin">core.plugin</a></li><li><a href="#core.plugin.echo.main">core.plugin.echo.main</a></li><li><a href="#core.plugin.nrepl.main">core.plugin.nrepl.main</a></li><li><a href="#core.state">core.state</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#core.bus" name="core.bus"><h1 class="project-name">core.bus</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+</div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.6.0</td></tr><tr><td class="dep-name">org.clojure/tools.nrepl</td><td class="dotted"><hr /></td><td class="dep-version">0.2.3</td></tr><tr><td class="dep-name">org.clojure/core.async</td><td class="dotted"><hr /></td><td class="dep-version">0.1.303.0-886421-alpha</td></tr><tr><td class="dep-name">org.clojure/tools.cli</td><td class="dotted"><hr /></td><td class="dep-version">0.3.1</td></tr><tr><td class="dep-name">cider/cider-nrepl</td><td class="dotted"><hr /></td><td class="dep-version">0.7.0-SNAPSHOT</td></tr><tr><td class="dep-name">compliment</td><td class="dotted"><hr /></td><td class="dep-version">0.1.1</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left almost blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#core.bus">core.bus</a></li><li><a href="#core.init">core.init</a></li><li><a href="#core.main">core.main</a></li><li><a href="#core.plugin">core.plugin</a></li><li><a href="#core.plugin.command-executor.main">core.plugin.command-executor.main</a></li><li><a href="#core.plugin.echo.main">core.plugin.echo.main</a></li><li><a href="#core.plugin.nrepl.main">core.plugin.nrepl.main</a></li><li><a href="#core.state">core.state</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#core.bus" name="core.bus"><h1 class="project-name">core.bus</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>the common message bus</p>
 </td><td class="codes"><pre class="brush: clojure">(ns core.bus
   (:require (core [state :as state]))
   (:require [clojure.core.async
@@ -3167,7 +3167,7 @@ net.brehaut.ClojureTools = (function (SH) {
     ([sub-ch verbose?]
        (let [chan-op (fn [ch]
                        (&lt;!! ch))]
-         (what-is-said sub-ch verbose? chan-op)))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#core.init" name="core.init"><h1 class="project-name">core.init</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+         (what-is-said sub-ch verbose? chan-op)))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#core.init" name="core.init"><h1 class="project-name">core.init</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>initialization procedures</p>
 </td><td class="codes"><pre class="brush: clojure">(ns core.init
   (:require
    (core [state :as state]
@@ -3218,7 +3218,7 @@ net.brehaut.ClojureTools = (function (SH) {
   ;; compile-time require will put the plugin on classpath
   (doseq [plugin plugins]
     (require (plugin/get-plugin-main-entry plugin)))
-  `(set-default-plugins ~@(map (fn [plugin] `'~plugin) plugins)))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#core.main" name="core.main"><h1 class="project-name">core.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+  `(set-default-plugins ~@(map (fn [plugin] `'~plugin) plugins)))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#core.main" name="core.main"><h1 class="project-name">core.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>main procedures</p>
 </td><td class="codes"><pre class="brush: clojure">(ns core.main
   (:require (core [init :as init]
                   [plugin :as plugin]
@@ -3273,7 +3273,7 @@ net.brehaut.ClojureTools = (function (SH) {
     (finally
       (plugin/execute-all-exit-hooks)
       ;; http://clojuredocs.org/clojure_core/clojure.java.shell/sh#example_896
-      (shutdown-agents))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#core.plugin" name="core.plugin"><h1 class="project-name">core.plugin</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+      (shutdown-agents))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#core.plugin" name="core.plugin"><h1 class="project-name">core.plugin</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>the plugin infrastructure</p>
 </td><td class="codes"><pre class="brush: clojure">(ns core.plugin
   (:require (core [bus :as bus]))
   (:require [clojure.stacktrace :refer [print-stack-trace]]
@@ -3561,7 +3561,79 @@ net.brehaut.ClojureTools = (function (SH) {
 </td><td class="codes"><pre class="brush: clojure">(defn execute-all-exit-hooks
   []
   (doseq [[_ hook] @exit-hooks]
-    (hook)))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#core.plugin.echo.main" name="core.plugin.echo.main"><h1 class="project-name">core.plugin.echo.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+    (hook)))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#core.plugin.command-executor.main" name="core.plugin.command-executor.main"><h1 class="project-name">core.plugin.command-executor.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>listen for commands on bus and execute them</p>
+</td><td class="codes"><pre class="brush: clojure">(ns core.plugin.command-executor.main
+  (:require (core [init :as init]
+                  [state :as state]
+                  [bus :as bus]
+                  [plugin :as plugin]))
+  (:require [clojure.core.async :as async
+             :refer [chan &lt;!!]]))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(def defaults
+  (atom
+   {
+    :stop-unblock-tag :stop-core.plugin.command-executor
+    }))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(defn populate-parse-opts-vector
+  [current-parse-opts-vector]
+  (init/add-to-parse-opts-vector [
+                                  [nil
+                                   &quot;--no-command-executor&quot;
+                                   &quot;disable command executor&quot;]
+                                  ]))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(defn init
+  [options]
+  (let [no-command-executor (:no-command-executor options)]
+    (when-not no-command-executor
+      true)))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(defn run
+  [options]
+  (let [verbose (:verbose options)
+        ch (chan)]
+    (plugin/blocking-jail [
+                           ;; timeout
+                           nil
+                           ;; unblock-tag
+                           (:stop-unblock-tag @defaults)
+                           ;; finalization
+                           (do
+                             (bus/unsub-topic ch :command))
+                           ;; verbose
+                           verbose
+                           ]
+                          (bus/sub-topic ch :command)
+                          ;; listen for model update
+                          (loop [said (&lt;!! ch)]
+                            (let [topic (bus/get-message-topic said)
+                                  content (bus/remove-message-topic said)]
+                              (case topic
+                                :command
+                                (do
+                                  (let [command (:command content)
+                                        param (:param content)
+                                        command-impl (state/get-command command)]
+                                    (when command-impl
+                                      (bus/say!! :response
+                                                 {:command command
+                                                  :result (command-impl param)}
+                                                 verbose))))
+                                :else))
+                            (recur (&lt;!! ch))))))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(defn stop
+  []
+  (plugin/set-state-entry :core.plugin.command-executor
+                          :stop true)
+  (plugin/unblock-thread (:stop-unblock-tag @defaults)))</pre></td></tr><tr><td class="docs"><p>the config map</p>
+</td><td class="codes"><pre class="brush: clojure">(def config-map
+  {
+   :populate-parse-opts-vector populate-parse-opts-vector
+   :init init
+   :run run
+   :stop stop
+   :param {
+           :priority 1
+           :auto-restart true
+           }})</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#core.plugin.echo.main" name="core.plugin.echo.main"><h1 class="project-name">core.plugin.echo.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>echo bus messages</p>
 </td><td class="codes"><pre class="brush: clojure">(ns core.plugin.echo.main
   (:require (core [init :as init]
                   [state :as state]
@@ -3615,7 +3687,7 @@ net.brehaut.ClojureTools = (function (SH) {
    :stop stop
    :param {:priority 100                ; echo needs to be run first in order to capture all transcripts
            :auto-restart false
-           }})</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#core.plugin.nrepl.main" name="core.plugin.nrepl.main"><h1 class="project-name">core.plugin.nrepl.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+           }})</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#core.plugin.nrepl.main" name="core.plugin.nrepl.main"><h1 class="project-name">core.plugin.nrepl.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>start nREPL server</p>
 </td><td class="codes"><pre class="brush: clojure">(ns core.plugin.nrepl.main
   (:require (core [init :as init]
                   [state :as state]
@@ -3687,13 +3759,11 @@ net.brehaut.ClojureTools = (function (SH) {
    :run run
    :stop stop
    :param {:priority 0
-           :auto-restart true}})</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#core.state" name="core.state"><h1 class="project-name">core.state</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+           :auto-restart true}})</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#core.state" name="core.state"><h1 class="project-name">core.state</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>global (rather than plugin) state</p>
 </td><td class="codes"><pre class="brush: clojure">(ns core.state)</pre></td></tr><tr><td class="docs">
-</td><td class="codes"><pre class="brush: clojure">(declare add-state
-         get-state
-         reset-state
-         update-state
-         remove-state)</pre></td></tr><tr><td class="docs"><p>global state</p>
+</td><td class="codes"><pre class="brush: clojure">(declare add-state get-state reset-state update-state remove-state
+
+         register-command get-command)</pre></td></tr><tr><td class="docs"><p>global state</p>
 </td><td class="codes"><pre class="brush: clojure">(def ^:dynamic *state*
   (atom {}))</pre></td></tr><tr><td class="docs"><p>add the state with the init</p>
 </td><td class="codes"><pre class="brush: clojure">(defn add-state 
@@ -3710,5 +3780,29 @@ net.brehaut.ClojureTools = (function (SH) {
   (apply swap! *state* update-in [state] f args))</pre></td></tr><tr><td class="docs"><p>remote the state</p>
 </td><td class="codes"><pre class="brush: clojure">(defn remove-state 
   [state]
-  (swap! *state* dissoc state))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr></table><div class="footer">Generated by <a href="https://github.com/fogus/marginalia">Marginalia</a>.&nbsp;&nbsp;Syntax highlighting provided by Alex Gorbatchev's <a href="http://alexgorbatchev.com/SyntaxHighlighter/">SyntaxHighlighter</a></div><script type="text/javascript">SyntaxHighlighter.defaults['gutter'] = false;
+  (swap! *state* dissoc state))</pre></td></tr><tr><td class="docs"><p>special states</p>
+</td><td class="codes"></td></tr><tr><td class="docs"><p>register command to command dispatcherundo register-commandget commandlist all commandsdefine and register the command</p>
+
+<p>command dispatcher</p>
+</td><td class="codes"><pre class="brush: clojure">(let [state-name :command-dispatch]
+  (defn register-command
+    [command command-impl]
+    (update-state state-name
+                  assoc command command-impl))
+  (defn unregister-command
+    [command]
+    (update-state state-name
+                  dissoc command))
+  (defn get-command
+    [command]
+    (get (get-state state-name) command))
+  (defn list-commands
+    []
+    (keys (get-state state-name)))
+  (defmacro defcommand
+    [command &amp; body]
+    `(do
+       (defn ~command
+         ~@body)
+       (register-command ~(keyword command) ~command))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr></table><div class="footer">Generated by <a href="https://github.com/fogus/marginalia">Marginalia</a>.&nbsp;&nbsp;Syntax highlighting provided by Alex Gorbatchev's <a href="http://alexgorbatchev.com/SyntaxHighlighter/">SyntaxHighlighter</a></div><script type="text/javascript">SyntaxHighlighter.defaults['gutter'] = false;
        SyntaxHighlighter.all()</script></body></html>

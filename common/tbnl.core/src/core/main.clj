@@ -1,4 +1,5 @@
 (ns core.main
+  "main procedures"
   (:require (core [init :as init]
                   [plugin :as plugin]
                   [state :as state]))

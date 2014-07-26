@@ -1,4 +1,5 @@
 (ns figurehead.plugin.monitor.main
+  "monitor Activities"
   (:require (figurehead.util [services :as services :refer [get-service]]))
   (:require (figurehead.api.app [activity-controller :as activity-controller]))
   (:require (core [init :as init]

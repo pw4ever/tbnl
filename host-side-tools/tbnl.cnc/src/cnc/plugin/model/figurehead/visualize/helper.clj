@@ -1,4 +1,5 @@
 (ns cnc.plugin.model.figurehead.visualize.helper
+  "helpers for visualizing figurehead monitor model"
   (:use
    [clojure.core.async :as async
     :only [chan 

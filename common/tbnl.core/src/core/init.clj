@@ -1,4 +1,5 @@
 (ns core.init
+  "initialization procedures"
   (:require
    (core [state :as state]
          [plugin :as plugin])))

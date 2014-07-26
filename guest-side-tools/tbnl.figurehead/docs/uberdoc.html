@@ -3029,7 +3029,7 @@ net.brehaut.ClojureTools = (function (SH) {
   };
 })(SyntaxHighlighter);
 </script><title>info.voidstar/tbnl.figurehead -- Marginalia</title></head><body><table><tr><td class="docs"><div class="header"><h1 class="project-name">info.voidstar/tbnl.figurehead</h1><h2 class="project-version">0.1.0-SNAPSHOT</h2><br /><p>figurehead sits on device and is controlled by mastermind</p>
-</div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure-android/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.6.0-RC1</td></tr><tr><td class="dep-name">org.clojars.pw4ever/neko-sdk18</td><td class="dotted"><hr /></td><td class="dep-version">3.0.2</td></tr><tr><td class="dep-name">info.voidstar/tbnl.core</td><td class="dotted"><hr /></td><td class="dep-version">0.1.0-SNAPSHOT</td></tr><tr><td class="dep-name">org.clojure/core.async</td><td class="dotted"><hr /></td><td class="dep-version">0.1.303.0-886421-alpha</td></tr><tr><td class="dep-name">org.clojure/tools.nrepl</td><td class="dotted"><hr /></td><td class="dep-version">0.2.3</td></tr><tr><td class="dep-name">cider/cider-nrepl</td><td class="dotted"><hr /></td><td class="dep-version">0.7.0-SNAPSHOT</td></tr><tr><td class="dep-name">commons-io/commons-io</td><td class="dotted"><hr /></td><td class="dep-version">2.4</td></tr><tr><td class="dep-name">clojure-complete</td><td class="dotted"><hr /></td><td class="dep-version">0.2.3</td></tr><tr><td class="dep-name">compliment</td><td class="dotted"><hr /></td><td class="dep-version">0.1.1</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left almost blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#figurehead.api.app.activity-controller">figurehead.api.app.activity-controller</a></li><li><a href="#figurehead.api.app.activity-manager">figurehead.api.app.activity-manager</a></li><li><a href="#figurehead.api.content.intent">figurehead.api.content.intent</a></li><li><a href="#figurehead.api.content.pm.package-manager">figurehead.api.content.pm.package-manager</a></li><li><a href="#figurehead.api.content.pm.package-manager-parser">figurehead.api.content.pm.package-manager-parser</a></li><li><a href="#figurehead.api.view.input">figurehead.api.view.input</a></li><li><a href="#figurehead.main">figurehead.main</a></li><li><a href="#figurehead.plugin.command-executor.main">figurehead.plugin.command-executor.main</a></li><li><a href="#figurehead.plugin.mastermind.main">figurehead.plugin.mastermind.main</a></li><li><a href="#figurehead.plugin.monitor.main">figurehead.plugin.monitor.main</a></li><li><a href="#figurehead.plugin.nrepl.helper">figurehead.plugin.nrepl.helper</a></li><li><a href="#figurehead.plugin.nrepl.main">figurehead.plugin.nrepl.main</a></li><li><a href="#figurehead.util.init">figurehead.util.init</a></li><li><a href="#figurehead.util.routines">figurehead.util.routines</a></li><li><a href="#figurehead.util.services">figurehead.util.services</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.app.activity-controller" name="figurehead.api.app.activity-controller"><h1 class="project-name">figurehead.api.app.activity-controller</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+</div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure-android/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.6.0-RC1</td></tr><tr><td class="dep-name">org.clojars.pw4ever/neko-sdk18</td><td class="dotted"><hr /></td><td class="dep-version">3.0.2</td></tr><tr><td class="dep-name">info.voidstar/tbnl.core</td><td class="dotted"><hr /></td><td class="dep-version">0.1.0-SNAPSHOT</td></tr><tr><td class="dep-name">org.clojure/core.async</td><td class="dotted"><hr /></td><td class="dep-version">0.1.303.0-886421-alpha</td></tr><tr><td class="dep-name">org.clojure/tools.nrepl</td><td class="dotted"><hr /></td><td class="dep-version">0.2.3</td></tr><tr><td class="dep-name">cider/cider-nrepl</td><td class="dotted"><hr /></td><td class="dep-version">0.7.0-SNAPSHOT</td></tr><tr><td class="dep-name">commons-io/commons-io</td><td class="dotted"><hr /></td><td class="dep-version">2.4</td></tr><tr><td class="dep-name">clojure-complete</td><td class="dotted"><hr /></td><td class="dep-version">0.2.3</td></tr><tr><td class="dep-name">compliment</td><td class="dotted"><hr /></td><td class="dep-version">0.1.1</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left almost blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#figurehead.api.app.activity-controller">figurehead.api.app.activity-controller</a></li><li><a href="#figurehead.api.app.activity-manager">figurehead.api.app.activity-manager</a></li><li><a href="#figurehead.api.content.intent">figurehead.api.content.intent</a></li><li><a href="#figurehead.api.content.pm.package-manager">figurehead.api.content.pm.package-manager</a></li><li><a href="#figurehead.api.content.pm.package-manager-parser">figurehead.api.content.pm.package-manager-parser</a></li><li><a href="#figurehead.api.view.input">figurehead.api.view.input</a></li><li><a href="#figurehead.main">figurehead.main</a></li><li><a href="#figurehead.plugin.mastermind.main">figurehead.plugin.mastermind.main</a></li><li><a href="#figurehead.plugin.monitor.main">figurehead.plugin.monitor.main</a></li><li><a href="#figurehead.plugin.nrepl.helper">figurehead.plugin.nrepl.helper</a></li><li><a href="#figurehead.plugin.nrepl.main">figurehead.plugin.nrepl.main</a></li><li><a href="#figurehead.util.init">figurehead.util.init</a></li><li><a href="#figurehead.util.routines">figurehead.util.routines</a></li><li><a href="#figurehead.util.services">figurehead.util.services</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.app.activity-controller" name="figurehead.api.app.activity-controller"><h1 class="project-name">figurehead.api.app.activity-controller</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.api.app.activity-controller
   (:require (figurehead.util [services :as services :refer [get-service]]))
   (:require [clojure.string :as str]
@@ -3090,8 +3090,9 @@ net.brehaut.ClojureTools = (function (SH) {
                                           (system-not-responding msg)
                                           1)))))]
     (.setActivityController activity-manager
-                            activity-controller)))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.app.activity-manager" name="figurehead.api.app.activity-manager"><h1 class="project-name">figurehead.api.app.activity-manager</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+                            activity-controller)))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.app.activity-manager" name="figurehead.api.app.activity-manager"><h1 class="project-name">figurehead.api.app.activity-manager</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>am (Activity Manager) wrapper</p>
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.api.app.activity-manager
+  (:require (core [state :as state :refer [defcommand]]))
   (:require (figurehead.util [services :as services :refer [get-service]])
             (figurehead.api.content [intent :as intent]))
   (:require [clojure.string :as str]
@@ -3109,7 +3110,7 @@ net.brehaut.ClojureTools = (function (SH) {
          send-broadcast
          hang
          intent-to-uri)</pre></td></tr><tr><td class="docs"><p>start an Activity (accept all figurehead.api.content.intent/make-intent arguments)</p>
-</td><td class="codes"><pre class="brush: clojure">(defn start-activity
+</td><td class="codes"><pre class="brush: clojure">(defcommand start-activity
   [{:keys [wait?]
     :as args}]
   (let [intent ^Intent (intent/make-intent args)
@@ -3133,7 +3134,7 @@ net.brehaut.ClojureTools = (function (SH) {
             (startActivityAsUser nil nil ^Intent intent ^String @mime-type
                                  nil nil 0 0
                                  nil nil nil 0))))))</pre></td></tr><tr><td class="docs"><p>start Service (accept all figurehead.api.content.intent/make-intent arguments)</p>
-</td><td class="codes"><pre class="brush: clojure">(defn start-service
+</td><td class="codes"><pre class="brush: clojure">(defcommand start-service
   [{:keys []
     :as args}]
   (let [intent ^Intent (intent/make-intent args)
@@ -3141,22 +3142,22 @@ net.brehaut.ClojureTools = (function (SH) {
     (when intent
       (.. activity-manager
           ^ComponentName (startService nil intent (.getType intent) 0)))))</pre></td></tr><tr><td class="docs"><p>force stop a Package</p>
-</td><td class="codes"><pre class="brush: clojure">(defn force-stop
+</td><td class="codes"><pre class="brush: clojure">(defcommand force-stop
   [{:keys [package]
     :as args}]
   (let [activity-manager ^IActivityManager (get-service :activity-manager)]
     (.forceStopPackage activity-manager package 0)))</pre></td></tr><tr><td class="docs"><p>kill a Package</p>
-</td><td class="codes"><pre class="brush: clojure">(defn kill
+</td><td class="codes"><pre class="brush: clojure">(defcommand kill
   [{:keys [package]
     :as args}]
   (let [activity-manager ^IActivityManager (get-service :activity-manager)]
     (.killBackgroundProcesses activity-manager package 0)))</pre></td></tr><tr><td class="docs"><p>kill all Packages</p>
-</td><td class="codes"><pre class="brush: clojure">(defn kill-all
+</td><td class="codes"><pre class="brush: clojure">(defcommand kill-all
   [{:keys []
     :as args}]
   (let [activity-manager ^IActivityManager (get-service :activity-manager)]
     (.killAllBackgroundProcesses activity-manager)))</pre></td></tr><tr><td class="docs"><p>send broadcast</p>
-</td><td class="codes"><pre class="brush: clojure">(defn send-broadcast
+</td><td class="codes"><pre class="brush: clojure">(defcommand send-broadcast
   [{:keys [perform-receive
            receiver-permission]
     :as args}]
@@ -3177,26 +3178,29 @@ net.brehaut.ClojureTools = (function (SH) {
                         nil intent nil intent-receiver
                         0 nil nil receiver-permission
                         AppOpsManager/OP_NONE true false 0))))</pre></td></tr><tr><td class="docs"><p>hang</p>
-</td><td class="codes"><pre class="brush: clojure">(defn hang
+</td><td class="codes"><pre class="brush: clojure">(defcommand hang
   [{:keys [allow-restart]
     :as args}]
   (let [activity-manager ^IActivityManager (get-service :activity-manager)]
     (.hang activity-manager (Binder.) allow-restart)))</pre></td></tr><tr><td class="docs"><p>convert intent to URI</p>
-</td><td class="codes"><pre class="brush: clojure">(defn intent-to-uri
+</td><td class="codes"><pre class="brush: clojure">(defcommand intent-to-uri
   [{:keys [intent-scheme?]
     :as args}]
   (let [intent ^Intent (intent/make-intent args)]
     (when (and intent)
       (.toUri intent (if intent-scheme?
                        Intent/URI_INTENT_SCHEME
-                       0)))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.content.intent" name="figurehead.api.content.intent"><h1 class="project-name">figurehead.api.content.intent</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>https://github.com/android/platform<em>frameworks</em>base/blob/android-4.3_r3.1/cmds/am/src/com/android/commands/am/Am.java#L479</p>
+                       0)))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.content.intent" name="figurehead.api.content.intent"><h1 class="project-name">figurehead.api.content.intent</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>create android.content.Intent</p>
+
+<p>https://github.com/android/platform<em>frameworks</em>base/blob/android-4.3_r3.1/cmds/am/src/com/android/commands/am/Am.java#L479</p>
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.api.content.intent
+  (:require (core [state :as state :refer [defcommand]]))
   (:import (android.content Intent
                             ComponentName)
            (android.os Bundle)
            (android.net Uri)))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(declare make-intent)</pre></td></tr><tr><td class="docs"><p>make an Intent object</p>
-</td><td class="codes"><pre class="brush: clojure">(defn make-intent
+</td><td class="codes"><pre class="brush: clojure">(defcommand make-intent
   [{:keys [action
            categories
            extras
@@ -3256,8 +3260,11 @@ net.brehaut.ClojureTools = (function (SH) {
                 (.setAction ^Intent intent Intent/ACTION_MAIN)
                 (.addCategory ^Intent intent Intent/CATEGORY_LAUNCHER)
                 (.setPackage ^Intent intent wild-card)))))
-    intent))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.content.pm.package-manager" name="figurehead.api.content.pm.package-manager"><h1 class="project-name">figurehead.api.content.pm.package-manager</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>https://github.com/android/platform<em>frameworks</em>base/blob/android-4.3_r3.1/cmds/pm/src/com/android/commands/pm/Pm.java</p>
+    intent))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.content.pm.package-manager" name="figurehead.api.content.pm.package-manager"><h1 class="project-name">figurehead.api.content.pm.package-manager</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>pm (Package Manager) wrapper</p>
+
+<p>https://github.com/android/platform<em>frameworks</em>base/blob/android-4.3_r3.1/cmds/pm/src/com/android/commands/pm/Pm.java</p>
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.api.content.pm.package-manager
+  (:require (core [state :as state :refer [defcommand]]))  
   (:require (figurehead.util [services :as services :refer [get-service]]))
   (:require [figurehead.api.content.pm.package-manager-parser :as parser])
   (:require [clojure.string :as str]
@@ -3312,7 +3319,7 @@ net.brehaut.ClojureTools = (function (SH) {
          make-package-install-observer install-package
          make-package-delete-observer uninstall-package
          make-package-data-observer clear-package-data)</pre></td></tr><tr><td class="docs"><p>get all packages on this device</p>
-</td><td class="codes"><pre class="brush: clojure">(defn get-raw-packages
+</td><td class="codes"><pre class="brush: clojure">(defcommand get-raw-packages
   [{:keys []
     :as args}]
   (let [^IPackageManager package-manager (get-service :package-manager)]
@@ -3333,7 +3340,7 @@ net.brehaut.ClojureTools = (function (SH) {
                          0)
                         getList)]
       (seq packages))))</pre></td></tr><tr><td class="docs"><p>get all packages on this device</p>
-</td><td class="codes"><pre class="brush: clojure">(defn get-packages
+</td><td class="codes"><pre class="brush: clojure">(defcommand get-packages
   [{:keys [brief?]
     :as args}]
   (let [packages (get-raw-packages {})
@@ -3345,7 +3352,7 @@ net.brehaut.ClojureTools = (function (SH) {
                (when-not brief?
                  package))))
     @result))</pre></td></tr><tr><td class="docs"><p>get list of package names</p>
-</td><td class="codes"><pre class="brush: clojure">(defn get-all-package-names
+</td><td class="codes"><pre class="brush: clojure">(defcommand get-all-package-names
   [{:keys []
     :as args}]
   (let [packages (get-raw-packages {})
@@ -3354,7 +3361,7 @@ net.brehaut.ClojureTools = (function (SH) {
       (swap! result conj
              (keyword (.packageName package))))
     @result))</pre></td></tr><tr><td class="docs"><p>get app components for a specific package</p>
-</td><td class="codes"><pre class="brush: clojure">(defn get-package-components
+</td><td class="codes"><pre class="brush: clojure">(defcommand get-package-components
   [{:keys [package]
     :as args}]
   (when package
@@ -3386,14 +3393,14 @@ net.brehaut.ClojureTools = (function (SH) {
                            (keyword (.name receiver))))
          :permissions (set (for [^PermissionInfo permission (.permissions pkg-info)]
                              (keyword (.name permission))))}))))</pre></td></tr><tr><td class="docs"><p>get all features on this device</p>
-</td><td class="codes"><pre class="brush: clojure">(defn get-raw-features
+</td><td class="codes"><pre class="brush: clojure">(defcommand get-raw-features
   [{:keys []
     :as args}]
   (let [^IPackageManager package-manager (get-service :package-manager)]
     (let [features  (.. package-manager
                         getSystemAvailableFeatures)]
       (seq features))))</pre></td></tr><tr><td class="docs"><p>get all features on this device</p>
-</td><td class="codes"><pre class="brush: clojure">(defn get-features
+</td><td class="codes"><pre class="brush: clojure">(defcommand get-features
   [{:keys [brief?]
     :as args}]
   (let [features (get-raw-features {})
@@ -3405,14 +3412,14 @@ net.brehaut.ClojureTools = (function (SH) {
                (when-not brief?
                  feature))))
     @result))</pre></td></tr><tr><td class="docs"><p>get all libraries on this device</p>
-</td><td class="codes"><pre class="brush: clojure">(defn get-raw-libraries
+</td><td class="codes"><pre class="brush: clojure">(defcommand get-raw-libraries
   [{:keys []
     :as args}]
   (let [^IPackageManager package-manager (get-service :package-manager)]
     (let [libraries  (.. package-manager
                         getSystemSharedLibraryNames)]
       (seq libraries))))</pre></td></tr><tr><td class="docs"><p>get all libraries on this device</p>
-</td><td class="codes"><pre class="brush: clojure">(defn get-libraries
+</td><td class="codes"><pre class="brush: clojure">(defcommand get-libraries
   [{:keys []
     :as args}]
   (let [libraries (get-raw-libraries {})
@@ -3421,14 +3428,14 @@ net.brehaut.ClojureTools = (function (SH) {
       (swap! result conj
              library))
     @result))</pre></td></tr><tr><td class="docs"><p>get installed instrumentations on this device, optional for a specific package</p>
-</td><td class="codes"><pre class="brush: clojure">(defn get-raw-instrumentations
+</td><td class="codes"><pre class="brush: clojure">(defcommand get-raw-instrumentations
   [{:keys [^String package]
     :as args}]
   (let [^IPackageManager package-manager (get-service :package-manager)]
     (let [instrumentations  (.. package-manager
                                 (queryInstrumentation package 0))]
       (seq instrumentations))))</pre></td></tr><tr><td class="docs"><p>get installed instrumentations on this device, optional for a specific package</p>
-</td><td class="codes"><pre class="brush: clojure">(defn get-instrumentations
+</td><td class="codes"><pre class="brush: clojure">(defcommand get-instrumentations
   [{:keys [^String package
            brief?]
     :as args}]
@@ -3441,14 +3448,14 @@ net.brehaut.ClojureTools = (function (SH) {
                (when-not brief?
                  instrumentation))))
     @result))</pre></td></tr><tr><td class="docs"><p>get permission groups</p>
-</td><td class="codes"><pre class="brush: clojure">(defn get-raw-permission-groups
+</td><td class="codes"><pre class="brush: clojure">(defcommand get-raw-permission-groups
   [{:keys []
     :as args}]
   (let [^IPackageManager package-manager (get-service :package-manager)]
     (let [permission-groups (.. package-manager
                                 (getAllPermissionGroups 0))]
       (seq permission-groups))))</pre></td></tr><tr><td class="docs"><p>get all permissions by group</p>
-</td><td class="codes"><pre class="brush: clojure">(defn get-permissions-by-group
+</td><td class="codes"><pre class="brush: clojure">(defcommand get-permissions-by-group
   [{:keys [brief?]
     :as args}]
   (let [permission-groups (get-raw-permission-groups {})
@@ -3474,7 +3481,7 @@ net.brehaut.ClojureTools = (function (SH) {
                                       permission))))
                          @result)}))))
     @result))</pre></td></tr><tr><td class="docs"><p>get install location</p>
-</td><td class="codes"><pre class="brush: clojure">(defn get-install-location
+</td><td class="codes"><pre class="brush: clojure">(defcommand get-install-location
   [{:keys []
     :as args}]
   (let [^IPackageManager package-manager (get-service :package-manager)
@@ -3484,7 +3491,7 @@ net.brehaut.ClojureTools = (function (SH) {
      (= location PackageHelper/APP_INSTALL_EXTERNAL) :external
      (= location PackageHelper/APP_INSTALL_INTERNAL) :internal
      :else location)))</pre></td></tr><tr><td class="docs"><p>set install location</p>
-</td><td class="codes"><pre class="brush: clojure">(defn set-install-location
+</td><td class="codes"><pre class="brush: clojure">(defcommand set-install-location
   [{:keys [location]
     :or {location 0}
     :as args}]
@@ -3505,7 +3512,7 @@ net.brehaut.ClojureTools = (function (SH) {
     (when location
       (let [^IPackageManager package-manager (get-service :package-manager)]
         (.setInstallLocation package-manager location)))))</pre></td></tr><tr><td class="docs"><p>push file to device</p>
-</td><td class="codes"><pre class="brush: clojure">(defn push-file
+</td><td class="codes"><pre class="brush: clojure">(defcommand push-file
   [{:keys [^String content-in-base64
            file-name]
     :as args}]
@@ -3513,7 +3520,7 @@ net.brehaut.ClojureTools = (function (SH) {
     (with-open [the-file (io/output-stream (io/file file-name))]
       (.write the-file ^bytes (Base64/decode content-in-base64
                                              Base64/DEFAULT)))))</pre></td></tr><tr><td class="docs"><p>pull file from device</p>
-</td><td class="codes"><pre class="brush: clojure">(defn pull-file
+</td><td class="codes"><pre class="brush: clojure">(defcommand pull-file
   [{:keys [file-name]
     :as args}]
   (when (and file-name)
@@ -3521,7 +3528,7 @@ net.brehaut.ClojureTools = (function (SH) {
      (FileUtils/readFileToByteArray (io/file file-name))
      (bit-or Base64/NO_WRAP
              0))))</pre></td></tr><tr><td class="docs"><p>make instance of IPackageInstallObserver$Stub</p>
-</td><td class="codes"><pre class="brush: clojure">(defn make-package-install-observer
+</td><td class="codes"><pre class="brush: clojure">(defcommand make-package-install-observer
   [{:keys [package-installed]
     :as args}]
   (proxy
@@ -3531,7 +3538,7 @@ net.brehaut.ClojureTools = (function (SH) {
       (locking this
         (when package-installed
           (package-installed package-name status))))))</pre></td></tr><tr><td class="docs"><p>install package</p>
-</td><td class="codes"><pre class="brush: clojure">(defn install-package
+</td><td class="codes"><pre class="brush: clojure">(defcommand install-package
   [{:keys [apk-file-name
            package-name
            forward-lock?
@@ -3570,7 +3577,7 @@ net.brehaut.ClojureTools = (function (SH) {
                            package-name)
           @finished?
           @result)))))</pre></td></tr><tr><td class="docs"><p>make instance of IPackageDeleteObserver$Stub</p>
-</td><td class="codes"><pre class="brush: clojure">(defn make-package-delete-observer
+</td><td class="codes"><pre class="brush: clojure">(defcommand make-package-delete-observer
   [{:keys [package-deleted]
     :as args}]
   (proxy
@@ -3580,7 +3587,7 @@ net.brehaut.ClojureTools = (function (SH) {
       (locking this
         (when package-deleted
           (package-deleted package-name return-code))))))</pre></td></tr><tr><td class="docs"><p>uninstall package</p>
-</td><td class="codes"><pre class="brush: clojure">(defn uninstall-package
+</td><td class="codes"><pre class="brush: clojure">(defcommand uninstall-package
   [{:keys [package
            keep-data?]
     :or {keep-data? true}
@@ -3604,7 +3611,7 @@ net.brehaut.ClojureTools = (function (SH) {
                             @flags)
       @finished?
       @successful?)))</pre></td></tr><tr><td class="docs"><p>make instance of IPackageDataObserver$Stub</p>
-</td><td class="codes"><pre class="brush: clojure">(defn make-package-data-observer
+</td><td class="codes"><pre class="brush: clojure">(defcommand make-package-data-observer
   [{:keys [on-remove-completed]
     :as args}]
   (proxy
@@ -3614,7 +3621,7 @@ net.brehaut.ClojureTools = (function (SH) {
       (locking this
         (when on-remove-completed
           (on-remove-completed package-name succeeded))))))</pre></td></tr><tr><td class="docs"><p>clear package data</p>
-</td><td class="codes"><pre class="brush: clojure">(defn clear-package-data
+</td><td class="codes"><pre class="brush: clojure">(defcommand clear-package-data
   [{:keys [package]
     :as args}]
   (when package
@@ -3631,7 +3638,7 @@ net.brehaut.ClojureTools = (function (SH) {
                                      (deliver finished? true))})
                                  UserHandle/USER_OWNER)
       @finished?
-      @successful?)))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.content.pm.package-manager-parser" name="figurehead.api.content.pm.package-manager-parser"><h1 class="project-name">figurehead.api.content.pm.package-manager-parser</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+      @successful?)))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.content.pm.package-manager-parser" name="figurehead.api.content.pm.package-manager-parser"><h1 class="project-name">figurehead.api.content.pm.package-manager-parser</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>parse Package Manager objects into Clojure data structures</p>
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.api.content.pm.package-manager-parser
   (:require (figurehead.util [services :as services :refer [get-service]]))
   (:import (android.content ComponentName)
@@ -4215,8 +4222,11 @@ net.brehaut.ClojureTools = (function (SH) {
                                     ServiceInfo/FLAG_STOP_WITH_TASK)
                        (swap! flags conj :stop-with-task)))
                   (.flags service))
-          :permission (.permission service)}))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.view.input" name="figurehead.api.view.input"><h1 class="project-name">figurehead.api.view.input</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>https://github.com/android/platform<em>frameworks</em>base/blob/android-4.3_r3.1/cmds/input/src/com/android/commands/input/Input.java</p>
+          :permission (.permission service)}))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.view.input" name="figurehead.api.view.input"><h1 class="project-name">figurehead.api.view.input</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>input (Input Events) wrapper</p>
+
+<p>https://github.com/android/platform<em>frameworks</em>base/blob/android-4.3_r3.1/cmds/input/src/com/android/commands/input/Input.java</p>
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.api.view.input
+  (:require (core [state :as state :refer [defcommand]]))  
   (:require (figurehead.util [services :as services :refer [get-service]]))
   (:require [clojure.string :as str]
             [clojure.java.io :as io])
@@ -4236,13 +4246,13 @@ net.brehaut.ClojureTools = (function (SH) {
  send-tap send-swipe send-move
  inject-key-event inject-motion-event)</pre></td></tr><tr><td class="docs"><p>porcelain</p>
 </td><td class="codes"></td></tr><tr><td class="docs">
-</td><td class="codes"><pre class="brush: clojure">(defn text
+</td><td class="codes"><pre class="brush: clojure">(defcommand text
   [{:keys [^String text]
     :as args}]
   (when text
     (send-text (merge args
                       {:text text}))))</pre></td></tr><tr><td class="docs">
-</td><td class="codes"><pre class="brush: clojure">(defn key-event
+</td><td class="codes"><pre class="brush: clojure">(defcommand key-event
   [{:keys [^String key-code meta-state]
     :or {meta-state 0}
     :as args}]
@@ -4268,7 +4278,7 @@ net.brehaut.ClojureTools = (function (SH) {
         (send-key-event (merge args
                                {:key-code key-code
                                 :meta-state meta-state}))))))</pre></td></tr><tr><td class="docs">
-</td><td class="codes"><pre class="brush: clojure">(defn tap
+</td><td class="codes"><pre class="brush: clojure">(defcommand tap
   [{:keys [x y]
     :as args}]
   (when (and x y)
@@ -4276,7 +4286,7 @@ net.brehaut.ClojureTools = (function (SH) {
                      {:input-source InputDevice/SOURCE_TOUCHSCREEN
                       :x x
                       :y y}))))</pre></td></tr><tr><td class="docs">
-</td><td class="codes"><pre class="brush: clojure">(defn swipe
+</td><td class="codes"><pre class="brush: clojure">(defcommand swipe
   [{:keys [x1 y1 x2 y2]
     :as args}]
   (when (and x1 y1 x2 y2)
@@ -4306,19 +4316,19 @@ net.brehaut.ClojureTools = (function (SH) {
                                                                  duration
                                                                  -1)})))))
                            :else))]
-  (defn touchscreen
+  (defcommand touchscreen
     [{:keys [action]
       :as args}]
     (common-procedure InputDevice/SOURCE_TOUCHSCREEN (or action :tap) args))
-  (defn touchpad
+  (defcommand touchpad
     [{:keys [action]
       :as args}]
     (common-procedure InputDevice/SOURCE_TOUCHPAD (or action :tap) args))
-  (defn touch-navigation
+  (defcommand touch-navigation
     [{:keys [action]
       :as args}]
     (common-procedure InputDevice/SOURCE_TOUCH_NAVIGATION (or action :tap) args)))</pre></td></tr><tr><td class="docs">
-</td><td class="codes"><pre class="brush: clojure">(defn trackball
+</td><td class="codes"><pre class="brush: clojure">(defcommand trackball
   [{:keys [action]
     :as args}]
   (let [input-source InputDevice/SOURCE_TRACKBALL]
@@ -4337,13 +4347,13 @@ net.brehaut.ClojureTools = (function (SH) {
                                :dx dx :dy dy})))))
       :else)))</pre></td></tr><tr><td class="docs"><p>plumbing</p>
 </td><td class="codes"></td></tr><tr><td class="docs"><p>convert the characters of string text into key events and send to the device</p>
-</td><td class="codes"><pre class="brush: clojure">(defn send-text
+</td><td class="codes"><pre class="brush: clojure">(defcommand send-text
   [{:keys [^String text]
     :as args}]
   (let [kcm ^KeyCharacterMap (KeyCharacterMap/load KeyCharacterMap/VIRTUAL_KEYBOARD)]
     (doseq [^KeyEvent event (.getEvents kcm (.toCharArray text))]
       (inject-key-event {:event event}))))</pre></td></tr><tr><td class="docs"><p>send key event</p>
-</td><td class="codes"><pre class="brush: clojure">(defn send-key-event
+</td><td class="codes"><pre class="brush: clojure">(defcommand send-key-event
   [{:keys [key-code
            meta-state]
     :or {meta-state 0}
@@ -4354,7 +4364,7 @@ net.brehaut.ClojureTools = (function (SH) {
                                          KeyCharacterMap/VIRTUAL_KEYBOARD 0 0 InputDevice/SOURCE_KEYBOARD)})
     (inject-key-event {:event (KeyEvent. now now KeyEvent/ACTION_UP key-code 0 meta-state
                                          KeyCharacterMap/VIRTUAL_KEYBOARD 0 0 InputDevice/SOURCE_KEYBOARD)})))</pre></td></tr><tr><td class="docs"><p>send tap event</p>
-</td><td class="codes"><pre class="brush: clojure">(defn send-tap
+</td><td class="codes"><pre class="brush: clojure">(defcommand send-tap
   [{:keys [input-source
            x y]
     :or {input-source InputDevice/SOURCE_TOUCHSCREEN}
@@ -4372,7 +4382,7 @@ net.brehaut.ClojureTools = (function (SH) {
                           :x x
                           :y y
                           :pressure 0.0})))</pre></td></tr><tr><td class="docs"><p>send swipe event</p>
-</td><td class="codes"><pre class="brush: clojure">(defn send-swipe
+</td><td class="codes"><pre class="brush: clojure">(defcommand send-swipe
   [{:keys [input-source
            x1 y1
            x2 y2
@@ -4411,7 +4421,7 @@ net.brehaut.ClojureTools = (function (SH) {
                               :x x2
                               :y y2
                               :pressure 0.0})))))</pre></td></tr><tr><td class="docs"><p>send a zero-pressure move event</p>
-</td><td class="codes"><pre class="brush: clojure">(defn send-move
+</td><td class="codes"><pre class="brush: clojure">(defcommand send-move
   [{:keys [input-source
            dx dy]
     :or {input-source InputDevice/SOURCE_TOUCHSCREEN}
@@ -4423,13 +4433,13 @@ net.brehaut.ClojureTools = (function (SH) {
                           :x dx
                           :y dy
                           :pressure 0.0})))</pre></td></tr><tr><td class="docs"><p>inject a key event</p>
-</td><td class="codes"><pre class="brush: clojure">(defn inject-key-event
+</td><td class="codes"><pre class="brush: clojure">(defcommand inject-key-event
   [{:keys [^KeyEvent event]
     :as args}]
   (.. (InputManager/getInstance)
       (injectInputEvent event
                         InputManager/INJECT_INPUT_EVENT_MODE_WAIT_FOR_FINISH)))</pre></td></tr><tr><td class="docs"><p>inject a motion event</p>
-</td><td class="codes"><pre class="brush: clojure">(defn inject-motion-event
+</td><td class="codes"><pre class="brush: clojure">(defcommand inject-motion-event
   [{:keys [input-source
            action
            when
@@ -4449,270 +4459,27 @@ net.brehaut.ClojureTools = (function (SH) {
     (.setSource event input-source)
     (.. (InputManager/getInstance)
         (injectInputEvent event
-                          InputManager/INJECT_INPUT_EVENT_MODE_WAIT_FOR_FINISH))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.main" name="figurehead.main"><h1 class="project-name">figurehead.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+                          InputManager/INJECT_INPUT_EVENT_MODE_WAIT_FOR_FINISH))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.main" name="figurehead.main"><h1 class="project-name">figurehead.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>main entry into Figurehead</p>
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.main
   (:require (figurehead.util [init :as init]))
   (:require (core main
                   init))
   ;; these &quot;require&quot; are needed to handle lein-droid's :aot &quot;removing unused namespace from classpath&quot; feature
   (:require core.plugin.echo.main
+            core.plugin.command-executor.main
             figurehead.plugin.nrepl.main
             figurehead.plugin.monitor.main
-            figurehead.plugin.mastermind.main
-            figurehead.plugin.command-executor.main)
+            figurehead.plugin.mastermind.main)
   (:gen-class))</pre></td></tr><tr><td class="docs"><p>the main entry</p>
 </td><td class="codes"><pre class="brush: clojure">(defn -main
   [&amp; args]
   (init/init)
   (core.init/require-and-set-default-plugins core.plugin.echo
+                                             core.plugin.command-executor
                                              figurehead.plugin.nrepl
                                              figurehead.plugin.monitor
-                                             figurehead.plugin.mastermind
-                                             figurehead.plugin.command-executor)
-  (apply core.main/main args))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.plugin.command-executor.main" name="figurehead.plugin.command-executor.main"><h1 class="project-name">figurehead.plugin.command-executor.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
-</td><td class="codes"><pre class="brush: clojure">(ns figurehead.plugin.command-executor.main
-  (:require (figurehead.api.app [activity-manager :as activity-manager])
-            (figurehead.api.content.pm [package-manager :as package-manager]
-                                       [package-manager-parser :as package-manager-parser])
-            (figurehead.api.content [intent :as intent])
-            (figurehead.api.view [input :as input]))
-  (:require (core [init :as init]
-                  [state :as state]
-                  [bus :as bus]
-                  [plugin :as plugin]))
-  (:require [clojure.core.async :as async :refer [chan close!
-                                                  thread &lt;!! &gt;!!]]
-            [clojure.java.io :as io])
-  (:import (android.content.pm PackageInfo)))</pre></td></tr><tr><td class="docs">
-</td><td class="codes"><pre class="brush: clojure">(def defaults
-  (atom
-   {
-    :stop-unblock-tag :stop-figurehead.plugin.inject.intent
-    }))</pre></td></tr><tr><td class="docs">
-</td><td class="codes"><pre class="brush: clojure">(defn populate-parse-opts-vector
-  [current-parse-opts-vector]
-  (init/add-to-parse-opts-vector [
-                                  [nil
-                                   &quot;--no-command-executor&quot;
-                                   &quot;disable command executor&quot;]
-                                  ]))</pre></td></tr><tr><td class="docs">
-</td><td class="codes"><pre class="brush: clojure">(defn init
-  [options]
-  (let [no-command-executor (:no-command-executor options)]
-    (when-not no-command-executor
-      true)))</pre></td></tr><tr><td class="docs">
-</td><td class="codes"><pre class="brush: clojure">(defn run
-  [options]
-  (let [verbose (:verbose options)
-        ch (chan)]
-    (plugin/blocking-jail [
-                           ;; timeout
-                           nil
-                           ;; unblock-tag
-                           (:stop-unblock-tag @defaults)
-                           ;; finalization
-                           (do
-                             (bus/unsub-topic ch :command))
-                           ;; verbose
-                           verbose
-                           ]
-                          (bus/sub-topic ch :command)
-                          ;; listen for model update
-                          (loop [said (&lt;!! ch)]
-                            (let [topic (bus/get-message-topic said)
-                                  content (bus/remove-message-topic said)]
-                              (case topic
-                                :command
-                                (do
-                                  (let [command (:command content)
-                                        param (:param content)]
-                                    (case command
-                                      :get-raw-packages
-                                      (do
-                                        (bus/say!! :response
-                                                   {:command :get-raw-packages
-                                                    :result (package-manager/get-raw-packages param)}
-                                                   verbose))
-                                      :get-packages
-                                      (do
-                                        (bus/say!! :response
-                                                   {:command :get-packages
-                                                    :result (package-manager/get-packages param)}
-                                                   verbose))
-                                      :get-all-package-names
-                                      (do
-                                        (bus/say!! :response
-                                                   {:command :get-all-package-names
-                                                    :result (package-manager/get-all-package-names param)}
-                                                   verbose))
-                                      :get-package-components
-                                      (do
-                                        (bus/say!! :response
-                                                   {:command :get-package-components
-                                                    :result (package-manager/get-package-components param)}
-                                                   verbose))                                  
-                                      :get-raw-features
-                                      (do
-                                        (bus/say!! :response
-                                                   {:command :get-raw-features
-                                                    :result (package-manager/get-raw-features param)}
-                                                   verbose))
-                                      :get-features
-                                      (do
-                                        (bus/say!! :response
-                                                   {:command :get-features
-                                                    :result (package-manager/get-features param)}
-                                                   verbose))
-                                      :get-raw-libraries
-                                      (do
-                                        (bus/say!! :response
-                                                   {:command :get-raw-libraries
-                                                    :result (package-manager/get-raw-libraries param)}
-                                                   verbose))
-                                      :get-libraries
-                                      (do
-                                        (bus/say!! :response
-                                                   {:command :get-libraries
-                                                    :result (package-manager/get-libraries param)}
-                                                   verbose))
-                                      :get-raw-instrumentations
-                                      (do
-                                        (bus/say!! :response
-                                                   {:command :get-raw-instrumentations
-                                                    :result (package-manager/get-raw-instrumentations param)}
-                                                   verbose))
-                                      :get-instrumentations
-                                      (do
-                                        (bus/say!! :response
-                                                   {:command :get-instrumentations
-                                                    :result (package-manager/get-instrumentations param)}
-                                                   verbose))                                      
-                                      :get-raw-permission-groups
-                                      (do
-                                        (bus/say!! :response
-                                                   {:command :get-raw-permission-groups
-                                                    :result (package-manager/get-raw-permission-groups param)}
-                                                   verbose))
-                                      :get-permissions-by-group
-                                      (do
-                                        (bus/say!! :response
-                                                   {:command :get-permissions-by-group
-                                                    :result (package-manager/get-permissions-by-group param)}
-                                                   verbose))
-                                      :get-install-location
-                                      (do
-                                        (bus/say!! :response
-                                                   {:command :get-install-location
-                                                    :result (package-manager/get-install-location param)}
-                                                   verbose))                                      
-                                      :set-install-location
-                                      (do
-                                        (bus/say!! :response
-                                                   {:command :set-install-location
-                                                    :result (package-manager/set-install-location param)}
-                                                   verbose))                                      
-                                      :push-file
-                                      (do
-                                        (bus/say!! :response
-                                                   {:command :push-file
-                                                    :result (package-manager/push-file param)}
-                                                   verbose))                                      
-                                      :pull-file
-                                      (do
-                                        (bus/say!! :response
-                                                   {:command :pull-file
-                                                    :result (package-manager/pull-file param)}
-                                                   verbose))                                      
-                                      :install-package
-                                      (do
-                                        (bus/say!! :response
-                                                   {:command :install-package
-                                                    :result (package-manager/install-package param)}
-                                                   verbose))                                      
-                                      :uninstall-package
-                                      (do
-                                        (bus/say!! :response
-                                                   {:command :uninstall-package
-                                                    :result (package-manager/uninstall-package param)}
-                                                   verbose))
-                                      :clear-package-data
-                                      (do
-                                        (bus/say!! :response
-                                                   {:command :clear-package-data
-                                                    :result (package-manager/clear-package-data param)}
-                                                   verbose))
-                                      :make-intent
-                                      (do
-                                        (intent/make-intent param))
-                                      :start-activity
-                                      (do
-                                        (activity-manager/start-activity param))
-                                      :start-service
-                                      (do
-                                        (activity-manager/start-service param))
-                                      :force-stop
-                                      (do
-                                        (activity-manager/force-stop param))
-                                      :kill
-                                      (do
-                                        (activity-manager/kill param))
-                                      :kill-all
-                                      (do
-                                        (activity-manager/kill-all param))
-                                      :send-broadcast
-                                      (do
-                                        (activity-manager/send-broadcast param))
-                                      :hang
-                                      (do
-                                        (activity-manager/hang param))
-                                      :intent-to-uri
-                                      (do
-                                        (bus/say!! :response
-                                                   {:command :intent-to-uri
-                                                    :result (activity-manager/intent-to-uri param)}
-                                                   verbose))
-                                      :text
-                                      (do
-                                        (input/text param))
-                                      :key-event
-                                      (do
-                                        (input/key-event param))
-                                      :tap
-                                      (do
-                                        (input/tap param))
-                                      :swipe
-                                      (do
-                                        (input/swipe param))
-                                      :touchscreen
-                                      (do
-                                        (input/touchscreen param))
-                                      :touchpad
-                                      (do
-                                        (input/touchpad param))
-                                      :touch-navigation
-                                      (do
-                                        (input/touch-navigation param))
-                                      :trackball
-                                      (do
-                                        (input/trackball param))
-                                      :else)))
-                                :else))
-                            (recur (&lt;!! ch))))))</pre></td></tr><tr><td class="docs">
-</td><td class="codes"><pre class="brush: clojure">(defn stop
-  []
-  (plugin/set-state-entry :figurehead.plugin.inject.intent
-                          :stop true)
-  (plugin/unblock-thread (:stop-unblock-tag @defaults)))</pre></td></tr><tr><td class="docs"><p>the config map</p>
-</td><td class="codes"><pre class="brush: clojure">(def config-map
-  {
-   :populate-parse-opts-vector populate-parse-opts-vector
-   :init init
-   :run run
-   :stop stop
-   :param {
-           :priority 1
-           :auto-restart true
-           }})</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.plugin.mastermind.main" name="figurehead.plugin.mastermind.main"><h1 class="project-name">figurehead.plugin.mastermind.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+                                             figurehead.plugin.mastermind)
+  (apply core.main/main args))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.plugin.mastermind.main" name="figurehead.plugin.mastermind.main"><h1 class="project-name">figurehead.plugin.mastermind.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>connect to Mastermind</p>
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.plugin.mastermind.main
   (:require (core [init :as init]
                   [state :as state]
@@ -4721,6 +4488,7 @@ net.brehaut.ClojureTools = (function (SH) {
   (:require [clojure.string :as str]
             [clojure.java.io :as io]
             [clojure.stacktrace :refer [print-stack-trace]]
+            [clojure.pprint :refer [pprint]]
             [clojure.core.async
              :as async
              :refer [thread chan &lt;!! &gt;!!]])
@@ -4795,6 +4563,8 @@ net.brehaut.ClojureTools = (function (SH) {
                                                            (let [message (read-string line)
                                                                  topic (bus/get-message-topic message)
                                                                  content (bus/remove-message-topic message)]
+                                                             (when verbose
+                                                               (pprint [:mastermind :reader message]))
                                                              (case topic
                                                                :command
                                                                (do
@@ -4827,17 +4597,18 @@ net.brehaut.ClojureTools = (function (SH) {
                                                          (cond
                                                           ;; do NOT echo these topics back
                                                           (not (contains? #{:command} topic))
-                                                          (do
+                                                          (let [message (bus/build-message topic
+                                                                                           (cond
+                                                                                            (map? content)
+                                                                                            (merge content
+                                                                                                   {:instance instance-id})
+                                                                                            :else
+                                                                                            {:instance instance-id
+                                                                                             :content message}))]
+                                                            (when verbose
+                                                              (pprint [:mastermind :writer message]))
                                                             (.write writer
-                                                                    (prn-str
-                                                                     (bus/build-message topic
-                                                                                        (cond
-                                                                                         (map? content)
-                                                                                         (merge content
-                                                                                                {:instance instance-id})
-                                                                                         :else
-                                                                                         {:instance instance-id
-                                                                                          :content message}))))
+                                                                    (prn-str message))
                                                             (.flush writer))))))))))))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(defn stop
   []
@@ -4850,7 +4621,7 @@ net.brehaut.ClojureTools = (function (SH) {
    :run run
    :stop stop
    :param {:priority 90
-           :auto-restart true}})</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.plugin.monitor.main" name="figurehead.plugin.monitor.main"><h1 class="project-name">figurehead.plugin.monitor.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+           :auto-restart true}})</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.plugin.monitor.main" name="figurehead.plugin.monitor.main"><h1 class="project-name">figurehead.plugin.monitor.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>monitor Activities</p>
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.plugin.monitor.main
   (:require (figurehead.util [services :as services :refer [get-service]]))
   (:require (figurehead.api.app [activity-controller :as activity-controller]))
@@ -4973,7 +4744,9 @@ net.brehaut.ClojureTools = (function (SH) {
    :run run
    :stop stop
    :param {:priority 1
-           :auto-restart false}})</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.plugin.nrepl.helper" name="figurehead.plugin.nrepl.helper"><h1 class="project-name">figurehead.plugin.nrepl.helper</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>acknowledgement: https://github.com/clojure-android/neko</p>
+           :auto-restart false}})</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.plugin.nrepl.helper" name="figurehead.plugin.nrepl.helper"><h1 class="project-name">figurehead.plugin.nrepl.helper</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>helper for starting nREPL server</p>
+
+<p>acknowledgement: https://github.com/clojure-android/neko</p>
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.plugin.nrepl.helper
   (:require (core [plugin :as plugin]))
   (:require [clojure.java.io :refer [file delete-file]]

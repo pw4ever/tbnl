@@ -1,5 +1,7 @@
 ;;; https://github.com/android/platform_frameworks_base/blob/android-4.3_r3.1/cmds/pm/src/com/android/commands/pm/Pm.java
 (ns figurehead.api.content.pm.package-manager
+  "pm (Package Manager) wrapper"
+  (:require (core [state :as state :refer [defcommand]]))  
   (:require (figurehead.util [services :as services :refer [get-service]]))
   (:require [figurehead.api.content.pm.package-manager-parser :as parser])
   (:require [clojure.string :as str]
@@ -56,7 +58,7 @@
          make-package-delete-observer uninstall-package
          make-package-data-observer clear-package-data)
 
-(defn get-raw-packages
+(defcommand get-raw-packages
   "get all packages on this device"
   [{:keys []
     :as args}]
@@ -79,7 +81,7 @@
                         getList)]
       (seq packages))))
 
-(defn get-packages
+(defcommand get-packages
   "get all packages on this device"
   [{:keys [brief?]
     :as args}]
@@ -93,7 +95,7 @@
                  package))))
     @result))
 
-(defn get-all-package-names
+(defcommand get-all-package-names
   "get list of package names"
   [{:keys []
     :as args}]
@@ -104,7 +106,7 @@
              (keyword (.packageName package))))
     @result))
 
-(defn get-package-components
+(defcommand get-package-components
   "get app components for a specific package"
   [{:keys [package]
     :as args}]
@@ -141,7 +143,7 @@
                              (keyword (.name permission))))}))))
 
 
-(defn get-raw-features
+(defcommand get-raw-features
   "get all features on this device"
   [{:keys []
     :as args}]
@@ -150,7 +152,7 @@
                         getSystemAvailableFeatures)]
       (seq features))))
 
-(defn get-features
+(defcommand get-features
   "get all features on this device"
   [{:keys [brief?]
     :as args}]
@@ -165,7 +167,7 @@
     @result))
 
 
-(defn get-raw-libraries
+(defcommand get-raw-libraries
   "get all libraries on this device"
   [{:keys []
     :as args}]
@@ -174,7 +176,7 @@
                         getSystemSharedLibraryNames)]
       (seq libraries))))
 
-(defn get-libraries
+(defcommand get-libraries
   "get all libraries on this device"
   [{:keys []
     :as args}]
@@ -185,7 +187,7 @@
              library))
     @result))
 
-(defn get-raw-instrumentations
+(defcommand get-raw-instrumentations
   "get installed instrumentations on this device, optional for a specific package"
   [{:keys [^String package]
     :as args}]
@@ -194,7 +196,7 @@
                                 (queryInstrumentation package 0))]
       (seq instrumentations))))
 
-(defn get-instrumentations
+(defcommand get-instrumentations
   "get installed instrumentations on this device, optional for a specific package"
   [{:keys [^String package
            brief?]
@@ -209,7 +211,7 @@
                  instrumentation))))
     @result))
 
-(defn get-raw-permission-groups
+(defcommand get-raw-permission-groups
   "get permission groups"
   [{:keys []
     :as args}]
@@ -218,7 +220,7 @@
                                 (getAllPermissionGroups 0))]
       (seq permission-groups))))
 
-(defn get-permissions-by-group
+(defcommand get-permissions-by-group
   "get all permissions by group"
   [{:keys [brief?]
     :as args}]
@@ -247,7 +249,7 @@
     @result))
 
 
-(defn get-install-location
+(defcommand get-install-location
   "get install location"
   [{:keys []
     :as args}]
@@ -259,7 +261,7 @@
      (= location PackageHelper/APP_INSTALL_INTERNAL) :internal
      :else location)))
 
-(defn set-install-location
+(defcommand set-install-location
   "set install location"
   [{:keys [location]
     :or {location 0}
@@ -283,7 +285,7 @@
       (let [^IPackageManager package-manager (get-service :package-manager)]
         (.setInstallLocation package-manager location)))))
 
-(defn push-file
+(defcommand push-file
   "push file to device"
   [{:keys [^String content-in-base64
            file-name]
@@ -293,7 +295,7 @@
       (.write the-file ^bytes (Base64/decode content-in-base64
                                              Base64/DEFAULT)))))
 
-(defn pull-file
+(defcommand pull-file
   "pull file from device"
   [{:keys [file-name]
     :as args}]
@@ -303,7 +305,7 @@
      (bit-or Base64/NO_WRAP
              0))))
 
-(defn make-package-install-observer
+(defcommand make-package-install-observer
   "make instance of IPackageInstallObserver$Stub"
   [{:keys [package-installed]
     :as args}]
@@ -315,7 +317,7 @@
         (when package-installed
           (package-installed package-name status))))))
 
-(defn install-package
+(defcommand install-package
   "install package"
   [{:keys [apk-file-name
            package-name
@@ -356,7 +358,7 @@
           @finished?
           @result)))))
 
-(defn make-package-delete-observer
+(defcommand make-package-delete-observer
   "make instance of IPackageDeleteObserver$Stub"
   [{:keys [package-deleted]
     :as args}]
@@ -368,7 +370,7 @@
         (when package-deleted
           (package-deleted package-name return-code))))))
 
-(defn uninstall-package
+(defcommand uninstall-package
   "uninstall package"
   [{:keys [package
            keep-data?]
@@ -394,7 +396,7 @@
       @finished?
       @successful?)))
 
-(defn make-package-data-observer
+(defcommand make-package-data-observer
   "make instance of IPackageDataObserver$Stub"
   [{:keys [on-remove-completed]
     :as args}]
@@ -406,7 +408,7 @@
         (when on-remove-completed
           (on-remove-completed package-name succeeded))))))
 
-(defn clear-package-data
+(defcommand clear-package-data
   "clear package data"
   [{:keys [package]
     :as args}]

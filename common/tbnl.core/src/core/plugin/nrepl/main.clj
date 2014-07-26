@@ -1,4 +1,5 @@
 (ns core.plugin.nrepl.main
+  "start nREPL server"
   (:require (core [init :as init]
                   [state :as state]
                   [bus :as bus]
