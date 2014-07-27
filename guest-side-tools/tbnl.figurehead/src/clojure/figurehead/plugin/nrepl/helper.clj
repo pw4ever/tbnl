@@ -79,6 +79,8 @@
     (require '[figurehead.api.content.pm.package-manager :as package-manager])
     (require '[figurehead.api.content.pm.package-manager-parser :as package-manager-parser])
     (require '[figurehead.api.view.input :as input])
+    (require '[figurehead.api.os.user-manager.user-manager :as user-manager])
+    (require '[figurehead.api.os.user-manager.user-manager-parser :as user-manager-parser])
 
     (require '(core [bus :as bus]
                     [plugin :as plugin]

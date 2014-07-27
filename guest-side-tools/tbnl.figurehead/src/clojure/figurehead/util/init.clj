@@ -2,8 +2,11 @@
   (:require (figurehead.util [services
                               :as services
                               :refer [register-service]]))
-  (:import (android.os ServiceManager)
-           (android.app ActivityManagerNative)
+  (:import (android.os ServiceManager
+                       IUserManager
+                       IUserManager$Stub)
+           (android.app ActivityManagerNative
+                        IActivityManager)
            (android.content.pm IPackageManager
                                IPackageManager$Stub)))
 
@@ -13,11 +16,15 @@
   "register services"
   []
   (register-service :activity-manager
-                    #(ActivityManagerNative/getDefault))
+                    ^IActivityManager #(ActivityManagerNative/getDefault))
+  (register-service :user-manager
+                    ^IUserManager #(->>
+                                    (ServiceManager/getService "user")
+                                    (IUserManager$Stub/asInterface)))
   (register-service :package-manager
-                    #(-> 
-                      (ServiceManager/getService "package") 
-                      (IPackageManager$Stub/asInterface))))
+                    ^IPackageManager #(->> 
+                                       (ServiceManager/getService "package") 
+                                       (IPackageManager$Stub/asInterface))))
 
 (defn init
   "initialization"
