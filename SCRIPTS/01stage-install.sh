@@ -9,6 +9,7 @@ adb="${ADB} $@"
 
 ## guest side
 
+${adb} root
 ${adb} remount
 
 ${adb} push ${STAGE_GUEST}/figurehead.apk /sdcard/
