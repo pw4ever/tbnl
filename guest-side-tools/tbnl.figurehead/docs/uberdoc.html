@@ -4955,12 +4955,19 @@ net.brehaut.ClojureTools = (function (SH) {
 </td><td class="codes"><pre class="brush: clojure">(defn clean-compile-path
   []
   (when *compile-path*
-    (doseq [f (file-seq (file *compile-path*))]
+    (doseq [^File f (file-seq (file *compile-path*))]
       (try
-        (delete-file f)
+        (when (.isFile f)
+          ;; wierd EBUSY error: http://stackoverflow.com/a/11776458
+          (let [^File tmp (file (str (.getAbsolutePath f)
+                                     (System/currentTimeMillis)))]
+            (.renameTo f tmp)
+            (delete-file tmp)))
         (catch Exception e)))
-    ;; recreate the deleted directory
-    (.mkdir (file *compile-path*))))</pre></td></tr><tr><td class="docs"><p>neko.init/start-repl</p>
+    ;; remake the directory if necessary
+    (let [^File compile-path (file *compile-path*)]
+      (when-not (.exists compile-path)
+        (.mkdir compile-path)))))</pre></td></tr><tr><td class="docs"><p>neko.init/start-repl</p>
 </td><td class="codes"><pre class="brush: clojure">(defn start-repl
   [&amp; repl-args]
   (binding [*ns* (create-ns 'user)]
@@ -5018,7 +5025,7 @@ net.brehaut.ClojureTools = (function (SH) {
    {
     :repl-clojure-cache-dir &quot;clojure-cache&quot;
     :stop-unblock-tag :stop-figurehead.plugin.nrepl
-    :clean-compile-path-interval (* 30 60)
+    :clean-compile-path-interval (* 15 60)
     }))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(defn populate-parse-opts-vector
   [current-parse-opts-vector]

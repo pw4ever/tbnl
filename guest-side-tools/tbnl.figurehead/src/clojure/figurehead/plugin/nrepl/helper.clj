@@ -56,12 +56,19 @@
   "clean dynamic compilation cache on compile path"
   []
   (when *compile-path*
-    (doseq [f (file-seq (file *compile-path*))]
+    (doseq [^File f (file-seq (file *compile-path*))]
       (try
-        (delete-file f)
+        (when (.isFile f)
+          ;; wierd EBUSY error: http://stackoverflow.com/a/11776458
+          (let [^File tmp (file (str (.getAbsolutePath f)
+                                     (System/currentTimeMillis)))]
+            (.renameTo f tmp)
+            (delete-file tmp)))
         (catch Exception e)))
-    ;; recreate the deleted directory
-    (.mkdir (file *compile-path*))))
+    ;; remake the directory if necessary
+    (let [^File compile-path (file *compile-path*)]
+      (when-not (.exists compile-path)
+        (.mkdir compile-path)))))
 
 (defn start-repl
   "neko.init/start-repl"

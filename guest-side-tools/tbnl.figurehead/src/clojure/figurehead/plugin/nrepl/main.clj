@@ -35,7 +35,7 @@
    {
     :repl-clojure-cache-dir "clojure-cache"
     :stop-unblock-tag :stop-figurehead.plugin.nrepl
-    :clean-compile-path-interval (* 30 60)
+    :clean-compile-path-interval (* 15 60)
     }))
 
 (defn populate-parse-opts-vector
