@@ -3,15 +3,14 @@
 **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
 - [TBNL: power tool for Android system hacking, in Clojure](#tbnl-power-tool-for-android-system-hacking-in-clojure)
-	- [demos](#demos)
-	- [blurb](#blurb)
-	- [rationale](#rationale)
-	- [try it out](#try-it-out)
-		- [use cases](#use-cases)
-	- [documentation](#documentation)
-		- [annotated source in [Marginalia](https://github.com/gdeer81/marginalia)](#annotated-source-in-marginaliahttpsgithubcomgdeer81marginalia)
-	- [permission](#permission)
-	- [acknowledgments](#acknowledgments)
+  - [eye catcher](#eye-catcher)
+  - [why?](#why)
+  - [try it](#try-it)
+    - [use cases](#use-cases)
+  - [documentation](#documentation)
+    - [annotated source in [Marginalia](https://github.com/gdeer81/marginalia)](#annotated-source-in-marginaliahttpsgithubcomgdeer81marginalia)
+  - [permission](#permission)
+  - [thanks](#thanks)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -19,39 +18,27 @@ TBNL: power tool for Android system hacking, in Clojure
 =====
 Copyright &copy; Wei Peng
 
-One tool that rules all your [Android](http://www.android.com/) devices/emulators, at scale, in [Clojure](http://clojure.org/).
+One tool that rules all your [Android](http://www.android.com/) ([rooted](http://www.androidcentral.com/root)) devices/emulators, at scale, in [Clojure](http://clojure.org/).
 
-TBNL (To Be Named Later) is a pun on the framework's exploratory nature, inspired by [Edi Weitz](http://weitz.de/)'s [TBNL](http://weitz.de/tbnl/).
+TBNL (To Be Named Later) is a pun on the framework's open & exploratory nature, inspired by [Edi Weitz](http://weitz.de/)'s [TBNL](http://weitz.de/tbnl/).
 
-demos
+eye catcher
 -----
 
-* Control your Android using Clojure REPL
 [![Clojure REPL](http://img.youtube.com/vi/jC-aaIewNkc/0.jpg)](http://youtu.be/jC-aaIewNkc)
 
-blurb
+[More demos on Wiki.](https://github.com/pw4ever/tbnl/wiki/demos)
+
+why?
 -----
 
-* [`am`](https://developer.android.com/tools/help/adb.html#am) and [`pm`](https://developer.android.com/tools/help/adb.html#pm) are powerful Android tools; you shall play with them if you have not done so. Yet, their code ([`am`](https://github.com/android/platform_frameworks_base/blob/master/cmds/am/src/com/android/commands/am/Am.java) and [`pm`](https://github.com/android/platform_frameworks_base/blob/master/cmds/pm/src/com/android/commands/pm/Pm.java)) are large chunks of Java, which are, in my opinion, quite verbose and not quite extensible.
-* Have you hacked [AOSP](https://source.android.com/) before? Do you miss the 6G+ downloads and 30G+ caches, with hour-long builds? I know I do not.
-* Have you wished that you could program Android system (in contrast or in addition to making apps) easier, without the pain of downloading/building AOSP, in something more succinct and expressive than Java, say, Clojure?
+* Android system tools ([`am`](https://developer.android.com/tools/help/adb.html#am), [`pm`](https://developer.android.com/tools/help/adb.html#pm), [`input`](http://stackoverflow.com/a/8483797), and more), on steroid, **all in one**, directly available to you under a **full-feature** (not some emulation) [remote Clojure REPL](https://www.youtube.com/watch?v=jC-aaIewNkc) **for all your (Android 4.3+/SDK 18+, rooted) Android devices and emulators**.
+* No more 6G+ downloads and 30G+ caches of [AOSP](https://source.android.com/) for system hacking.
+* **Instant** system hacking in Clojure with **internal** Android API fully exposed. 
+* Life is too short for hacking Android in Java. Compare the source code of [our Clojure version](https://github.com/pw4ever/tbnl/blob/gh-pages/guest-side-tools/tbnl.figurehead/src/clojure/figurehead/api/view/input.clj) and [Android's Java version](https://github.com/android/platform_frameworks_base/blob/master/cmds/input/src/com/android/commands/input/Input.java) of `input`---our version is even more user friendly and fully programmable in the remote REPL **without** `adb`.
+* Multiple [C\&Cs][cnc] and [figureheads][figurehead]; one [mastermind][mastermind]: Sharing the same extensible plug-in framework, batteries included, and still expanding.
 
-TBNL helps you do these and more, to multiple Android devices at the same time, in an extensible fashion.
-
-Highlights.
-
-* Android **system** programming in Clojure, with [REPL](http://tryclj.com/) everywhere.
-* Easy deployment with [adb](https://developer.android.com/tools/help/adb.html) on real devices or emulators ([Genymotion](http://www.genymotion.com/) included).
-* No 6G+ downloads or 30G+ caches of [AOSP](https://source.android.com/).
-* Multiple [C\&Cs][cnc] and [figureheads][figurehead]; one [mastermind][mastermind].
-* Extensible plug-in framework, batteries included, and expanding.
-
-rationale
------
-
-See the [Wiki](https://github.com/pw4ever/tbnl/wiki/rationale) for more rationale.
-
-try it out
+try it
 -----
 
 First, make sure to [satisfy the build/runtime dependencies](https://github.com/pw4ever/tbnl/wiki/try-it-out#dependencies).
@@ -99,9 +86,9 @@ Please consider:
 * Citing this work if you publish a paper using it;
 * Letting me know if you use or extend it: I'd love to hear about your work and your use cases.
 
-acknowledgments
+thanks
 -----
-* [Dr. Feng Li](http://www.engr.iupui.edu/~fengli/) and [Dr. Xukai Zou](http://cs.iupui.edu/~xkzou/), who advise my PhD research behind this work.
+* [Dr. Feng Li](http://www.engr.iupui.edu/~fengli/) and [Dr. Xukai Zou](http://cs.iupui.edu/~xkzou/), who advise and support my PhD research that starts TBNL.
 * The Clojure community.
   * In particular, [Alexander Yakushev](https://github.com/alexander-yakushev) and others in the small but welcoming family of [Clojure on Android](http://clojure-android.info/).
 
@@ -109,4 +96,3 @@ acknowledgments
 [mastermind]: https://pw4ever.github.io/tbnl/common/tbnl.core/docs/uberdoc.html "annotated source code of mastermind"
 [cnc]: https://pw4ever.github.io/tbnl/host-side-tools/tbnl.cnc/docs/uberdoc.html "annotated source of C\&C"
 [figurehead]: https://pw4ever.github.io/tbnl/guest-side-tools/tbnl.figurehead/docs/uberdoc.html "annotated source of figurehead"
-
