@@ -3,7 +3,8 @@
   "pm (Package Manager) wrapper"
   (:require (core [state :as state :refer [defcommand]]))  
   (:require (figurehead.util [services :as services :refer [get-service]]))
-  (:require [figurehead.api.content.pm.package-manager-parser :as parser])
+  (:require [figurehead.api.content.pm.package-manager-parser :as parser]
+            [figurehead.api.util.file :as util-file])
   (:require [clojure.string :as str]
             [clojure.java.io :as io])  
   (:import (android.app IActivityManager)
@@ -286,24 +287,23 @@
         (.setInstallLocation package-manager location)))))
 
 (defcommand push-file
-  "push file to device"
-  [{:keys [^String content-in-base64
-           file-name]
+  "push Base64-encoded content to device and write to file"
+  [{:keys [^String content
+           file]
     :as args}]
-  (when (and content-in-base64 file-name)
-    (with-open [the-file (io/output-stream (io/file file-name))]
-      (.write the-file ^bytes (Base64/decode content-in-base64
-                                             Base64/DEFAULT)))))
+  {:pre [content file]}
+  (when (and content file)
+    (util-file/write-file {:file file
+                           :content content})))
 
 (defcommand pull-file
-  "pull file from device"
-  [{:keys [file-name]
+  "pull file from device and encode to Base64-encoded content"
+  [{:keys [file]
     :as args}]
-  (when (and file-name)
-    (Base64/encodeToString
-     (FileUtils/readFileToByteArray (io/file file-name))
-     (bit-or Base64/NO_WRAP
-             0))))
+  {:pre [file]}
+  (when (and file)
+    (util-file/read-file {:file file
+                          :content? true})))
 
 (defcommand make-package-install-observer
   "make instance of IPackageInstallObserver$Stub"

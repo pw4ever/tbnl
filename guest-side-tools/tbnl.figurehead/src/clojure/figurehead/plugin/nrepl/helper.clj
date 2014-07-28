@@ -88,6 +88,7 @@
     (require '[figurehead.api.view.input :as input])
     (require '[figurehead.api.os.user-manager.user-manager :as user-manager])
     (require '[figurehead.api.os.user-manager.user-manager-parser :as user-manager-parser])
+    (require '[figurehead.api.util.file :as util-file])
 
     (require '(core [bus :as bus]
                     [plugin :as plugin]
