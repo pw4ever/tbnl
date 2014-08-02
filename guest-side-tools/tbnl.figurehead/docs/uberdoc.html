@@ -3029,7 +3029,7 @@ net.brehaut.ClojureTools = (function (SH) {
   };
 })(SyntaxHighlighter);
 </script><title>info.voidstar/tbnl.figurehead -- Marginalia</title></head><body><table><tr><td class="docs"><div class="header"><h1 class="project-name">info.voidstar/tbnl.figurehead</h1><h2 class="project-version">0.1.0-SNAPSHOT</h2><br /><p>figurehead sits on device and is controlled by mastermind</p>
-</div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure-android/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.6.0-RC1</td></tr><tr><td class="dep-name">org.clojars.pw4ever/neko-sdk18</td><td class="dotted"><hr /></td><td class="dep-version">3.0.2</td></tr><tr><td class="dep-name">info.voidstar/tbnl.core</td><td class="dotted"><hr /></td><td class="dep-version">0.1.0-SNAPSHOT</td></tr><tr><td class="dep-name">org.clojure/core.async</td><td class="dotted"><hr /></td><td class="dep-version">0.1.303.0-886421-alpha</td></tr><tr><td class="dep-name">org.clojure/tools.nrepl</td><td class="dotted"><hr /></td><td class="dep-version">0.2.3</td></tr><tr><td class="dep-name">cider/cider-nrepl</td><td class="dotted"><hr /></td><td class="dep-version">0.7.0-SNAPSHOT</td></tr><tr><td class="dep-name">commons-io/commons-io</td><td class="dotted"><hr /></td><td class="dep-version">2.4</td></tr><tr><td class="dep-name">clojure-complete</td><td class="dotted"><hr /></td><td class="dep-version">0.2.3</td></tr><tr><td class="dep-name">compliment</td><td class="dotted"><hr /></td><td class="dep-version">0.1.1</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left almost blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#figurehead.api.app.activity-controller">figurehead.api.app.activity-controller</a></li><li><a href="#figurehead.api.app.activity-manager">figurehead.api.app.activity-manager</a></li><li><a href="#figurehead.api.content.intent">figurehead.api.content.intent</a></li><li><a href="#figurehead.api.content.pm.package-manager">figurehead.api.content.pm.package-manager</a></li><li><a href="#figurehead.api.content.pm.package-manager-parser">figurehead.api.content.pm.package-manager-parser</a></li><li><a href="#figurehead.api.os.user-manager.user-manager">figurehead.api.os.user-manager.user-manager</a></li><li><a href="#figurehead.api.os.user-manager.user-manager-parser">figurehead.api.os.user-manager.user-manager-parser</a></li><li><a href="#figurehead.api.util.file">figurehead.api.util.file</a></li><li><a href="#figurehead.api.view.input">figurehead.api.view.input</a></li><li><a href="#figurehead.main">figurehead.main</a></li><li><a href="#figurehead.plugin.mastermind.main">figurehead.plugin.mastermind.main</a></li><li><a href="#figurehead.plugin.monitor.main">figurehead.plugin.monitor.main</a></li><li><a href="#figurehead.plugin.nrepl.helper">figurehead.plugin.nrepl.helper</a></li><li><a href="#figurehead.plugin.nrepl.main">figurehead.plugin.nrepl.main</a></li><li><a href="#figurehead.util.init">figurehead.util.init</a></li><li><a href="#figurehead.util.routines">figurehead.util.routines</a></li><li><a href="#figurehead.util.services">figurehead.util.services</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.app.activity-controller" name="figurehead.api.app.activity-controller"><h1 class="project-name">figurehead.api.app.activity-controller</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+</div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure-android/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.6.0-RC1</td></tr><tr><td class="dep-name">org.clojars.pw4ever/neko-sdk18</td><td class="dotted"><hr /></td><td class="dep-version">3.0.2</td></tr><tr><td class="dep-name">info.voidstar/tbnl.core</td><td class="dotted"><hr /></td><td class="dep-version">0.1.0-SNAPSHOT</td></tr><tr><td class="dep-name">org.clojure/core.async</td><td class="dotted"><hr /></td><td class="dep-version">0.1.303.0-886421-alpha</td></tr><tr><td class="dep-name">org.clojure/tools.nrepl</td><td class="dotted"><hr /></td><td class="dep-version">0.2.3</td></tr><tr><td class="dep-name">cider/cider-nrepl</td><td class="dotted"><hr /></td><td class="dep-version">0.7.0-SNAPSHOT</td></tr><tr><td class="dep-name">commons-io/commons-io</td><td class="dotted"><hr /></td><td class="dep-version">2.4</td></tr><tr><td class="dep-name">clojure-complete</td><td class="dotted"><hr /></td><td class="dep-version">0.2.3</td></tr><tr><td class="dep-name">compliment</td><td class="dotted"><hr /></td><td class="dep-version">0.1.1</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left almost blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#figurehead.api.app.activity-controller">figurehead.api.app.activity-controller</a></li><li><a href="#figurehead.api.app.activity-manager">figurehead.api.app.activity-manager</a></li><li><a href="#figurehead.api.content.intent">figurehead.api.content.intent</a></li><li><a href="#figurehead.api.content.pm.package-manager">figurehead.api.content.pm.package-manager</a></li><li><a href="#figurehead.api.content.pm.package-manager-parser">figurehead.api.content.pm.package-manager-parser</a></li><li><a href="#figurehead.api.os.user-manager.user-manager">figurehead.api.os.user-manager.user-manager</a></li><li><a href="#figurehead.api.os.user-manager.user-manager-parser">figurehead.api.os.user-manager.user-manager-parser</a></li><li><a href="#figurehead.api.os.util">figurehead.api.os.util</a></li><li><a href="#figurehead.api.util.file">figurehead.api.util.file</a></li><li><a href="#figurehead.api.view.input">figurehead.api.view.input</a></li><li><a href="#figurehead.main">figurehead.main</a></li><li><a href="#figurehead.plugin.mastermind.main">figurehead.plugin.mastermind.main</a></li><li><a href="#figurehead.plugin.monitor.main">figurehead.plugin.monitor.main</a></li><li><a href="#figurehead.plugin.nrepl.helper">figurehead.plugin.nrepl.helper</a></li><li><a href="#figurehead.plugin.nrepl.main">figurehead.plugin.nrepl.main</a></li><li><a href="#figurehead.plugin.unique-instance.main">figurehead.plugin.unique-instance.main</a></li><li><a href="#figurehead.ui.main">figurehead.ui.main</a></li><li><a href="#figurehead.util.init">figurehead.util.init</a></li><li><a href="#figurehead.util.routines">figurehead.util.routines</a></li><li><a href="#figurehead.util.services">figurehead.util.services</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.app.activity-controller" name="figurehead.api.app.activity-controller"><h1 class="project-name">figurehead.api.app.activity-controller</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.api.app.activity-controller
   (:require (figurehead.util [services :as services :refer [get-service]]))
   (:require [clojure.string :as str]
@@ -4384,7 +4384,63 @@ net.brehaut.ClojureTools = (function (SH) {
           :last-logged-in-time (.lastLoggedInTime user-info)
           :name ^String (.name user-info)
           :partial (.partial user-info)
-          :serial-number (.serialNumber user-info)}))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.util.file" name="figurehead.api.util.file"><h1 class="project-name">figurehead.api.util.file</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>file utils</p>
+          :serial-number (.serialNumber user-info)}))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.os.util" name="figurehead.api.os.util"><h1 class="project-name">figurehead.api.os.util</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>Android OS misc utils</p>
+</td><td class="codes"><pre class="brush: clojure">(ns figurehead.api.os.util
+  (:require (core [state :as state :refer [defcommand]]))  
+  (:require (figurehead.util [services :as services :refer [get-service]]))
+  (:require [clojure.string :as str]
+            [clojure.java.io :as io]
+            [clojure.set :as set :refer [subset?]])  
+  (:import (android.os SystemProperties)))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(declare get-system-property set-system-property
+         get-my-pid
+         kill-process test-process)</pre></td></tr><tr><td class="docs"><p>get system property by name</p>
+</td><td class="codes"><pre class="brush: clojure">(defcommand get-system-property
+  [{:keys [name
+           def
+           int?
+           long?
+           boolean?]
+    :as args}]
+  {:pre [name]}
+  (when-let [name (str name)]
+    (cond int?
+          (SystemProperties/getInt name (if def def -1))
+          long?
+          (SystemProperties/getLong name (if def def -1))
+          boolean?
+          (SystemProperties/getBoolean name (if def def false))
+          :else
+          (SystemProperties/get name (if def def &quot;&quot;)))))</pre></td></tr><tr><td class="docs"><p>set system property by name to value</p>
+</td><td class="codes"><pre class="brush: clojure">(defcommand set-system-property
+  [{:keys [name
+           value]
+    :as args}]
+  {:pre [name value]}
+  (let [name (str name)
+        value (str value)]
+    (when (and name value)
+      (SystemProperties/set name value))))</pre></td></tr><tr><td class="docs"><p>get my process id (pid)</p>
+</td><td class="codes"><pre class="brush: clojure">(defcommand get-my-pid
+  [{:keys []
+    :as args}]
+  {:pre []}
+  (android.os.Process/myPid))</pre></td></tr><tr><td class="docs"><p>kill process by pid</p>
+</td><td class="codes"><pre class="brush: clojure">(defcommand kill-process
+  [{:keys [pid]
+    :as args}]
+  {:pre [pid]}
+  (when pid
+    (android.os.Process/killProcess pid)))</pre></td></tr><tr><td class="docs"><p>test whether process is running by pid</p>
+</td><td class="codes"><pre class="brush: clojure">(defcommand test-process
+  [{:keys [pid]
+    :as args}]
+  {:pre [pid]}
+  (when pid
+    (let [ppid (android.os.Process/getParentPid pid)]
+      (if (&gt; ppid 0)
+        true
+        false))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.api.util.file" name="figurehead.api.util.file"><h1 class="project-name">figurehead.api.util.file</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>file utils</p>
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.api.util.file
   (:require (core [state :as state :refer [defcommand]]))  
   (:require (figurehead.util [services :as services :refer [get-service]]))
@@ -4710,19 +4766,23 @@ net.brehaut.ClojureTools = (function (SH) {
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.main
   (:require (figurehead.util [init :as init]))
   (:require (core main
+                  state
                   init))
   ;; these &quot;require&quot; are needed to handle lein-droid's :aot &quot;removing unused namespace from classpath&quot; feature
   (:require core.plugin.echo.main
             core.plugin.command-executor.main
+            figurehead.plugin.unique-instance.main
             figurehead.plugin.nrepl.main
             figurehead.plugin.monitor.main
             figurehead.plugin.mastermind.main)
+  (:import (android.os SystemProperties))
   (:gen-class))</pre></td></tr><tr><td class="docs"><p>the main entry</p>
 </td><td class="codes"><pre class="brush: clojure">(defn -main
   [&amp; args]
   (init/init)
   (core.init/require-and-set-default-plugins core.plugin.echo
                                              core.plugin.command-executor
+                                             figurehead.plugin.unique-instance
                                              figurehead.plugin.nrepl
                                              figurehead.plugin.monitor
                                              figurehead.plugin.mastermind)
@@ -5003,13 +5063,16 @@ net.brehaut.ClojureTools = (function (SH) {
            java.util.concurrent.atomic.AtomicLong
            java.util.concurrent.ThreadFactory))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(declare enable-dynamic-compilation
-         clean-compile-path
+         clean-cache
          start-repl)</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(def defaults
   (atom
    {
     :repl-worker-thread-stack-size 8388608     ; nrepl 8M
-    }))</pre></td></tr><tr><td class="docs">
+    }))</pre></td></tr><tr><td class="docs"><p>ref: neko.compilation</p>
+</td><td class="codes"><pre class="brush: clojure">(def ^{:doc 
+       :private true}
+  cache-path (atom nil))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(defn- android-thread-factory
   []
   (let [counter (AtomicLong. 0)]
@@ -5032,27 +5095,35 @@ net.brehaut.ClojureTools = (function (SH) {
     (.mkdir (file path))
     (plugin/set-state-entry :repl-dynamic-compilation-path
                             path)
+    (reset! cache-path path)
     (System/setProperty &quot;clojure.compile.path&quot; path)
     (alter-var-root #'clojure.core/*compile-path*
                     (constantly path))
     ;; clean staled cache
-    (clean-compile-path)))</pre></td></tr><tr><td class="docs"><p>clean dynamic compilation cache on compile path</p>
-</td><td class="codes"><pre class="brush: clojure">(defn clean-compile-path
+    (clean-cache)))</pre></td></tr><tr><td class="docs"><p>from neko.compilation</p>
+</td><td class="codes"><pre class="brush: clojure">(defn- cache-file?
+  [^String name]
+  (and (.startsWith name &quot;repl-&quot;)
+       (or (.endsWith name &quot;.dex&quot;)
+           (.endsWith name &quot;.jar&quot;))))</pre></td></tr><tr><td class="docs"><p>clean compilation cache</p>
+</td><td class="codes"><pre class="brush: clojure">(defn clean-cache
   []
-  (when *compile-path*
-    (doseq [^File f (file-seq (file *compile-path*))]
-      (try
-        (when (.isFile f)
-          ;; wierd EBUSY error: http://stackoverflow.com/a/11776458
-          (let [^File tmp (file (str (.getAbsolutePath f)
-                                     (System/currentTimeMillis)))]
-            (.renameTo f tmp)
-            (delete-file tmp)))
-        (catch Exception e)))
-    ;; remake the directory if necessary
-    (let [^File compile-path (file *compile-path*)]
-      (when-not (.exists compile-path)
-        (.mkdir compile-path)))))</pre></td></tr><tr><td class="docs"><p>neko.init/start-repl</p>
+  (locking cache-path
+    (when-let [cache-path @cache-path]
+      (doseq [^File f (file-seq (file cache-path))]
+        (try
+          (when (and (.isFile f)
+                     (cache-file? (.getName f)))
+            ;; wierd EBUSY error: http://stackoverflow.com/a/11776458
+            (let [^File tmp (file (str (.getAbsolutePath f)
+                                       (System/currentTimeMillis)))]
+              (.renameTo f tmp)
+              (delete-file tmp)))
+          (catch Exception e)))
+      ;; remake the directory if necessary
+      (let [^File compile-path (file cache-path)]
+        (when-not (.exists compile-path)
+          (.mkdir compile-path))))))</pre></td></tr><tr><td class="docs"><p>neko.init/start-repl</p>
 </td><td class="codes"><pre class="brush: clojure">(defn start-repl
   [&amp; repl-args]
   (binding [*ns* (create-ns 'user)]
@@ -5068,6 +5139,7 @@ net.brehaut.ClojureTools = (function (SH) {
     (require '[figurehead.api.view.input :as input])
     (require '[figurehead.api.os.user-manager.user-manager :as user-manager])
     (require '[figurehead.api.os.user-manager.user-manager-parser :as user-manager-parser])
+    (require '[figurehead.api.os.util :as os-util])
     (require '[figurehead.api.util.file :as util-file])
     (require '(core [bus :as bus]
                     [plugin :as plugin]
@@ -5111,7 +5183,7 @@ net.brehaut.ClojureTools = (function (SH) {
    {
     :repl-clojure-cache-dir &quot;clojure-cache&quot;
     :stop-unblock-tag :stop-figurehead.plugin.nrepl
-    :clean-compile-path-interval (* 15 60)
+    :clean-cache-interval (* 15 60)
     }))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(defn populate-parse-opts-vector
   [current-parse-opts-vector]
@@ -5148,11 +5220,11 @@ net.brehaut.ClojureTools = (function (SH) {
   (let [verbose (:verbose options)
         nrepl-port (:nrepl-port options)
         scheduler ^ScheduledThreadPoolExecutor (Executors/newScheduledThreadPool 1)
-        clean-compile-path-task (delay ^ScheduledFuture
+        clean-cache-task (delay ^ScheduledFuture
                                        (.scheduleAtFixedRate scheduler
-                                                             #(helper/clean-compile-path)
-                                                             (:clean-compile-path-interval @defaults)
-                                                             (:clean-compile-path-interval @defaults)
+                                                             #(helper/clean-cache)
+                                                             (:clean-cache-interval @defaults)
+                                                             (:clean-cache-interval @defaults)
                                                              TimeUnit/SECONDS))]
     (plugin/blocking-jail [
                            ;; timeout
@@ -5162,8 +5234,8 @@ net.brehaut.ClojureTools = (function (SH) {
                            ;; finalization
                            (do
                              (nrepl-server/stop-server (plugin/get-state-entry :nrepl-server))
-                             (.cancel ^ScheduledFuture @clean-compile-path-task true)
-                             (helper/clean-compile-path))
+                             (.cancel ^ScheduledFuture @clean-cache-task true)
+                             (helper/clean-cache))
                            ;; verbose
                            verbose
                            ]
@@ -5174,10 +5246,10 @@ net.brehaut.ClojureTools = (function (SH) {
                           (plugin/set-state-entry :nrepl-server
                                                   (helper/start-repl :port nrepl-port
                                                                      :handler cider-nrepl-handler))
-                          (plugin/register-exit-hook :figurehead.plugin.nrepl.clean-compile-path
-                                                     #(helper/clean-compile-path))
+                          (plugin/register-exit-hook :figurehead.plugin.nrepl.clean-cache
+                                                     #(helper/clean-cache))
                           ;; trigger the delayed task
-                          @clean-compile-path-task)))</pre></td></tr><tr><td class="docs">
+                          @clean-cache-task)))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(defn stop
   [options]
   (plugin/set-state-entry :core.plugin.nrepl
@@ -5190,7 +5262,123 @@ net.brehaut.ClojureTools = (function (SH) {
    :run run
    :stop stop
    :param {:priority 1
-           :auto-restart true}})</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.util.init" name="figurehead.util.init"><h1 class="project-name">figurehead.util.init</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+           :auto-restart true}})</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.plugin.unique-instance.main" name="figurehead.plugin.unique-instance.main"><h1 class="project-name">figurehead.plugin.unique-instance.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>ensuring a unique instance of figurehead</p>
+</td><td class="codes"><pre class="brush: clojure">(ns figurehead.plugin.unique-instance.main
+  (:require (core [init :as init]
+                  [state :as state]
+                  [bus :as bus]
+                  [plugin :as plugin]))
+  (:require (figurehead.api.os [util :as os-util]))
+  (:import (android.os SystemProperties)))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(def defaults
+  (atom
+   {
+    :sysprop-pid &quot;figurehead.pid&quot;
+    :exit-code-on-existing 19
+    }))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(defn populate-parse-opts-vector
+  [current-parse-opts-vector]
+  (init/add-to-parse-opts-vector [
+                                  (let [option :kill]
+                                    [nil
+                                     (str &quot;--&quot;
+                                          (name option))
+                                     (str &quot;kill existing instance and exit&quot;)])
+                                  (let [option :replace]
+                                    [nil
+                                     (str &quot;--&quot;
+                                          (name option))
+                                     (str &quot;replace existing instance and continue&quot;)])
+                                  (let [option :is-running]
+                                    [nil
+                                     (str &quot;--&quot;
+                                          (name option))
+                                     (str &quot;test whether an instance is already running&quot;)])
+                                  ]))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(defn init
+  [options]
+  (let [kill? (:kill options)
+        replace? (:replace options)
+        is-running? (:is-running options)
+        sysprop-pid (:sysprop-pid @defaults)
+        cur-pid (os-util/get-my-pid {})
+        sys-pid (os-util/get-system-property {:name sysprop-pid
+                                              :def 0
+                                              :int? true})]
+    (when is-running?
+      (println (if (os-util/test-process {:pid sys-pid})
+                 &quot;running&quot;
+                 &quot;not running&quot;))
+      (System/exit 0))
+    (state/add-state :sysprop-pid sysprop-pid)
+    (.addShutdownHook ^Runtime (Runtime/getRuntime)
+                      (Thread. #(when (= sys-pid cur-pid)
+                                  (os-util/set-system-property {:name sysprop-pid
+                                                                :value 0}))))
+    (when (and (not= sys-pid 0)
+               (os-util/test-process {:pid sys-pid}))
+      ;; there is an existing instance
+      (when (or replace? kill?)
+        (os-util/kill-process {:pid sys-pid})
+        (os-util/set-system-property {:name sysprop-pid
+                                      :value 0}))
+      (when-not replace?
+        (System/exit (:exit-code-on-existing @defaults))))
+    (state/add-state :cur-pid cur-pid)
+    (os-util/set-system-property {:name sysprop-pid
+                                  :value cur-pid})
+    true))</pre></td></tr><tr><td class="docs"><p>the config map</p>
+</td><td class="codes"><pre class="brush: clojure">(def config-map
+  {
+   :populate-parse-opts-vector populate-parse-opts-vector
+   :init init
+   ;;:run run
+   ;;:stop stop
+   :param {:priority 1
+           ;;:auto-restart true
+           }})</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.ui.main" name="figurehead.ui.main"><h1 class="project-name">figurehead.ui.main</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(ns figurehead.ui.main
+  (:require (neko [activity :refer [defactivity set-content-view!]]
+                  [notify :refer [toast]]
+                  [ui :refer [make-ui]]
+                  [threading :refer [on-ui]]
+                  [init]
+                  [compilation]))
+  (:require [neko.activity :refer [defactivity set-content-view!]]
+            [neko.notify :refer [toast]]
+            [neko.ui :refer [make-ui]]
+            [neko.threading :refer [on-ui]]
+            [neko.init]
+            [neko.compilation])
+  (:require [clojure.core.async :refer [thread]])
+  (:require (cider.nrepl.middleware apropos
+                                    classpath
+                                    ;;complete
+                                    ;;info
+                                    inspect
+                                    macroexpand
+                                    resource
+                                    stacktrace
+                                    test
+                                    ;;trace))  
+  (:import (android.app Activity)))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(def first-time? (atom true))
+(def defaults
+  (atom {:repl-port 9999}))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(defactivity figurehead.ui.main
+  :on-create
+  (fn [^Activity this bundle]
+    (when @first-time?
+      (thread
+        (reset! first-time? false)
+        (neko.init/init (.getApplication this)
+                        :port (:repl-port @defaults))))
+    (on-ui
+     (set-content-view! this
+                        (make-ui [:linear-layout {:orientation :vertical
+                                                  :layout-width :fill
+                                                  :layout-height :wrap}
+                                  [:edit-text {:layout-width :fill}]])))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.util.init" name="figurehead.util.init"><h1 class="project-name">figurehead.util.init</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.util.init
   (:require (figurehead.util [services
                               :as services

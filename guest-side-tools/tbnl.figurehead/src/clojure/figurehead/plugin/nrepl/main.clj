@@ -35,7 +35,7 @@
    {
     :repl-clojure-cache-dir "clojure-cache"
     :stop-unblock-tag :stop-figurehead.plugin.nrepl
-    :clean-compile-path-interval (* 15 60)
+    :clean-cache-interval (* 15 60)
     }))
 
 (defn populate-parse-opts-vector
@@ -81,11 +81,11 @@
   (let [verbose (:verbose options)
         nrepl-port (:nrepl-port options)
         scheduler ^ScheduledThreadPoolExecutor (Executors/newScheduledThreadPool 1)
-        clean-compile-path-task (delay ^ScheduledFuture
+        clean-cache-task (delay ^ScheduledFuture
                                        (.scheduleAtFixedRate scheduler
-                                                             #(helper/clean-compile-path)
-                                                             (:clean-compile-path-interval @defaults)
-                                                             (:clean-compile-path-interval @defaults)
+                                                             #(helper/clean-cache)
+                                                             (:clean-cache-interval @defaults)
+                                                             (:clean-cache-interval @defaults)
                                                              TimeUnit/SECONDS))]
     (plugin/blocking-jail [
                            ;; timeout
@@ -95,8 +95,8 @@
                            ;; finalization
                            (do
                              (nrepl-server/stop-server (plugin/get-state-entry :nrepl-server))
-                             (.cancel ^ScheduledFuture @clean-compile-path-task true)
-                             (helper/clean-compile-path))
+                             (.cancel ^ScheduledFuture @clean-cache-task true)
+                             (helper/clean-cache))
                            ;; verbose
                            verbose
                            ]
@@ -108,10 +108,10 @@
                                                   (helper/start-repl :port nrepl-port
                                                                      :handler cider-nrepl-handler))
                           
-                          (plugin/register-exit-hook :figurehead.plugin.nrepl.clean-compile-path
-                                                     #(helper/clean-compile-path))
+                          (plugin/register-exit-hook :figurehead.plugin.nrepl.clean-cache
+                                                     #(helper/clean-cache))
                           ;; trigger the delayed task
-                          @clean-compile-path-task)))
+                          @clean-cache-task)))
 
 (defn stop
   [options]

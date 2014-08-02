@@ -49,7 +49,7 @@ done
 cp -r partial/* final
 
 ## manual over-ride
-for i in $(cd full; find . -iname '*inputmanager*' -o -iname '*activitymanager*' -o -iwholename '*content/pm*' -o -iname '*assetmanager*' -o -iname '*userhandle*' -o -iname '*usermanager*'); do
+for i in $(cd full; find . -iname '*inputmanager*' -o -iname '*activitymanager*' -o -iwholename '*content/pm*' -o -iname '*assetmanager*' -o -iname '*userhandle*' -o -iname '*usermanager*' -o -iwholename '*os/process*'); do
     cp -v full/${i} final/$(dirname ${i})
 done
 

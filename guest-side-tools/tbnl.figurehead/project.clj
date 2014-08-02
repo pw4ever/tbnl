@@ -23,7 +23,7 @@
 
   ;;:exclusions [cljs-tooling]
 
-  :plugins [[lein-droid "0.2.3"]
+  :plugins [[org.clojars.pw4ever/lein-droid-for-tbnl "0.2.3"]
             [lein-marginalia "0.7.1"]]
 
   :profiles {:dev {
@@ -35,12 +35,30 @@
 
                    }
              :release {
-                       :android {;; Specify the path to your private keystore
+                       :android {
+                                 ;; Specify the path to your private keystore
                                  ;; and the the alias of the key you want to
                                  ;; sign APKs with. Do it either here or in
                                  ;; ~/.lein/profiles.clj
                                  ;; :keystore-path "/home/user/.android/private.keystore"
                                  ;; :key-alias "mykeyalias"
+
+                                 :enable-dynamic-compilation true
+                                 ;; !!! upstream neko has a misspelling here; fixed in org.clojars.pw4ever/neko-sdk18
+                                 :start-nrepl-server true
+                                 :nrepl-port 9999
+
+                                 :nrepl-middleware [cider.nrepl.middleware.apropos/wrap-apropos
+                                                    cider.nrepl.middleware.classpath/wrap-classpath
+                                                    ;;cider.nrepl.middleware.complete/wrap-complete
+                                                    ;;cider.nrepl.middleware.info/wrap-info
+                                                    cider.nrepl.middleware.inspect/wrap-inspect
+                                                    cider.nrepl.middleware.macroexpand/wrap-macroexpand
+                                                    cider.nrepl.middleware.resource/wrap-resource
+                                                    cider.nrepl.middleware.stacktrace/wrap-stacktrace
+                                                    cider.nrepl.middleware.test/wrap-test
+                                                    ;;cider.nrepl.middleware.trace/wrap-trace
+                                                    ]
 
                                  :sdk-path "android-sdk"
 
@@ -61,9 +79,9 @@
                   ["droid" "release" "build" "apk"]
                   ]
 
-  :android  {;; Specify the path to the Android SDK directory either
+  :android  { ;; Specify the path to the Android SDK directory either
              ;; here or in your ~/.lein/profiles.clj file.
-             
+
              :use-google-api true
 
              ;; Uncomment this if dexer fails with

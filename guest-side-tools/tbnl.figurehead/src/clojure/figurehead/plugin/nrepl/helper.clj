@@ -10,7 +10,7 @@
            java.util.concurrent.ThreadFactory))
 
 (declare enable-dynamic-compilation
-         clean-compile-path
+         clean-cache
          start-repl)
 
 (def defaults
@@ -18,6 +18,10 @@
    {
     :repl-worker-thread-stack-size 8388608     ; nrepl 8M
     }))
+
+(def ^{:doc "ref: neko.compilation"
+       :private true}
+  cache-path (atom nil))
 
 (defn- android-thread-factory
   []
@@ -46,29 +50,39 @@
     (.mkdir (file path))
     (plugin/set-state-entry :repl-dynamic-compilation-path
                             path)
+    (reset! cache-path path)
     (System/setProperty "clojure.compile.path" path)
     (alter-var-root #'clojure.core/*compile-path*
                     (constantly path))
     ;; clean staled cache
-    (clean-compile-path)))
+    (clean-cache)))
 
-(defn clean-compile-path
-  "clean dynamic compilation cache on compile path"
+(defn- cache-file?
+  "from neko.compilation"
+  [^String name]
+  (and (.startsWith name "repl-")
+       (or (.endsWith name ".dex")
+           (.endsWith name ".jar"))))
+
+(defn clean-cache
+  "clean compilation cache"
   []
-  (when *compile-path*
-    (doseq [^File f (file-seq (file *compile-path*))]
-      (try
-        (when (.isFile f)
-          ;; wierd EBUSY error: http://stackoverflow.com/a/11776458
-          (let [^File tmp (file (str (.getAbsolutePath f)
-                                     (System/currentTimeMillis)))]
-            (.renameTo f tmp)
-            (delete-file tmp)))
-        (catch Exception e)))
-    ;; remake the directory if necessary
-    (let [^File compile-path (file *compile-path*)]
-      (when-not (.exists compile-path)
-        (.mkdir compile-path)))))
+  (locking cache-path
+    (when-let [cache-path @cache-path]
+      (doseq [^File f (file-seq (file cache-path))]
+        (try
+          (when (and (.isFile f)
+                     (cache-file? (.getName f)))
+            ;; wierd EBUSY error: http://stackoverflow.com/a/11776458
+            (let [^File tmp (file (str (.getAbsolutePath f)
+                                       (System/currentTimeMillis)))]
+              (.renameTo f tmp)
+              (delete-file tmp)))
+          (catch Exception e)))
+      ;; remake the directory if necessary
+      (let [^File compile-path (file cache-path)]
+        (when-not (.exists compile-path)
+          (.mkdir compile-path))))))
 
 (defn start-repl
   "neko.init/start-repl"
@@ -88,6 +102,7 @@
     (require '[figurehead.api.view.input :as input])
     (require '[figurehead.api.os.user-manager.user-manager :as user-manager])
     (require '[figurehead.api.os.user-manager.user-manager-parser :as user-manager-parser])
+    (require '[figurehead.api.os.util :as os-util])
     (require '[figurehead.api.util.file :as util-file])
 
     (require '(core [bus :as bus]
