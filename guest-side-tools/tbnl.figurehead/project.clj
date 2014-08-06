@@ -44,7 +44,8 @@
                                  ;; :key-alias "androiddebugkey
 
 
-                                 :enable-dynamic-compilation true
+                                 ;; !!! to speed things up, we give up dynamic compilation for figurehead.ui
+                                 :enable-dynamic-compilation false
                                  ;; !!! upstream neko has a misspelling here; fixed in org.clojars.pw4ever/neko-sdk18
                                  :start-nrepl-server false ;; we will do it manually in neko.activity/defactivity in the main Activity
                                  ;;:nrepl-port 9999

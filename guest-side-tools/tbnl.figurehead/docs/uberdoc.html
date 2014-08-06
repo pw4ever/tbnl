@@ -5097,7 +5097,11 @@ net.brehaut.ClojureTools = (function (SH) {
   [&amp; path-components]
   (clojure.string/join File/separator
                        ;; http://developer.android.com/reference/java/lang/System.html
-                       (into [(System/getProperty &quot;java.io.tmpdir&quot;)]
+                       ;; (into [(System/getProperty &quot;java.io.tmpdir&quot;)]
+                       ;;       path-components)
+                       ;; http://developer.android.com/reference/dalvik/system/DexClassLoader.html
+                       ;; Do not cache optimized classes on external storage. External storage does not provide access controls necessary to protect your application from code injection attacks.
+                       (into [&quot;/data/dalvik-cache/&quot;]
                              path-components)))</pre></td></tr><tr><td class="docs"><p>enable dynamic compilation; adapt from neko.compilation/init</p>
 </td><td class="codes"><pre class="brush: clojure">(defn enable-dynamic-compilation
   [clojure-cache-dir]
@@ -5195,7 +5199,7 @@ net.brehaut.ClojureTools = (function (SH) {
 </td><td class="codes"><pre class="brush: clojure">(def defaults
   (atom
    {
-    :repl-clojure-cache-dir &quot;clojure-cache&quot;
+    :repl-clojure-cache-dir &quot;figurehead-cache&quot;
     :stop-unblock-tag :stop-figurehead.plugin.nrepl
     :clean-cache-interval (* 15 60)
     }))</pre></td></tr><tr><td class="docs">
@@ -5684,8 +5688,9 @@ net.brehaut.ClojureTools = (function (SH) {
          (set-app-info-entry :su? false)
          (on-ui
           (toast &quot;no Superuser&quot;)))))
-    (background-thread
-     (start-repl :port 9999))
+    ;; we give up dynamic compilation in exchange of speed
+    ;; (background-thread
+    ;;  (start-repl :port 9999))
     (on-ui
      (set-content-view! this
                         R$layout/main)))
@@ -5744,7 +5749,8 @@ net.brehaut.ClojureTools = (function (SH) {
                      (set-enabled widgets true))))))))))))
   :on-destroy
   (fn [^Activity this]
-    (background-thread (stop-repl))
+    ;; we give up dynamic compilation/REPL in exchange for speed
+    ;; (background-thread (stop-repl))
     (toast &quot;Figurehead destroyed&quot;)))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.ui.su" name="figurehead.ui.su"><h1 class="project-name">figurehead.ui.su</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.ui.su
   (:require [clojure.string :as str])

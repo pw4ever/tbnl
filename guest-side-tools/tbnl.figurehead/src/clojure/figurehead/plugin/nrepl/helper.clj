@@ -39,7 +39,12 @@
   [& path-components]
   (clojure.string/join File/separator
                        ;; http://developer.android.com/reference/java/lang/System.html
-                       (into [(System/getProperty "java.io.tmpdir")]
+                       ;; (into [(System/getProperty "java.io.tmpdir")]
+                       ;;       path-components)
+
+                       ;; http://developer.android.com/reference/dalvik/system/DexClassLoader.html
+                       ;; Do not cache optimized classes on external storage. External storage does not provide access controls necessary to protect your application from code injection attacks.
+                       (into ["/data/dalvik-cache/"]
                              path-components)))
 
 

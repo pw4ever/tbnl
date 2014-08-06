@@ -35,7 +35,7 @@
 (def defaults
   (atom
    {
-    :repl-clojure-cache-dir "clojure-cache"
+    :repl-clojure-cache-dir "figurehead-cache"
     :stop-unblock-tag :stop-figurehead.plugin.nrepl
     :clean-cache-interval (* 15 60)
     }))

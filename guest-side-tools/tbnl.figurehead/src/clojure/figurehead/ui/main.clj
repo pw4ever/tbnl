@@ -86,8 +86,9 @@
          (on-ui
           (toast "no Superuser")))))
 
-    (background-thread
-     (start-repl :port 9999))
+    ;; we give up dynamic compilation in exchange of speed
+    ;; (background-thread
+    ;;  (start-repl :port 9999))
 
     (on-ui
      (set-content-view! this
@@ -152,5 +153,6 @@
 
   :on-destroy
   (fn [^Activity this]
-    (background-thread (stop-repl))
+    ;; we give up dynamic compilation/REPL in exchange for speed
+    ;; (background-thread (stop-repl))
     (toast "Figurehead destroyed")))
