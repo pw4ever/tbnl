@@ -1,11 +1,13 @@
 (ns figurehead.plugin.monitor.main
   "monitor Activities"
-  (:require (figurehead.util [services :as services :refer [get-service]]))
-  (:require (figurehead.api.app [activity-controller :as activity-controller]))
   (:require (core [init :as init]
                   [state :as state]
                   [bus :as bus]
                   [plugin :as plugin]))
+  (:require (figurehead.util [services :as services :refer [get-service]]))
+  (:require (figurehead.api.app [activity-controller :as activity-controller]))
+  (:require (figurehead.util [unique-instance :refer [set-meta-data-entry
+                                                      register-meta-data-entry]]))
   (:require [clojure.string :as str]
             [clojure.core.async :as async])
   (:import
@@ -39,6 +41,7 @@
 
 (defn init
   [options]
+  (register-meta-data-entry :monitor)
   (when (:monitor options)
     true))
 
@@ -104,6 +107,7 @@
 
         system-not-responding (fn [msg]
                                 1)]
+    (set-meta-data-entry :monitor true)
     (plugin/blocking-jail [
                            ;; timeout
                            nil

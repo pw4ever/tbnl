@@ -93,6 +93,8 @@
     (use 'clojure.repl)
     (use 'clojure.pprint)
     (use 'clojure.java.io)
+    (require '(clojure [string :as str]
+                       [set :as set]))
 
     ;; Android API wrapper
     (require '[figurehead.api.app.activity-manager :as activity-manager])

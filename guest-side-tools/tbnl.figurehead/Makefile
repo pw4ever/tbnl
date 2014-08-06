@@ -1,7 +1,7 @@
 # author: Wei Peng <write.to.peng.wei@gmail.com>
 
 BUILD_TIMESTAMP:=_timestamp_
-SRC:=$(shell find src -type f) project.clj
+SRC:=$(shell find src -type f) $(shell find res -type f) project.clj AndroidManifest.xml
 
 .PHONY: default build doc prepare clean dist-clean
 

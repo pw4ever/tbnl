@@ -1,9 +1,13 @@
 (ns core.state
   "global (rather than plugin) state")
 
-(declare add-state get-state reset-state update-state remove-state
-
-         register-command get-command)
+(declare
+ ;; state management
+ add-state get-state reset-state update-state remove-state list-states
+ ;; command management
+ register-command unregister-command
+ get-command list-commands
+ defcommand)
 
 (def ^:dynamic *state*
   "global state"
@@ -33,6 +37,11 @@
   "remote the state"
   [state]
   (swap! *state* dissoc state))
+
+(defn list-states
+  "list all states"
+  []
+  (keys @*state*))
 
 ;;; special states
 

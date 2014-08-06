@@ -4,6 +4,8 @@
                   [state :as state]
                   [bus :as bus]
                   [plugin :as plugin]))
+  (:require (figurehead.util [unique-instance :refer [set-meta-data-entry
+                                                      register-meta-data-entry]]))
   (:require [clojure.string :as str]
             [clojure.java.io :as io]
             [clojure.stacktrace :refer [print-stack-trace]]
@@ -47,6 +49,8 @@
 
 (defn init
   [options]
+  (register-meta-data-entry :mastermind-address)
+  (register-meta-data-entry :mastermind-port)
   (when (and (:mastermind-address options)
              (:mastermind-port options))
     true))
@@ -57,6 +61,8 @@
         mastermind-address (:mastermind-address options)
         mastermind-port (:mastermind-port options)
         instance-id (state/get-state :instance-id)]
+    (set-meta-data-entry :mastermind-address mastermind-address)
+    (set-meta-data-entry :mastermind-port mastermind-port)
     (let [sock (Socket. ^String mastermind-address
                         ^int mastermind-port)]
       (plugin/blocking-jail [

@@ -5,6 +5,8 @@
                   [bus :as bus]
                   [plugin :as plugin]))
   (:require [figurehead.plugin.nrepl.helper :as helper])
+  (:require (figurehead.util [unique-instance :refer [set-meta-data-entry
+                                                      register-meta-data-entry]]))
   (:require [clojure.tools.nrepl.server :as nrepl-server]
             ;; comment out the middlewares that are incompatible with Dalvik
             (cider.nrepl.middleware apropos
@@ -55,7 +57,8 @@
 
 (defn init
   [options]
-  (when (:nrepl-port options)
+  (register-meta-data-entry :nrepl-port)
+  (when (and (:nrepl-port options))
     true))
 
 (def ^:private cider-middleware
@@ -82,11 +85,12 @@
         nrepl-port (:nrepl-port options)
         scheduler ^ScheduledThreadPoolExecutor (Executors/newScheduledThreadPool 1)
         clean-cache-task (delay ^ScheduledFuture
-                                       (.scheduleAtFixedRate scheduler
-                                                             #(helper/clean-cache)
-                                                             (:clean-cache-interval @defaults)
-                                                             (:clean-cache-interval @defaults)
-                                                             TimeUnit/SECONDS))]
+                                (.scheduleAtFixedRate scheduler
+                                                      #(helper/clean-cache)
+                                                      (:clean-cache-interval @defaults)
+                                                      (:clean-cache-interval @defaults)
+                                                      TimeUnit/SECONDS))]
+    (set-meta-data-entry :nrepl-port nrepl-port)
     (plugin/blocking-jail [
                            ;; timeout
                            nil

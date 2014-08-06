@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+  <Switch
+      android:id="@+id/figurehead_switch"
+      android:text="Status"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentTop="true"
+      android:layout_alignParentLeft="true"
+      android:textOn="On"
+      android:textOff="Off" />
+
+  <CheckBox
+      android:id="@+id/monitor"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/figurehead_switch"
+      android:text="monitor" />
+
+  <CheckBox
+      android:id="@+id/verbose"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignBottom="@id/monitor"
+      android:layout_toRightOf="@id/monitor"
+      android:text="verbose" />
+
+  <EditText
+      android:id="@+id/repl_port"
+      android:layout_width="wrap_content"
+      android:minEms="5"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/monitor"
+      android:hint="REPL port"
+      android:inputType="number" />
+
+  <!-- <EditText -->
+  <!--     android:id="@+id/ui_repl_port" -->
+  <!--     android:layout_width="wrap_content" -->
+  <!--     android:minEms="5" -->
+  <!--     android:layout_height="wrap_content" -->
+  <!--     android:layout_below="@id/repl_port" -->
+  <!--     android:hint="UI REPL port" -->
+  <!--     android:inputType="number" /> -->
+
+  <EditText
+      android:id="@+id/mastermind_address"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_alignBottom="@+id/mastermind_port"
+      android:layout_alignParentLeft="true"
+      android:layout_toLeftOf="@id/mastermind_port"
+      android:hint="Mastermind address"
+      android:inputType="textUri" />
+
+  <EditText
+      android:id="@id/mastermind_port"
+      android:layout_width="wrap_content"
+      android:ems="5"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/repl_port"
+      android:layout_alignParentRight="true"
+      android:hint="port"
+      android:inputType="number" />
+
+  <ScrollView
+      android:id="@+id/scroll_status"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/mastermind_port"
+      android:layout_above="@+id/clear_status"
+      android:layout_alignParentLeft="true"
+      android:layout_alignParentRight="true" >
+
+    <TextView
+	android:id="@+id/status"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:hint="(log goes here)"
+	android:scrollbars="vertical"
+	android:fadeScrollbars="true"
+	android:gravity="bottom"
+	android:textSize="10sp" />
+    
+  </ScrollView>
+
+  <Button
+      android:id="@id/clear_status"
+      android:layout_width="0dp"
+      android:layout_height="30sp"
+      android:layout_alignParentLeft="true"
+      android:layout_alignParentRight="true"
+      android:layout_alignParentBottom="true"
+      android:text="Clear Log"
+      android:padding="1sp"
+      android:textSize="15sp" />
+
+</RelativeLayout>

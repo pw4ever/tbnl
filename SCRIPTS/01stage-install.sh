@@ -12,7 +12,7 @@ adb="${ADB} $@"
 ${adb} root
 ${adb} remount
 
-${adb} push ${STAGE_GUEST}/figurehead.apk /sdcard/
+${adb} push ${STAGE_GUEST}/figurehead.apk /system/app/
 ${adb} push ${STAGE_GUEST}/figurehead /system/bin/
 ${adb} shell chmod 700 /system/bin/figurehead
 

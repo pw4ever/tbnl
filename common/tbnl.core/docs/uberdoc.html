@@ -3761,9 +3761,13 @@ net.brehaut.ClojureTools = (function (SH) {
    :param {:priority 0
            :auto-restart true}})</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#core.state" name="core.state"><h1 class="project-name">core.state</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>global (rather than plugin) state</p>
 </td><td class="codes"><pre class="brush: clojure">(ns core.state)</pre></td></tr><tr><td class="docs">
-</td><td class="codes"><pre class="brush: clojure">(declare add-state get-state reset-state update-state remove-state
-
-         register-command get-command)</pre></td></tr><tr><td class="docs"><p>global state</p>
+</td><td class="codes"><pre class="brush: clojure">(declare
+ ;; state management
+ add-state get-state reset-state update-state remove-state list-states
+ ;; command management
+ register-command unregister-command
+ get-command list-commands
+ defcommand)</pre></td></tr><tr><td class="docs"><p>global state</p>
 </td><td class="codes"><pre class="brush: clojure">(def ^:dynamic *state*
   (atom {}))</pre></td></tr><tr><td class="docs"><p>add the state with the init</p>
 </td><td class="codes"><pre class="brush: clojure">(defn add-state 
@@ -3780,7 +3784,10 @@ net.brehaut.ClojureTools = (function (SH) {
   (apply swap! *state* update-in [state] f args))</pre></td></tr><tr><td class="docs"><p>remote the state</p>
 </td><td class="codes"><pre class="brush: clojure">(defn remove-state 
   [state]
-  (swap! *state* dissoc state))</pre></td></tr><tr><td class="docs"><p>special states</p>
+  (swap! *state* dissoc state))</pre></td></tr><tr><td class="docs"><p>list all states</p>
+</td><td class="codes"><pre class="brush: clojure">(defn list-states
+  []
+  (keys @*state*))</pre></td></tr><tr><td class="docs"><p>special states</p>
 </td><td class="codes"></td></tr><tr><td class="docs"><p>register command to command dispatcherundo register-commandget commandlist all commandsdefine and register the command</p>
 
 <p>command dispatcher</p>

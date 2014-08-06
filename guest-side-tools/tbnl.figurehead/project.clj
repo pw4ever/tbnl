@@ -12,7 +12,7 @@
   :javac-options ["-target" "1.6" "-source" "1.6" "-Xlint:-options"]
 
   :dependencies [[org.clojure-android/clojure "1.6.0-RC1" :use-resources true]
-                 [org.clojars.pw4ever/neko-sdk18 "3.0.2"]
+                 [org.clojars.pw4ever/neko-sdk18 "3.0.3-SNAPSHOT"]
                  [info.voidstar/tbnl.core "0.1.0-SNAPSHOT"]
                  [org.clojure/core.async "0.1.303.0-886421-alpha"]
                  [org.clojure/tools.nrepl "0.2.3"]
@@ -45,20 +45,8 @@
 
                                  :enable-dynamic-compilation true
                                  ;; !!! upstream neko has a misspelling here; fixed in org.clojars.pw4ever/neko-sdk18
-                                 :start-nrepl-server true
-                                 :nrepl-port 9999
-
-                                 :nrepl-middleware [cider.nrepl.middleware.apropos/wrap-apropos
-                                                    cider.nrepl.middleware.classpath/wrap-classpath
-                                                    ;;cider.nrepl.middleware.complete/wrap-complete
-                                                    ;;cider.nrepl.middleware.info/wrap-info
-                                                    cider.nrepl.middleware.inspect/wrap-inspect
-                                                    cider.nrepl.middleware.macroexpand/wrap-macroexpand
-                                                    cider.nrepl.middleware.resource/wrap-resource
-                                                    cider.nrepl.middleware.stacktrace/wrap-stacktrace
-                                                    cider.nrepl.middleware.test/wrap-test
-                                                    ;;cider.nrepl.middleware.trace/wrap-trace
-                                                    ]
+                                 :start-nrepl-server false ;; we will do it manually in neko.activity/defactivity in the main Activity
+                                 ;;:nrepl-port 9999
 
                                  :sdk-path "android-sdk"
 
