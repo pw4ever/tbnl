@@ -40,8 +40,8 @@
                                  ;; and the the alias of the key you want to
                                  ;; sign APKs with. Do it either here or in
                                  ;; ~/.lein/profiles.clj
-                                 ;; :keystore-path "/home/user/.android/private.keystore"
-                                 ;; :key-alias "mykeyalias"
+                                 :keystore-path "/home/wei/.android/pengw.keystore"
+                                 :key-alias "pengw"
 
                                  :enable-dynamic-compilation true
                                  ;; !!! upstream neko has a misspelling here; fixed in org.clojars.pw4ever/neko-sdk18
@@ -51,8 +51,8 @@
                                  :sdk-path "android-sdk"
 
                                  ;; for the default "debug.keystore"
-                                 :keypass "android"
-                                 :storepass "android"
+                                 ;;:keypass "android"
+                                 ;;:storepass "android"
 
                                  :ignore-log-priority [:debug :verbose]
                                  :aot :all}}
