@@ -1,12 +1,11 @@
 (ns figurehead.ui.util
   "utilities"
   (:require (clojure [string :as str]
-                     [set :as set]))
-  (:require clojure.core.async))
+                     [set :as set])))
 
 (declare
  ;; threading
- background-thread
+ background-thread background-looper-thread
  ;; app-info
  app-info
  get-app-info-entry update-app-info-entry
@@ -17,10 +16,30 @@
 (defmacro background-thread
   "run the body in a background thread"
   [& body]
-  `(clojure.core.async/thread
-     (android.os.Process/setThreadPriority (android.os.Process/myTid)
-                                           android.os.Process/THREAD_PRIORITY_BACKGROUND)     
-     ~@body))
+  `(let [thread# (Thread.
+                  (fn []
+                    (android.os.Process/setThreadPriority
+                     (android.os.Process/myTid)
+                     android.os.Process/THREAD_PRIORITY_BACKGROUND)
+                    ~@body))]
+     (.start thread#)
+     thread#))
+
+(defmacro background-looper-thread
+  "run the body in a background thread with a Looper"
+  [& body]
+  `(let [looper# (promise)
+         thread# (Thread.
+                  (fn []
+                    (android.os.Looper/prepare)
+                    (deliver looper# (android.os.Looper/myLooper))
+                    (android.os.Process/setThreadPriority
+                     (android.os.Process/myTid)
+                     android.os.Process/THREAD_PRIORITY_BACKGROUND)
+                    ~@body
+                    (android.os.Looper/loop)))]
+     (.start thread#)
+     looper#))
 
 ;;; app info
 

@@ -5366,7 +5366,6 @@ net.brehaut.ClojureTools = (function (SH) {
            (android.view View)
            (java.util List)))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(declare get-figurehead-apk-path build-figurehead-command
-         execute-root-command
          figurehead-is-running? get-running-figurehead-state)</pre></td></tr><tr><td class="docs"><p>get path to the backing APK</p>
 </td><td class="codes"><pre class="brush: clojure">(defn get-figurehead-apk-path
   [^Context context]
@@ -5385,77 +5384,60 @@ net.brehaut.ClojureTools = (function (SH) {
 </td><td class="codes"><pre class="brush: clojure">(defn build-figurehead-command
   [&amp; commands]
   (when-let [figurehead-script @(get-app-info-entry :figurehead-script)]
-    (str/join &quot; &quot; (into [figurehead-script] commands))))</pre></td></tr><tr><td class="docs"><p>execute root command with call back body</p>
-</td><td class="codes"><pre class="brush: clojure">(defmacro execute-root-command
-  [{:keys [command
-           buffered?
-           threaded-callback?]
-    :or {buffered? true
-         threaded-callback? true}
-    :as options}
-   &amp; callback-body]
-  `(background-thread
-    (try
-      (let [su-instance# (open-root-shell)
-            command# ~command]
-        (try
-          (when command#
-            (apply send-root-command
-                   :su-instance su-instance#
-                   :commands command#
-                   ~(if buffered?
-                      `[:command-result-listener
-                        (fn [~'command-code ~'exit-code ^List ~'output]
-                          ~(if threaded-callback?
-                             `(background-thread
-                               ~@callback-body)
-                             `(do
-                                ~@callback-body)))]
-                      `[:command-line-listener
-                        (fn [^String ~'line]
-                          ~(if threaded-callback?
-                             `(background-thread
-                               ~@callback-body)
-                             `(do
-                                ~@callback-body)))])))
-          (catch Exception e#
-            (print-stack-trace))
-          (finally
-            ;; clean-up one-shot SU resources
-            (when su-instance#
-              (.close su-instance#)))))
-      (catch Exception e#
-        (print-stack-trace e#)))))</pre></td></tr><tr><td class="docs"><p>fast check of whether figurehead is running based on external commands</p>
+    (str/join &quot; &quot; (into [figurehead-script] commands))))</pre></td></tr><tr><td class="docs"><p>fast check of whether figurehead is running based on external commands</p>
 </td><td class="codes"></td></tr><tr><td class="docs"><p>the SU instance for figurehead-is-running?</p>
 </td><td class="codes"><pre class="brush: clojure">(def ^:private su-figurehead-is-running
   (atom nil))</pre></td></tr><tr><td class="docs"><p>return whether figurehead is running</p>
 </td><td class="codes"><pre class="brush: clojure">(defn figurehead-is-running?
   []
   (let [is-running? (promise)
-        command &quot;pgrep -f figurehead.main&quot;]
-    (execute-root-command
-     {:command command
-      :buffered? true}
-     (deliver is-running?
-              (and output
-                   (not (empty? (.trim (str/join &quot; &quot; output)))))))
+        commands [&quot;pgrep -f figurehead.main&quot;]
+        timeout 15]
+    (execute-root-command :commands commands
+                          :timeout timeout
+                          :callback? true
+                          :buffered? true
+                          :on-normal
+                          (do
+                            (try
+                              (deliver is-running?
+                                       (and output
+                                            (not (empty? (.trim (str/join &quot; &quot; output))))))
+                              (catch Exception e
+                                (print-stack-trace e)
+                                (deliver is-running? false))))
+                          :on-error
+                          (do
+                            (deliver is-running?
+                                     false))
+                          :error-message
+                          &quot;Cannot determine whether Figurehead is running&quot;)
     @is-running?))</pre></td></tr><tr><td class="docs"><p>get the running figurehead session's state</p>
 </td><td class="codes"><pre class="brush: clojure">(defn get-running-figurehead-state
   []
   (let [state (promise)]
     (if (figurehead-is-running?)
       (do
-        (let [command (build-figurehead-command &quot;--status&quot;)]
-          (execute-root-command
-           {:command command
-            :buffered? true}
-           (let [output (str/join &quot; &quot; output)]
-             (try
-               (deliver state
-                        (read-string output))
-               (catch Exception e
-                 (print-stack-trace e)
-                 (deliver state nil)))))))
+        (let [commands [(build-figurehead-command &quot;--status&quot;)]
+              timeout 30]
+          (execute-root-command :commands commands
+                                :timeout timeout
+                                :callback? true
+                                :buffered? true
+                                :on-normal
+                                (do
+                                  (let [output (str/join &quot; &quot; output)]
+                                    (try
+                                      (deliver state
+                                               (read-string output))
+                                      (catch Exception e
+                                        (print-stack-trace e)
+                                        (deliver state nil)))))
+                                :on-error
+                                (do
+                                  (deliver state nil))
+                                :error-message
+                                &quot;Cannot access Figurehead running state&quot;)))
       (do
         (deliver state nil)))
     @state))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.ui.helper.repl" name="figurehead.ui.helper.repl"><h1 class="project-name">figurehead.ui.helper.repl</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>REPL helpers</p>
@@ -5746,7 +5728,6 @@ net.brehaut.ClojureTools = (function (SH) {
             (neko.listeners [view :refer [on-click]]))
   (:require (clojure [string :as str]
                      [pprint :refer [pprint]]))
-  (:require [clojure.core.async :refer [thread]])
   (:require [clojure.stacktrace :refer [print-stack-trace]])
   (:import (android.app Activity)
            (android.widget Switch
@@ -5762,9 +5743,7 @@ net.brehaut.ClojureTools = (function (SH) {
                           R$id))
   (:import eu.chainfire.libsuperuser.Shell$Interactive))</pre></td></tr><tr><td class="docs"><p>all the widgets on this activity</p>
 </td><td class="codes"><pre class="brush: clojure">(def widgets
-  (atom nil))</pre></td></tr><tr><td class="docs"><p>the common root shell</p>
-</td><td class="codes"><pre class="brush: clojure">(def common-root-shell
-  (promise))</pre></td></tr><tr><td class="docs">
+  (atom nil))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(defactivity figurehead.ui.main
   :on-create
   (fn [^Activity this bundle]
@@ -5785,53 +5764,54 @@ net.brehaut.ClojureTools = (function (SH) {
                  :status ^TextView (find-view R$id/status)
                  :clear-status ^Button (find-view R$id/clear_status)})))
     (set-app-info-entry :figurehead-script (promise))
-    (background-thread
-     (if (su?)
-       (do
-         (try
-           (when-not (get-app-info-entry :apk-path)
-             (set-app-info-entry :apk-path (get-figurehead-apk-path this)))
-           (let [apk-path (get-app-info-entry :apk-path)]
-             (if apk-path
-               (do
-                 ;; warm up
-                 (deliver common-root-shell
-                          (open-root-shell))
-                 (let [path (FilenameUtils/getFullPath apk-path)
-                       figurehead-script &quot;/system/bin/figurehead&quot;
-                       command (str/join &quot; ; &quot;
-                                         [
-                                          ;; create the script in one write
-                                          (str &quot;echo \
-                                               (str/join &quot;\\n&quot;
-                                                         [&quot;# bootstrapping Figurehead&quot;
-                                                          (str &quot;export CLASSPATH=&quot; apk-path)
-                                                          (str &quot;exec app_process &quot;
-                                                               path
-                                                               &quot; figurehead.main \\\&quot;\\$@\\\)])
-                                               &quot;\&quot; &gt; &quot;
-                                               figurehead-script)
-                                          (str &quot;chmod 700 &quot;
-                                               figurehead-script)])]
-                   (send-root-command
-                    :su-instance @common-root-shell
-                    :commands command
-                    :command-result-listener
-                    (fn [command-code exit-code output]
-                      (when (= exit-code 0)
-                        (deliver (get-app-info-entry :figurehead-script)
-                                 figurehead-script))))))
-               (do
-                 (on-ui
-                  (toast &quot;Figurehead cannot find its own APK.&quot;))
-                 (deliver (get-app-info-entry :figurehead-script)
-                          nil))))
-           (catch Exception e
-             (print-stack-trace e))))
-       (do
-         ;; no SU
-         (on-ui
-          (toast &quot;Superuser needed but not available!&quot;))))))
+    (if (su?)
+      (do
+        (try
+          (when-not (get-app-info-entry :apk-path)
+            (set-app-info-entry :apk-path (get-figurehead-apk-path this)))
+          (let [apk-path (get-app-info-entry :apk-path)]
+            (if apk-path
+              (do
+                (let [path (FilenameUtils/getFullPath apk-path)
+                      figurehead-script &quot;/system/bin/figurehead&quot;]
+                  (let [commands [
+                                  ;; create the script in one write
+                                  (str &quot;echo \
+                                       (str/join &quot;\\n&quot;
+                                                 [&quot;# bootstrapping Figurehead&quot;
+                                                  (str &quot;export CLASSPATH=&quot; apk-path)
+                                                  (str &quot;exec app_process &quot;
+                                                       path
+                                                       &quot; figurehead.main \\\&quot;\\$@\\\)])
+                                       &quot;\&quot; &gt; &quot;
+                                       figurehead-script)
+                                  (str &quot;chmod 700 &quot;
+                                       figurehead-script)]
+                        ;; factor in the time it takes for user to authorize SU 
+                        timeout 60]
+                    (execute-root-command :commands commands
+                                          :timeout timeout
+                                          :callback? true
+                                          :buffered? false
+                                          :on-normal
+                                          (do
+                                            (deliver (get-app-info-entry :figurehead-script)
+                                                     figurehead-script))
+                                          :error-message
+                                          (str/join &quot; &quot;
+                                                    [&quot;Cannot create&quot;
+                                                     figurehead-script])))))
+              (do
+                (on-ui
+                 (toast &quot;Figurehead cannot find its own APK.&quot;))
+                (deliver (get-app-info-entry :figurehead-script)
+                         nil))))
+          (catch Exception e
+            (print-stack-trace e))))
+      (do
+        ;; no SU
+        (on-ui
+         (toast &quot;Superuser needed but not available!&quot;)))))
   :on-resume
   (fn [^Activity this]
     (let [widgets @widgets]
@@ -5848,25 +5828,42 @@ net.brehaut.ClojureTools = (function (SH) {
           (proxy [android.widget.CompoundButton$OnCheckedChangeListener] []
             (onCheckedChanged [^android.widget.CompoundButton button-view
                                is-checked?]
-              (background-thread
+              (background-looper-thread
                (let [figurehead-is-running? (figurehead-is-running?)]
                  (when (not= is-checked? figurehead-is-running?)
-                   ;; temporarily disable widgets during state transition
-                   (set-enabled widgets false)
+                   (on-ui
+                    ;; temporarily disable widgets during state transition
+                    (set-enabled widgets false)
+                    ;; allow user to change her mind
+                    (.setEnabled widget-figurehead-switch true))
                    (if is-checked?
                      (do
                        ;; turn on
                        (let [figurehead-args (into [&quot;--replace&quot;]
                                                    (widgets-to-figurehead-args widgets))
-                             command (apply build-figurehead-command figurehead-args)]
-                         (execute-root-command
-                          {:command command
-                           :buffered? false}
-                          (on-ui
-                           (.append widget-status (with-out-str (println line)))
-                           (.post widget-scroll-status
-                                  #(.fullScroll widget-scroll-status
-                                                View/FOCUS_DOWN)))))
+                             commands [(apply build-figurehead-command figurehead-args)]
+                             ;; this is supposed to be a long running command
+                             timeout 0]
+                         (execute-root-command :commands commands
+                                               :timeout timeout
+                                               :callback? true
+                                               :buffered? false
+                                               :command-line-listener
+                                               (do
+                                                 (on-ui
+                                                  (.append widget-status
+                                                           (with-out-str (println line)))
+                                                  (.post widget-scroll-status
+                                                         #(.fullScroll widget-scroll-status
+                                                                       View/FOCUS_DOWN))))
+                                               :on-error
+                                               (do
+                                                 (.setEnabled widget-figurehead-switch true)
+                                                 (.setEnabled widget-scroll-status true)
+                                                 (.setEnabled widget-status true)
+                                                 (.setEnabled widget-clear-status true))
+                                               :error-message
+                                               &quot;Cannot start Figurehead&quot;))
                        ;; enable needed widgets
                        (on-ui
                         (do
@@ -5876,14 +5873,18 @@ net.brehaut.ClojureTools = (function (SH) {
                           (.setEnabled widget-clear-status true)))) 
                      (do
                        ;; turn off
-                       (let [command (build-figurehead-command &quot;--kill&quot;)]
-                         (execute-root-command
-                          {:command command
-                           :buffered? true}
-                          (set-enabled widgets true)
-                          (when-not (= exit-code 0)
-                            (on-ui
-                             (toast &quot;Cannot turn off Figurehead&quot;)))))))))))))))))
+                       (let [commands [(build-figurehead-command &quot;--kill&quot;)]
+                             timeout 30]
+                         (execute-root-command :commands commands
+                                               :timeout timeout
+                                               :callback? true
+                                               :buffered? false
+                                               :on-normal
+                                               (do
+                                                 (on-ui
+                                                  (set-enabled widgets true)))
+                                               :error-message
+                                               &quot;Cannot turn off Figurehead&quot;))))))))))))))
   :on-pause
   (fn [^Activity this]
     (let [widgets @widgets]
@@ -5898,10 +5899,9 @@ net.brehaut.ClojureTools = (function (SH) {
   (fn [^Activity this]
     (let [widgets @widgets]
       (with-widgets widgets
-        (save-widget-state widgets)        
-        (when @common-root-shell
-          (.close ^Shell$Interactive @common-root-shell))))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.ui.su" name="figurehead.ui.su"><h1 class="project-name">figurehead.ui.su</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+        (save-widget-state widgets)))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.ui.su" name="figurehead.ui.su"><h1 class="project-name">figurehead.ui.su</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.ui.su
+  (:use (figurehead.ui util))
   (:require (neko [notify :refer [toast]]
                   [threading :refer [on-ui]]
                   [log :as log]))
@@ -5921,7 +5921,7 @@ net.brehaut.ClojureTools = (function (SH) {
 </td><td class="codes"><pre class="brush: clojure">(declare su?
          su sh
          open-root-shell
-         send-root-command)</pre></td></tr><tr><td class="docs"><p>check whether SuperUser is available</p>
+         execute-root-command)</pre></td></tr><tr><td class="docs"><p>check whether SuperUser is available</p>
 </td><td class="codes"><pre class="brush: clojure">(defn su?
   []
   (Shell$SU/available))</pre></td></tr><tr><td class="docs"><p>run cmds with Super User</p>
@@ -5933,99 +5933,280 @@ net.brehaut.ClojureTools = (function (SH) {
   [&amp; commands]
   (when commands
     (Shell$SH/run (ArrayList. ^Collection commands))))</pre></td></tr><tr><td class="docs"><p>open a new root shell</p>
-</td><td class="codes"><pre class="brush: clojure">(defn ^Shell$Interactive open-root-shell
+</td><td class="codes"><pre class="brush: clojure">(defmacro open-root-shell
   [&amp;
-   {:keys [on-shell-running
-           watch-dog-timeout
-           command-result-listener
+   {:keys [timeout
            want-stderr?
-           minimal-logging?]
-    :or {watch-dog-timeout 0
-         want-stderr? false
-         minimal-logging? true}
-    :as args}]
-  (let [su (.. (Shell$Builder.)
-            (useSU)
-            (setAutoHandler true)
-            (setWantSTDERR want-stderr?)
-            (setMinimalLogging minimal-logging?)
-            (setWatchdogTimeout watch-dog-timeout)
-            (open (proxy [Shell$OnCommandResultListener] []
-                    (onCommandResult [command-code exit-code ^List output]
-                      (when command-result-listener
-                        (command-result-listener command-code exit-code output))
-                      (case exit-code
-                        Shell$OnCommandResultListener/SHELL_RUNNING
-                        (do
-                          (when on-shell-running
-                            (on-shell-running command-code
-                                              exit-code
-                                              output)))
-                        Shell$OnCommandResultListener/WATCHDOG_EXIT
-                        (do)
-                        Shell$OnCommandResultListener/SHELL_DIED
-                        (do)
-                        Shell$OnCommandResultListener/SHELL_EXEC_FAILED
-                        (do)
-                        Shell$OnCommandResultListener/SHELL_WRONG_UID
-                        (do)
-                        ;; default clause
-                        (do))))))]
-    su))</pre></td></tr><tr><td class="docs"><p>send commands to the root shell instance su-instance, create it if nil</p>
-</td><td class="codes"><pre class="brush: clojure">(defn send-root-command
-  [&amp;
-   {:keys [su-instance
-           commands
-           command-code
+           minimal-logging?
+           callback?
            command-result-listener
-           command-line-listener]
-    :or {command-code 0}
+           on-shell-running
+           on-watchdog-exit
+           on-shell-died
+           on-shell-exec-failed
+           on-shell-wrong-uid
+           on-default
+           on-error
+           on-normal
+           error-message]
+    :or {timeout 0
+         want-stderr? false
+         minimal-logging? true
+         callback? false
+         error-message &quot;open-root-shell&quot;}
     :as args}]
-  (when-let [^Shell$Interactive su-instance (if su-instance
-                                              su-instance
-                                              (open-root-shell))]
-    (let [commands (if (sequential? commands)
-                     commands
-                     [commands])]
-      (doseq [command commands]
-        (let [command (str command)]
-          (let [info (str &quot;SU: &quot; command)]
-            ;; do not distract user with excessive toasts 
-            #_(on-ui
-               (toast info :short))
-            (log/i info))
-          (cond command-line-listener
-                (do
-                  (.addCommand su-instance
-                               ^String command
-                               ^int command-code
-                               (proxy [Shell$OnCommandLineListener] []
-                                 (onLine [^String line]
-                                   (command-line-listener line))
-                                 (onCommandResult [command-code exit-code]
-                                   (when command-result-listener
-                                     (command-result-listener command-code exit-code))))))
-                command-result-listener
-                (do
-                  (.addCommand su-instance
-                               ^String command
-                               ^int command-code
-                               (proxy [Shell$OnCommandResultListener] []
-                                 (onCommandResult [command-code exit-code ^List output]
-                                   (command-result-listener command-code
-                                                            exit-code
-                                                            output)))))
-                :else
-                (do
-                  (.addCommand su-instance
-                               ^String command))))))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.ui.util" name="figurehead.ui.util"><h1 class="project-name">figurehead.ui.util</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>utilities</p>
+  `(let [timeout# ~timeout
+         want-stderr?# ~want-stderr?
+         minimal-logging?# ~minimal-logging?
+         ~'error-message ~error-message
+         su# (promise)]
+     (background-looper-thread
+      (deliver su#
+               (.. (Shell$Builder.)
+                   (useSU)
+                   (setAutoHandler true)
+                   (setWatchdogTimeout timeout#)
+                   (setWantSTDERR want-stderr?#)
+                   (setMinimalLogging minimal-logging?#)
+                   (open
+                    ~(when callback?
+                       `(proxy [Shell$OnCommandResultListener] []
+                          (onCommandResult [~'command-code
+                                            ~'exit-code
+                                            ^List ~'output]
+                            ~command-result-listener
+                            (if (&gt;= ~'exit-code 0)
+                              (do
+                                ;; normal
+                                ~on-normal)
+                              (do
+                                ;; error
+                                (let [error# (str ~'error-message
+                                                  &quot; &quot;
+                                                  ~'exit-code)]
+                                  (neko.threading/on-ui
+                                   (neko.notify/toast error#))
+                                  (neko.log/e error#))
+                                ~on-error))
+                            (case ~'exit-code
+                              Shell$OnCommandResultListener/SHELL_RUNNING
+                              (do
+                                ~on-shell-running)
+                              Shell$OnCommandResultListener/WATCHDOG_EXIT
+                              (do
+                                (let [error# (str ~'error-message
+                                                  &quot; (timeout)&quot;)]
+                                  (neko.threading/on-ui
+                                   (neko.notify/toast error#))
+                                  (neko.log/e error#))
+                                ~on-watchdog-exit)
+                              Shell$OnCommandResultListener/SHELL_DIED
+                              (do
+                                (let [error# (str ~'error-message
+                                                  &quot; (died)&quot;)]
+                                  (neko.threading/on-ui
+                                   (neko.notify/toast error#))
+                                  (neko.log/e error#))
+                                ~on-shell-died)
+                              Shell$OnCommandResultListener/SHELL_EXEC_FAILED
+                              (do
+                                (let [error# (str ~'error-message
+                                                  &quot; (exec failed)&quot;)]
+                                  (neko.threading/on-ui
+                                   (neko.notify/toast error#))
+                                  (neko.log/e error#))
+                                ~on-shell-exec-failed)
+                              Shell$OnCommandResultListener/SHELL_WRONG_UID
+                              (do
+                                (let [error# (str ~'error-message
+                                                  &quot; (wrong uid)&quot;)]
+                                  (neko.threading/on-ui
+                                   (neko.notify/toast error#))
+                                  (neko.log/e error#))
+                                ~on-shell-wrong-uid)
+                              ;; default clause
+                              ;; should not reach here
+                              (do
+                                ~on-default)))))))))
+     @su#))</pre></td></tr><tr><td class="docs"><p>execute root command</p>
+</td><td class="codes"><pre class="brush: clojure">(defmacro execute-root-command
+  [&amp;
+   {:keys [commands
+           timeout
+           command-code
+           callback?
+           buffered?
+           command-result-listener
+           command-line-listener
+           on-shell-running
+           on-watchdog-exit
+           on-shell-died
+           on-shell-exec-failed
+           on-shell-wrong-uid
+           on-default
+           on-error
+           on-normal
+           error-message]
+    :or {commands []
+         timeout 0
+         command-code 0
+         callback? false
+         buffered? true
+         error-message &quot;execute-root-command&quot;}
+    :as args}]
+  `(background-looper-thread
+    (try
+      (let [commands# ~commands
+            timeout# ~timeout
+            command-code# ~command-code
+            ~'error-message ~error-message]
+        (let [^Shell$Interactive
+              su-instance# (open-root-shell
+                            :timeout timeout#)]
+          (try
+            (let [commands# (if (sequential? commands#)
+                              commands#
+                              [commands#])]
+              (doseq [command# commands#]
+                (let [command# (str command#)]
+                  (let [info# (str &quot;SU: &quot; command#)]
+                    (log/i info#))
+                  (.addCommand su-instance#
+                               ^String command#
+                               command-code#
+                               ~(when callback?
+                                  (if buffered?
+                                    (do
+                                      ;; process buffered output
+                                      `(proxy [Shell$OnCommandResultListener] []
+                                         (onCommandResult [~'command-code
+                                                           ~'exit-code
+                                                           ^List ~'output]
+                                           ~command-result-listener
+                                           (if (&gt;= ~'exit-code 0)
+                                             (do
+                                               ;; normal
+                                               ~on-normal)
+                                             (do
+                                               ;; error
+                                               (let [error# (str ~'error-message
+                                                                 &quot; &quot;
+                                                                 ~'exit-code)]
+                                                 (neko.threading/on-ui
+                                                  (neko.notify/toast error#))
+                                                 (neko.log/e error#))
+                                               ~on-error))
+                                           (case ~'exit-code
+                                             Shell$OnCommandResultListener/SHELL_RUNNING
+                                             (do
+                                               ~on-shell-running)
+                                             Shell$OnCommandResultListener/WATCHDOG_EXIT
+                                             (do
+                                               (let [error# (str ~'error-message
+                                                                 &quot; (timeout)&quot;)]
+                                                 (neko.threading/on-ui
+                                                  (neko.notify/toast error#))
+                                                 (neko.log/e error#))
+                                               ~on-watchdog-exit)
+                                             Shell$OnCommandResultListener/SHELL_DIED
+                                             (do
+                                               (let [error# (str ~'error-message
+                                                                 &quot; (died)&quot;)]
+                                                 (neko.threading/on-ui
+                                                  (neko.notify/toast error#))
+                                                 (neko.log/e error#))
+                                               ~on-shell-died)
+                                             Shell$OnCommandResultListener/SHELL_EXEC_FAILED
+                                             (do
+                                               (let [error# (str ~'error-message
+                                                                 &quot; (exec failed)&quot;)]
+                                                 (neko.threading/on-ui
+                                                  (neko.notify/toast error#))
+                                                 (neko.log/e error#))
+                                               ~on-shell-exec-failed)
+                                             Shell$OnCommandResultListener/SHELL_WRONG_UID
+                                             (do
+                                               (let [error# (str ~'error-message
+                                                                 &quot; (wrong uid)&quot;)]
+                                                 (neko.threading/on-ui
+                                                  (neko.notify/toast error#))
+                                                 (neko.log/e error#))
+                                               ~on-shell-wrong-uid)
+                                             ;; default clause
+                                             ;; should not reach here
+                                             (do
+                                               ~on-default)))))
+                                    (do
+                                      ;; process output line by line
+                                      `(proxy [Shell$OnCommandLineListener] []
+                                         (onLine [^String ~'line]
+                                           ~command-line-listener)
+                                         (onCommandResult [~'command-code
+                                                           ~'exit-code]
+                                           ~command-result-listener
+                                           (if (&gt;= ~'exit-code 0)
+                                             (do
+                                               ;; normal
+                                               ~on-normal)
+                                             (do
+                                               ;; error
+                                               (let [error# (str ~'error-message
+                                                                 &quot; &quot;
+                                                                 ~'exit-code)]
+                                                 (neko.threading/on-ui
+                                                  (neko.notify/toast error#))
+                                                 (neko.log/e error#))
+                                               ~on-error))
+                                           (case ~'exit-code
+                                             Shell$OnCommandLineListener/SHELL_RUNNING
+                                             (do
+                                               ~on-shell-running)
+                                             Shell$OnCommandLineListener/WATCHDOG_EXIT
+                                             (do
+                                               (let [error# (str ~'error-message
+                                                                 &quot; (timeout)&quot;)]
+                                                 (neko.threading/on-ui
+                                                  (neko.notify/toast error#))
+                                                 (neko.log/e error#))
+                                               ~on-watchdog-exit)
+                                             Shell$OnCommandLineListener/SHELL_DIED
+                                             (do
+                                               (let [error# (str ~'error-message
+                                                                 &quot; (died)&quot;)]
+                                                 (neko.threading/on-ui
+                                                  (neko.notify/toast error#))
+                                                 (neko.log/e error#))
+                                               ~on-shell-died)
+                                             Shell$OnCommandLineListener/SHELL_EXEC_FAILED
+                                             (do
+                                               (let [error# (str ~'error-message
+                                                                 &quot; (exec failed)&quot;)]
+                                                 (neko.threading/on-ui
+                                                  (neko.notify/toast error#))
+                                                 (neko.log/e error#))
+                                               ~on-shell-exec-failed)
+                                             Shell$OnCommandLineListener/SHELL_WRONG_UID
+                                             (do
+                                               (let [error# (str ~'error-message
+                                                                 &quot; (wrong uid)&quot;)]
+                                                 (neko.threading/on-ui
+                                                  (neko.notify/toast error#))
+                                                 (neko.log/e error#))
+                                               ~on-shell-wrong-uid)
+                                             ;; default clause
+                                             ;; should not reach here
+                                             (do
+                                               ~on-default)))))))))))
+            (finally
+              (.close su-instance#)))))
+      (catch Exception e#
+        (print-stack-trace e#)))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.ui.util" name="figurehead.ui.util"><h1 class="project-name">figurehead.ui.util</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>utilities</p>
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.ui.util
   (:require (clojure [string :as str]
-                     [set :as set]))
-  (:require clojure.core.async))</pre></td></tr><tr><td class="docs">
+                     [set :as set])))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(declare
  ;; threading
- background-thread
+ background-thread background-looper-thread
  ;; app-info
  app-info
  get-app-info-entry update-app-info-entry
@@ -6033,10 +6214,28 @@ net.brehaut.ClojureTools = (function (SH) {
 </td><td class="codes"></td></tr><tr><td class="docs"><p>run the body in a background thread</p>
 </td><td class="codes"><pre class="brush: clojure">(defmacro background-thread
   [&amp; body]
-  `(clojure.core.async/thread
-     (android.os.Process/setThreadPriority (android.os.Process/myTid)
-                                           android.os.Process/THREAD_PRIORITY_BACKGROUND)     
-     ~@body))</pre></td></tr><tr><td class="docs"><p>app info</p>
+  `(let [thread# (Thread.
+                  (fn []
+                    (android.os.Process/setThreadPriority
+                     (android.os.Process/myTid)
+                     android.os.Process/THREAD_PRIORITY_BACKGROUND)
+                    ~@body))]
+     (.start thread#)
+     thread#))</pre></td></tr><tr><td class="docs"><p>run the body in a background thread with a Looper</p>
+</td><td class="codes"><pre class="brush: clojure">(defmacro background-looper-thread
+  [&amp; body]
+  `(let [looper# (promise)
+         thread# (Thread.
+                  (fn []
+                    (android.os.Looper/prepare)
+                    (deliver looper# (android.os.Looper/myLooper))
+                    (android.os.Process/setThreadPriority
+                     (android.os.Process/myTid)
+                     android.os.Process/THREAD_PRIORITY_BACKGROUND)
+                    ~@body
+                    (android.os.Looper/loop)))]
+     (.start thread#)
+     looper#))</pre></td></tr><tr><td class="docs"><p>app info</p>
 </td><td class="codes"></td></tr><tr><td class="docs"><p>app info</p>
 </td><td class="codes"><pre class="brush: clojure">(def app-info
   (atom {}))</pre></td></tr><tr><td class="docs"><p>get app info entry with <name></p>
