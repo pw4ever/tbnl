@@ -84,7 +84,7 @@
                                   (str "chmod 700 "
                                        figurehead-script)]
                         ;; factor in the time it takes for user to authorize SU 
-                        timeout 60]
+                        timeout 120]
                     (execute-root-command :commands commands
                                           :timeout timeout
                                           :callback? true
@@ -178,7 +178,7 @@
                      (do
                        ;; turn off
                        (let [commands [(build-figurehead-command "--kill")]
-                             timeout 30]
+                             timeout 120]
                          (execute-root-command :commands commands
                                                :timeout timeout
                                                :callback? true

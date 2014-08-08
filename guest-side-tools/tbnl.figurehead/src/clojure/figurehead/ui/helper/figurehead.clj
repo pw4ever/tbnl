@@ -54,7 +54,7 @@
   []
   (let [is-running? (promise)
         commands ["pgrep -f figurehead.main"]
-        timeout 15]
+        timeout 60]
     (execute-root-command :commands commands
                           :timeout timeout
                           :callback? true
@@ -86,7 +86,7 @@
     (if (figurehead-is-running?)
       (do
         (let [commands [(build-figurehead-command "--status")]
-              timeout 30]
+              timeout 120]
           (execute-root-command :commands commands
                                 :timeout timeout
                                 :callback? true

@@ -5392,7 +5392,7 @@ net.brehaut.ClojureTools = (function (SH) {
   []
   (let [is-running? (promise)
         commands [&quot;pgrep -f figurehead.main&quot;]
-        timeout 15]
+        timeout 60]
     (execute-root-command :commands commands
                           :timeout timeout
                           :callback? true
@@ -5419,7 +5419,7 @@ net.brehaut.ClojureTools = (function (SH) {
     (if (figurehead-is-running?)
       (do
         (let [commands [(build-figurehead-command &quot;--status&quot;)]
-              timeout 30]
+              timeout 120]
           (execute-root-command :commands commands
                                 :timeout timeout
                                 :callback? true
@@ -5788,7 +5788,7 @@ net.brehaut.ClojureTools = (function (SH) {
                                   (str &quot;chmod 700 &quot;
                                        figurehead-script)]
                         ;; factor in the time it takes for user to authorize SU 
-                        timeout 60]
+                        timeout 120]
                     (execute-root-command :commands commands
                                           :timeout timeout
                                           :callback? true
@@ -5874,7 +5874,7 @@ net.brehaut.ClojureTools = (function (SH) {
                      (do
                        ;; turn off
                        (let [commands [(build-figurehead-command &quot;--kill&quot;)]
-                             timeout 30]
+                             timeout 120]
                          (execute-root-command :commands commands
                                                :timeout timeout
                                                :callback? true
