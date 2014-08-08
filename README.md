@@ -2,48 +2,40 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
-- [TBNL: power tool for Android system hacking, in Clojure](#tbnl-power-tool-for-android-system-hacking-in-clojure)
-  - [eye catcher](#eye-catcher)
-  - [why?](#why)
-  - [try it](#try-it)
-    - [use cases](#use-cases)
-  - [documentation](#documentation)
-    - [annotated source in [Marginalia](https://github.com/gdeer81/marginalia)](#annotated-source-in-marginaliahttpsgithubcomgdeer81marginalia)
-  - [permission](#permission)
-  - [thanks](#thanks)
+- [TBNL: Rule your Android, as the Root, fully programmable, in Clojure ](#tbnl-rule-your-android-as-the-root-fully-programmable-in-clojure)
+	- [see it in action](#see-it-in-action)
+	- [try it](#try-it)
+	- [annotated source in [Marginalia](https://github.com/gdeer81/marginalia)](#annotated-source-in-marginaliahttpsgithubcomgdeer81marginalia)
+	- [permission](#permission)
+	- [thanks](#thanks)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-TBNL: power tool for Android system hacking, in Clojure
+TBNL: Rule your Android, as the Root, fully programmable, in Clojure 
 =====
 Copyright &copy; Wei Peng
 
-One tool that rules all your [Android](http://www.android.com/) ([rooted](http://www.androidcentral.com/root)) devices/emulators, at scale, in [Clojure](http://clojure.org/).
+The tag line above says it all. 
+
+If you are a [hacker](https://en.wikipedia.org/wiki/Hacker_(programmer_subculture)), who wants to **own** your [rooted](http://www.androidcentral.com/root) [Android](http://www.android.com/) 4.3/SDK18+ devices in something nicer than Android's native tongue (i.e., Java) or the command-line power tools (e.g., [`am`](https://developer.android.com/tools/help/adb.html#am) and [`pm`](https://developer.android.com/tools/help/adb.html#pm)), say, [Clojure](http://clojure.org/)...
+
+This is my gift to you.
 
 TBNL (To Be Named Later) is a pun on the framework's open & exploratory nature, inspired by [Edi Weitz](http://weitz.de/)'s [TBNL](http://weitz.de/tbnl/).
 
-eye catcher
+see it in action
 -----
 
-[![Clojure REPL](http://img.youtube.com/vi/jC-aaIewNkc/0.jpg)](http://youtu.be/jC-aaIewNkc)
-
-[More demos on Wiki.](https://github.com/pw4ever/tbnl/wiki/demos)
-
-why?
------
-
-* Android system tools ([`am`](https://developer.android.com/tools/help/adb.html#am), [`pm`](https://developer.android.com/tools/help/adb.html#pm), [`input`](http://stackoverflow.com/a/8483797), and more), on steroid, **all in one**, directly available to you under a **full-feature** (not some emulation) [remote Clojure REPL](https://www.youtube.com/watch?v=jC-aaIewNkc) **for all your (Android 4.3+/SDK 18+, rooted) Android devices and emulators**.
-* No more 6G+ downloads and 30G+ caches of [AOSP](https://source.android.com/) for system hacking.
-* **Instant** system hacking in Clojure with **internal** Android API fully exposed. 
-* Life is too short for hacking Android in Java. Compare the source code of [our Clojure version](https://github.com/pw4ever/tbnl/blob/gh-pages/guest-side-tools/tbnl.figurehead/src/clojure/figurehead/api/view/input.clj) and [Android's Java version](https://github.com/android/platform_frameworks_base/blob/master/cmds/input/src/com/android/commands/input/Input.java) of `input`---our version is even more user friendly and fully programmable in the remote REPL **without** `adb`.
-* Multiple [C\&Cs][cnc] and [figureheads][figurehead]; one [mastermind][mastermind]: Sharing the same extensible plug-in framework, batteries included, and still expanding.
+[Video demos.](https://github.com/pw4ever/tbnl/wiki/demos)
 
 try it
 -----
 
 First, make sure to [satisfy the build/runtime dependencies](https://github.com/pw4ever/tbnl/wiki/try-it-out#dependencies).
 
-To try out TBNL, you have 2 options:
+You may first want to try [the Figurehead Android app in Google Play Store](https://play.google.com/store/apps/details?id=figurehead.ui) on your rooted "SDK 18/Android 4.3"+ smartphones/tablets/emulators. For emulator, [Genymotion](http://www.genymotion.com/) is recommended.
+
+To try out the full TBNL, you have 2 options:
 
 * [download & install it *without* the source code](https://github.com/pw4ever/tbnl/wiki/try-it-out#without-source): Easy and quick to get started; but may not have the latest version; does not support further development.
 * [build & install it *with* the source code](https://github.com/pw4ever/tbnl/wiki/try-it-out#with-source): Longer to set up *the first time*; but easy to build against the latest version; support further development.
@@ -55,19 +47,20 @@ Then, you can [run the tools](https://github.com/pw4ever/tbnl/wiki/try-it-out#ru
 
 All tested on [Arch Linux](https://www.archlinux.org/).
 
-### use cases
-
-See [these canned use cases](https://github.com/pw4ever/tbnl/wiki/canned-use-cases) for ideas how TBNL can help explore the Android system.
-
-documentation
+annotated source in [Marginalia](https://github.com/gdeer81/marginalia)
 -----
 
-### annotated source in [Marginalia](https://github.com/gdeer81/marginalia)
 The ultimate truth lies in the code.
+
+This is probably what you are looking for.
+* [figurehead][figurehead] 
+
+The other components.
 * [core][core] 
 * [mastermind][mastermind]
 * [C\&C][cnc]
-* [figurehead][figurehead] 
+
+See also [the project Wiki](https://github.com/pw4ever/tbnl/wiki).
 
 permission
 -----
@@ -88,9 +81,10 @@ Please consider:
 
 thanks
 -----
-* [Dr. Feng Li](http://www.engr.iupui.edu/~fengli/) and [Dr. Xukai Zou](http://cs.iupui.edu/~xkzou/), who advise and support my PhD research that starts TBNL.
+* [Dr. Feng Li](http://www.engr.iupui.edu/~fengli/) and [Dr. Xukai Zou](http://cs.iupui.edu/~xkzou/), who advise and support my research into Android system security that begets TBNL.
 * The Clojure community.
   * In particular, [Alexander Yakushev](https://github.com/alexander-yakushev) and others in the small but welcoming family of [Clojure on Android](http://clojure-android.info/).
+* In choosing an icon for the Figurehead app, I come across the wonderful [The Digital Michelangelo Project](http://graphics.stanford.edu/projects/mich/). I take the liberty of using a meshed（figure)head of David as the icon of Figurehead, in homage of their work. I hope the authors would not mind.
 
 [core]: https://pw4ever.github.io/tbnl/common/tbnl.core/docs/uberdoc.html "core API"
 [mastermind]: https://pw4ever.github.io/tbnl/common/tbnl.core/docs/uberdoc.html "annotated source code of mastermind"
