@@ -2,7 +2,7 @@
   "utilities"
   (:require (clojure [string :as str]
                      [set :as set]))
-  (:require [clojure.core.async :refer [thread]]))
+  (:require clojure.core.async))
 
 (declare
  ;; threading

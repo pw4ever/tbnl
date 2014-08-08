@@ -1,5 +1,9 @@
 (ns figurehead.ui.su
-  (:require [clojure.string :as str])
+  (:require (neko [notify :refer [toast]]
+                  [threading :refer [on-ui]]
+                  [log :as log]))
+  (:require (clojure [string :as str]
+                     [stacktrace :refer [print-stack-trace]]))
   (:import (android.content Context))
   (:import (java.util Collection
                       ArrayList
@@ -16,8 +20,6 @@
          su sh
          open-root-shell
          send-root-command)
-
-(def root-shell (atom nil))
 
 (defn su?
   "check whether SuperUser is available"
@@ -49,43 +51,39 @@
          minimal-logging? true}
     :as args}]
   (let [su (.. (Shell$Builder.)
-               (useSU)
-               (setWantSTDERR want-stderr?)
-               (setMinimalLogging minimal-logging?)
-               (setWatchdogTimeout watch-dog-timeout)
-               (open (proxy [Shell$OnCommandResultListener] []
-                       (onCommandResult [command-code exit-code ^List output]
-                         (when command-result-listener
-                           (command-result-listener command-code exit-code output))
-                         
-                         (case exit-code
+            (useSU)
+            (setAutoHandler true)
+            (setWantSTDERR want-stderr?)
+            (setMinimalLogging minimal-logging?)
+            (setWatchdogTimeout watch-dog-timeout)
+            (open (proxy [Shell$OnCommandResultListener] []
+                    (onCommandResult [command-code exit-code ^List output]
+                      (when command-result-listener
+                        (command-result-listener command-code exit-code output))
+
+                      (case exit-code
                            
-                           Shell$OnCommandResultListener/SHELL_RUNNING
-                           (do
-                             (when on-shell-running
-                               (on-shell-running :command-code command-code
-                                                 :exit-code exit-code
-                                                 :output output)))
+                        Shell$OnCommandResultListener/SHELL_RUNNING
+                        (do
+                          (when on-shell-running
+                            (on-shell-running command-code
+                                              exit-code
+                                              output)))
 
-                           Shell$OnCommandResultListener/WATCHDOG_EXIT
-                           (do
-                             (reset! root-shell nil))
+                        Shell$OnCommandResultListener/WATCHDOG_EXIT
+                        (do)
 
-                           Shell$OnCommandResultListener/SHELL_DIED
-                           (do
-                             (reset! root-shell nil))
+                        Shell$OnCommandResultListener/SHELL_DIED
+                        (do)
 
-                           Shell$OnCommandResultListener/SHELL_EXEC_FAILED
-                           (do
-                             (reset! root-shell nil))
+                        Shell$OnCommandResultListener/SHELL_EXEC_FAILED
+                        (do)
 
-                           Shell$OnCommandResultListener/SHELL_WRONG_UID
-                           (do
-                             (reset! root-shell nil))
+                        Shell$OnCommandResultListener/SHELL_WRONG_UID
+                        (do)
 
-                           (do
-                             (reset! root-shell nil)))))))]
-    (reset! root-shell su)
+                        ;; default clause
+                        (do))))))]
     su))
 
 (defn send-root-command
@@ -96,50 +94,47 @@
            command-code
            command-result-listener
            command-line-listener]
-    :or {command-code 0
-         su-instance @root-shell}
+    :or {command-code 0}
     :as args}]
-  (let [real-su (promise)]
-    (if su-instance
-      (deliver real-su su-instance)
-      (open-root-shell :on-shell-running
-                       (fn [& {:keys [command-code exit-code output]
-                               :as args}]
-                         (deliver real-su @root-shell))))
-    (when-let [^Shell$Interactive su-instance @real-su]
-      (let [commands (cond (string? commands)
-                           [commands]
 
-                           :else
-                           commands)]
-        (doseq [command commands]
-          (let [command (str command)]
-            (cond command-line-listener
-                  (do
-                    (.addCommand su-instance
-                                 ^String command
-                                 ^int command-code
-                                 (proxy [Shell$OnCommandLineListener] []
-                                   (onLine [^String line]
-                                     (command-line-listener line))
-                                   (onCommandResult [command-code exit-code]
-                                     (when command-result-listener
-                                       (command-result-listener command-code
-                                                                exit-code))))))
+  (when-let [^Shell$Interactive su-instance (if su-instance
+                                              su-instance
+                                              (open-root-shell))]
+    (let [commands (if (sequential? commands)
+                     commands
+                     [commands])]
+      (doseq [command commands]
+        (let [command (str command)]
+          (let [info (str "SU: " command)]
+            ;; do not distract user with excessive toasts 
+            #_(on-ui
+               (toast info :short))
+            (log/i info))
+          (cond command-line-listener
+                (do
+                  (.addCommand su-instance
+                               ^String command
+                               ^int command-code
+                               (proxy [Shell$OnCommandLineListener] []
+                                 (onLine [^String line]
+                                   (command-line-listener line))
+                                 (onCommandResult [command-code exit-code]
+                                   (when command-result-listener
+                                     (command-result-listener command-code exit-code))))))
 
 
-                  command-result-listener
-                  (do
-                    (.addCommand su-instance
-                                 ^String command
-                                 ^int command-code
-                                 (proxy [Shell$OnCommandResultListener] []
-                                   (onCommandResult [command-code exit-code ^List output]
-                                     (command-result-listener command-code
-                                                              exit-code
-                                                              output)))))
+                command-result-listener
+                (do
+                  (.addCommand su-instance
+                               ^String command
+                               ^int command-code
+                               (proxy [Shell$OnCommandResultListener] []
+                                 (onCommandResult [command-code exit-code ^List output]
+                                   (command-result-listener command-code
+                                                            exit-code
+                                                            output)))))
 
-                  :else
-                  (do
-                    (.addCommand su-instance
-                                 ^String command)))))))))
+                :else
+                (do
+                  (.addCommand su-instance
+                               ^String command))))))))

@@ -86,4 +86,5 @@
              :aot-exclude-ns ["clojure.parallel" "clojure.core.reducers"
                               cljs.core.async.macros
                               cljs.core.async.impl.ioc-macros
+                              clojure.test
                               ]})
