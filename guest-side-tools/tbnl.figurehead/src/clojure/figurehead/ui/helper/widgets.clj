@@ -197,7 +197,7 @@
              (str "--mastermind-address " mastermind-address)))
     (when mastermind-port
       (swap! args conj
-             (str "--mastermind-port" mastermind-port)))
+             (str "--mastermind-port " mastermind-port)))
     @args))
 
 (def ^:private saved-widget-state
