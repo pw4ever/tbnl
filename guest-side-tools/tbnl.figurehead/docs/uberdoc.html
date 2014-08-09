@@ -5688,7 +5688,7 @@ net.brehaut.ClojureTools = (function (SH) {
              (str &quot;--mastermind-address &quot; mastermind-address)))
     (when mastermind-port
       (swap! args conj
-             (str &quot;--mastermind-port&quot; mastermind-port)))
+             (str &quot;--mastermind-port &quot; mastermind-port)))
     @args))</pre></td></tr><tr><td class="docs"><p>the saved widget state</p>
 </td><td class="codes"><pre class="brush: clojure">(def ^:private saved-widget-state
   (atom {}))</pre></td></tr><tr><td class="docs">
