@@ -1,4 +1,4 @@
-(defproject info.voidstar/tbnl.figurehead "0.1.0-SNAPSHOT"
+(defproject info.voidstar/tbnl.figurehead "0.1.0"
   :description "figurehead sits on device and is controlled by mastermind"
   :url "https://github.com/pw4ever/tbnl"
   :license {:name "Eclipse Public License"
@@ -12,11 +12,11 @@
   :javac-options ["-target" "1.6" "-source" "1.6" "-Xlint:-options"]
 
   :dependencies [[org.clojure-android/clojure "1.6.0-RC1" :use-resources true]
-                 [org.clojars.pw4ever/neko-sdk18 "3.0.3-SNAPSHOT"]
-                 [info.voidstar/tbnl.core "0.1.0-SNAPSHOT"]
+                 [org.clojars.pw4ever/neko-sdk18 "3.0.3"]
+                 [info.voidstar/tbnl.core "0.1.0"]
                  [org.clojure/core.async "0.1.303.0-886421-alpha"]
                  [org.clojure/tools.nrepl "0.2.3"]
-                 [cider/cider-nrepl "0.7.0-SNAPSHOT"]
+                 [cider/cider-nrepl "0.7.0"]
                  [commons-io/commons-io "2.4"]
                  [clojure-complete "0.2.3"]
                  [compliment "0.1.1"]]

@@ -1,4 +1,4 @@
-(defproject info.voidstar/tbnl.core "0.1.0-SNAPSHOT"
+(defproject info.voidstar/tbnl.core "0.1.0"
   :description "the infrastructure shared by mastermind and figurehead"
   :url "https://github.com/pw4ever/tbnl"
   :license {:name "Eclipse Public License"
@@ -7,9 +7,9 @@
                  [org.clojure/tools.nrepl "0.2.3"]
                  [org.clojure/core.async "0.1.303.0-886421-alpha"]
                  [org.clojure/tools.cli "0.3.1"]
-                 [cider/cider-nrepl "0.7.0-SNAPSHOT"]
+                 [cider/cider-nrepl "0.7.0"]
                  ;;[clojure-complete "0.2.3"]
-                 [compliment "0.1.1"]]
+                 [compliment "0.1.3"]]
 
   :profiles {
              :dev {
