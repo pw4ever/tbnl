@@ -1,4 +1,4 @@
-(defproject info.voidstar/tbnl.cnc "0.1.0"
+(defproject info.voidstar/tbnl.cnc "0.1.1-SNAPSHOT"
   :description "C&C controls figureheads through mastermind"
   :url "https://github.com/pw4ever/tbnl"
   :license {:name "Eclipse Public License"
@@ -8,7 +8,7 @@
                  [org.clojure/clojure "1.6.0"]
                  [org.clojure/core.async "0.1.303.0-886421-alpha"]
 
-                 [info.voidstar/tbnl.core "0.1.0"]
+                 [info.voidstar/tbnl.core "0.1.1-SNAPSHOT"]
 
                  [alembic "0.2.1"]
                  ;; graphviz support for visualization

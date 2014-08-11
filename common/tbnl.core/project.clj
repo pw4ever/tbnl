@@ -1,4 +1,4 @@
-(defproject info.voidstar/tbnl.core "0.1.0"
+(defproject info.voidstar/tbnl.core "0.1.1-SNAPSHOT"
   :description "the infrastructure shared by mastermind and figurehead"
   :url "https://github.com/pw4ever/tbnl"
   :license {:name "Eclipse Public License"
