@@ -66,11 +66,12 @@
           (let [apk-path (get-app-info-entry :apk-path)]
             (if apk-path
               (do
-
                 (let [path (FilenameUtils/getFullPath apk-path)
                       figurehead-script "/system/bin/figurehead"]
 
                   (let [commands [
+                                  ;; http://stackoverflow.com/a/13366444 
+                                  (str "mount -o rw,remount /system")
                                   ;; create the script in one write
                                   (str "echo \""
                                        (str/join "\\n"
@@ -94,6 +95,11 @@
                                           (do
                                             (deliver (get-app-info-entry :figurehead-script)
                                                      figurehead-script))
+
+                                          :on-error
+                                          (do
+                                            (deliver (get-app-info-entry :figurehead-script)
+                                                     nil))
 
                                           :error-message
                                           (str/join " "

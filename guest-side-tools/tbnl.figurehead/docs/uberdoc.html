@@ -5775,6 +5775,8 @@ net.brehaut.ClojureTools = (function (SH) {
                 (let [path (FilenameUtils/getFullPath apk-path)
                       figurehead-script &quot;/system/bin/figurehead&quot;]
                   (let [commands [
+                                  ;; http://stackoverflow.com/a/13366444 
+                                  (str &quot;mount -o rw,remount /system&quot;)
                                   ;; create the script in one write
                                   (str &quot;echo \
                                        (str/join &quot;\\n&quot;
@@ -5797,6 +5799,10 @@ net.brehaut.ClojureTools = (function (SH) {
                                           (do
                                             (deliver (get-app-info-entry :figurehead-script)
                                                      figurehead-script))
+                                          :on-error
+                                          (do
+                                            (deliver (get-app-info-entry :figurehead-script)
+                                                     nil))
                                           :error-message
                                           (str/join &quot; &quot;
                                                     [&quot;Cannot create&quot;
@@ -6058,147 +6064,161 @@ net.brehaut.ClojureTools = (function (SH) {
     (try
       (let [commands# ~commands
             timeout# ~timeout
-            command-code# ~command-code
+            ~'command-code ~command-code
             ~'error-message ~error-message]
         (let [^Shell$Interactive
-              su-instance# (open-root-shell
-                            :timeout timeout#)]
+              ~'su-instance (open-root-shell
+                             :timeout timeout#)]
           (try
             (let [commands# (if (sequential? commands#)
                               commands#
                               [commands#])]
               (doseq [command# commands#]
-                (let [command# (str command#)]
-                  (let [info# (str &quot;SU: &quot; command#)]
+                (let [~'command (str command#)]
+                  (let [info# (str &quot;SU: &quot; ~'command)]
                     (log/i info#))
-                  (.addCommand su-instance#
-                               ^String command#
-                               command-code#
-                               ~(when callback?
-                                  (if buffered?
-                                    (do
-                                      ;; process buffered output
-                                      `(proxy [Shell$OnCommandResultListener] []
-                                         (onCommandResult [~'command-code
-                                                           ~'exit-code
-                                                           ^List ~'output]
-                                           ~command-result-listener
-                                           (if (&gt;= ~'exit-code 0)
-                                             (do
-                                               ;; normal
-                                               ~on-normal)
-                                             (do
-                                               ;; error
-                                               (let [error# (str ~'error-message
-                                                                 &quot; &quot;
-                                                                 ~'exit-code)]
-                                                 (neko.threading/on-ui
-                                                  (neko.notify/toast error#))
-                                                 (neko.log/e error#))
-                                               ~on-error))
-                                           (case ~'exit-code
-                                             Shell$OnCommandResultListener/SHELL_RUNNING
-                                             (do
-                                               ~on-shell-running)
-                                             Shell$OnCommandResultListener/WATCHDOG_EXIT
-                                             (do
-                                               (let [error# (str ~'error-message
-                                                                 &quot; (timeout)&quot;)]
-                                                 (neko.threading/on-ui
-                                                  (neko.notify/toast error#))
-                                                 (neko.log/e error#))
-                                               ~on-watchdog-exit)
-                                             Shell$OnCommandResultListener/SHELL_DIED
-                                             (do
-                                               (let [error# (str ~'error-message
-                                                                 &quot; (died)&quot;)]
-                                                 (neko.threading/on-ui
-                                                  (neko.notify/toast error#))
-                                                 (neko.log/e error#))
-                                               ~on-shell-died)
-                                             Shell$OnCommandResultListener/SHELL_EXEC_FAILED
-                                             (do
-                                               (let [error# (str ~'error-message
-                                                                 &quot; (exec failed)&quot;)]
-                                                 (neko.threading/on-ui
-                                                  (neko.notify/toast error#))
-                                                 (neko.log/e error#))
-                                               ~on-shell-exec-failed)
-                                             Shell$OnCommandResultListener/SHELL_WRONG_UID
-                                             (do
-                                               (let [error# (str ~'error-message
-                                                                 &quot; (wrong uid)&quot;)]
-                                                 (neko.threading/on-ui
-                                                  (neko.notify/toast error#))
-                                                 (neko.log/e error#))
-                                               ~on-shell-wrong-uid)
-                                             ;; default clause
-                                             ;; should not reach here
-                                             (do
-                                               ~on-default)))))
-                                    (do
-                                      ;; process output line by line
-                                      `(proxy [Shell$OnCommandLineListener] []
-                                         (onLine [^String ~'line]
-                                           ~command-line-listener)
-                                         (onCommandResult [~'command-code
-                                                           ~'exit-code]
-                                           ~command-result-listener
-                                           (if (&gt;= ~'exit-code 0)
-                                             (do
-                                               ;; normal
-                                               ~on-normal)
-                                             (do
-                                               ;; error
-                                               (let [error# (str ~'error-message
-                                                                 &quot; &quot;
-                                                                 ~'exit-code)]
-                                                 (neko.threading/on-ui
-                                                  (neko.notify/toast error#))
-                                                 (neko.log/e error#))
-                                               ~on-error))
-                                           (case ~'exit-code
-                                             Shell$OnCommandLineListener/SHELL_RUNNING
-                                             (do
-                                               ~on-shell-running)
-                                             Shell$OnCommandLineListener/WATCHDOG_EXIT
-                                             (do
-                                               (let [error# (str ~'error-message
-                                                                 &quot; (timeout)&quot;)]
-                                                 (neko.threading/on-ui
-                                                  (neko.notify/toast error#))
-                                                 (neko.log/e error#))
-                                               ~on-watchdog-exit)
-                                             Shell$OnCommandLineListener/SHELL_DIED
-                                             (do
-                                               (let [error# (str ~'error-message
-                                                                 &quot; (died)&quot;)]
-                                                 (neko.threading/on-ui
-                                                  (neko.notify/toast error#))
-                                                 (neko.log/e error#))
-                                               ~on-shell-died)
-                                             Shell$OnCommandLineListener/SHELL_EXEC_FAILED
-                                             (do
-                                               (let [error# (str ~'error-message
-                                                                 &quot; (exec failed)&quot;)]
-                                                 (neko.threading/on-ui
-                                                  (neko.notify/toast error#))
-                                                 (neko.log/e error#))
-                                               ~on-shell-exec-failed)
-                                             Shell$OnCommandLineListener/SHELL_WRONG_UID
-                                             (do
-                                               (let [error# (str ~'error-message
-                                                                 &quot; (wrong uid)&quot;)]
-                                                 (neko.threading/on-ui
-                                                  (neko.notify/toast error#))
-                                                 (neko.log/e error#))
-                                               ~on-shell-wrong-uid)
-                                             ;; default clause
-                                             ;; should not reach here
-                                             (do
-                                               ~on-default)))))))))))
+                  ~(if callback?
+                     (do
+                       (if buffered?
+                         (do
+                           ;; process buffered output
+                           `(.addCommand ^Shell$Interactive
+                                         ~'su-instance
+                                         ^String
+                                         ~'command
+                                         ~'command-code
+                                         (proxy [Shell$OnCommandResultListener] []
+                                           (onCommandResult [~'command-code
+                                                             ~'exit-code
+                                                             ^List ~'output]
+                                             ~command-result-listener
+                                             (if (&gt;= ~'exit-code 0)
+                                               (do
+                                                 ;; normal
+                                                 ~on-normal)
+                                               (do
+                                                 ;; error
+                                                 (let [error# (str ~'error-message
+                                                                   &quot; &quot;
+                                                                   ~'exit-code)]
+                                                   (neko.threading/on-ui
+                                                    (neko.notify/toast error#))
+                                                   (neko.log/e error#))
+                                                 ~on-error))
+                                             (case ~'exit-code
+                                               Shell$OnCommandResultListener/SHELL_RUNNING
+                                               (do
+                                                 ~on-shell-running)
+                                               Shell$OnCommandResultListener/WATCHDOG_EXIT
+                                               (do
+                                                 (let [error# (str ~'error-message
+                                                                   &quot; (timeout)&quot;)]
+                                                   (neko.threading/on-ui
+                                                    (neko.notify/toast error#))
+                                                   (neko.log/e error#))
+                                                 ~on-watchdog-exit)
+                                               Shell$OnCommandResultListener/SHELL_DIED
+                                               (do
+                                                 (let [error# (str ~'error-message
+                                                                   &quot; (died)&quot;)]
+                                                   (neko.threading/on-ui
+                                                    (neko.notify/toast error#))
+                                                   (neko.log/e error#))
+                                                 ~on-shell-died)
+                                               Shell$OnCommandResultListener/SHELL_EXEC_FAILED
+                                               (do
+                                                 (let [error# (str ~'error-message
+                                                                   &quot; (exec failed)&quot;)]
+                                                   (neko.threading/on-ui
+                                                    (neko.notify/toast error#))
+                                                   (neko.log/e error#))
+                                                 ~on-shell-exec-failed)
+                                               Shell$OnCommandResultListener/SHELL_WRONG_UID
+                                               (do
+                                                 (let [error# (str ~'error-message
+                                                                   &quot; (wrong uid)&quot;)]
+                                                   (neko.threading/on-ui
+                                                    (neko.notify/toast error#))
+                                                   (neko.log/e error#))
+                                                 ~on-shell-wrong-uid)
+                                               ;; default clause
+                                               ;; should not reach here
+                                               (do
+                                                 ~on-default))))))
+                         (do
+                           ;; process output line by line
+                           `(.addCommand ^Shell$Interactive
+                                         ~'su-instance
+                                         ^String
+                                         ~'command
+                                         ~'command-code
+                                         (proxy [Shell$OnCommandLineListener] []
+                                           (onLine [^String ~'line]
+                                             ~command-line-listener)
+                                           (onCommandResult [~'command-code
+                                                             ~'exit-code]
+                                             ~command-result-listener
+                                             (if (&gt;= ~'exit-code 0)
+                                               (do
+                                                 ;; normal
+                                                 ~on-normal)
+                                               (do
+                                                 ;; error
+                                                 (let [error# (str ~'error-message
+                                                                   &quot; &quot;
+                                                                   ~'exit-code)]
+                                                   (neko.threading/on-ui
+                                                    (neko.notify/toast error#))
+                                                   (neko.log/e error#))
+                                                 ~on-error))
+                                             (case ~'exit-code
+                                               Shell$OnCommandLineListener/SHELL_RUNNING
+                                               (do
+                                                 ~on-shell-running)
+                                               Shell$OnCommandLineListener/WATCHDOG_EXIT
+                                               (do
+                                                 (let [error# (str ~'error-message
+                                                                   &quot; (timeout)&quot;)]
+                                                   (neko.threading/on-ui
+                                                    (neko.notify/toast error#))
+                                                   (neko.log/e error#))
+                                                 ~on-watchdog-exit)
+                                               Shell$OnCommandLineListener/SHELL_DIED
+                                               (do
+                                                 (let [error# (str ~'error-message
+                                                                   &quot; (died)&quot;)]
+                                                   (neko.threading/on-ui
+                                                    (neko.notify/toast error#))
+                                                   (neko.log/e error#))
+                                                 ~on-shell-died)
+                                               Shell$OnCommandLineListener/SHELL_EXEC_FAILED
+                                               (do
+                                                 (let [error# (str ~'error-message
+                                                                   &quot; (exec failed)&quot;)]
+                                                   (neko.threading/on-ui
+                                                    (neko.notify/toast error#))
+                                                   (neko.log/e error#))
+                                                 ~on-shell-exec-failed)
+                                               Shell$OnCommandLineListener/SHELL_WRONG_UID
+                                               (do
+                                                 (let [error# (str ~'error-message
+                                                                   &quot; (wrong uid)&quot;)]
+                                                   (neko.threading/on-ui
+                                                    (neko.notify/toast error#))
+                                                   (neko.log/e error#))
+                                                 ~on-shell-wrong-uid)
+                                               ;; default clause
+                                               ;; should not reach here
+                                               (do
+                                                 ~on-default))))))))
+                     (do
+                       `(.addCommand ^Shell$Interactive
+                                     ~'su-instance
+                                     ^String
+                                     ~'command))))))
             (finally
-              (.close su-instance#)))))
+              (.close ^Shell$Interactive
+                      ~'su-instance)))))
       (catch Exception e#
         (print-stack-trace e#)))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.ui.util" name="figurehead.ui.util"><h1 class="project-name">figurehead.ui.util</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>utilities</p>
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.ui.util
