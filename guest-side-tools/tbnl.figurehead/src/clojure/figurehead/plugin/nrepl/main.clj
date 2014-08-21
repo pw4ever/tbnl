@@ -11,7 +11,7 @@
             ;; comment out the middlewares that are incompatible with Dalvik
             (cider.nrepl.middleware apropos
                                     classpath
-                                    ;;complete
+                                    complete
                                     ;;info
                                     inspect
                                     macroexpand
@@ -65,7 +65,7 @@
   "A vector containing all CIDER middleware."
   '[cider.nrepl.middleware.apropos/wrap-apropos
     cider.nrepl.middleware.classpath/wrap-classpath
-    ;;cider.nrepl.middleware.complete/wrap-complete
+    cider.nrepl.middleware.complete/wrap-complete
     ;;cider.nrepl.middleware.info/wrap-info
     cider.nrepl.middleware.inspect/wrap-inspect
     cider.nrepl.middleware.macroexpand/wrap-macroexpand

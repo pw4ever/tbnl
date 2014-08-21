@@ -99,7 +99,9 @@
     (use 'clojure.pprint)
     (use 'clojure.java.io)
     (require '(clojure [string :as str]
-                       [set :as set]))
+                       [set :as set]
+                       [stacktrace :as stacktrace
+                        :refer [print-stack-trace]]))
 
     ;; Android API wrapper
     (require '[figurehead.api.app.activity-manager :as activity-manager])
@@ -115,6 +117,10 @@
     (require '(core [bus :as bus]
                     [plugin :as plugin]
                     [state :as state]))
+
+    (try
+      (require 'compliment.core)
+      (catch Exception e))
 
     (use 'clojure.tools.nrepl.server)
     (require '[clojure.tools.nrepl.middleware.interruptible-eval :as ie])

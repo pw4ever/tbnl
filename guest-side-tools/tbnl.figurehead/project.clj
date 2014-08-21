@@ -15,10 +15,9 @@
                  [org.clojars.pw4ever/neko-sdk18 "3.0.3"]
                  [info.voidstar/tbnl.core "0.1.1-SNAPSHOT"]
                  [org.clojure/core.async "0.1.303.0-886421-alpha"]
-                 [org.clojure/tools.nrepl "0.2.3"]
+                 [org.clojure/tools.nrepl "0.2.4"]
                  [cider/cider-nrepl "0.7.0"]
                  [commons-io/commons-io "2.4"]
-                 [clojure-complete "0.2.3"]
                  [compliment "0.1.3"]]
 
   ;;:exclusions [cljs-tooling]
