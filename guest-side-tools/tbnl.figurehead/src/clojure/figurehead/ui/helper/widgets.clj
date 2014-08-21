@@ -47,7 +47,7 @@
      (.setEnabled widget enabled))
    ;; special cases
    (with-widgets widgets
-     (.setEnabled widget-wifi-if false))))
+     (.setEnabled widget-wifi-if true))))
 
 (defn sync-widgets-to-state
   "sync widgets to state"

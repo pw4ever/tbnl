@@ -36,11 +36,13 @@
       android:id="@+id/wifi_if"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
-      android:layout_alignBottom="@+id/repl_port"
+      android:layout_alignTop="@+id/repl_port"
+      android:layout_alignBottom="@id/repl_port"      
       android:layout_alignParentLeft="true"
       android:layout_toLeftOf="@id/repl_port"
       android:hint="WiFi addr (touch to update)"
-      android:enabled="false"
+      android:gravity="center"
+      android:editable="false"
       />
 
 
@@ -51,6 +53,7 @@
       android:layout_height="wrap_content"
       android:layout_below="@id/monitor"
       android:layout_alignParentRight="true"
+      android:gravity="center"
       android:hint="REPL port"
       android:inputType="number" />
 
@@ -70,6 +73,7 @@
       android:layout_alignBottom="@+id/mastermind_port"
       android:layout_alignParentLeft="true"
       android:layout_toLeftOf="@id/mastermind_port"
+      android:gravity="center"      
       android:hint="Mastermind address"
       android:inputType="textUri" />
 
@@ -80,6 +84,7 @@
       android:layout_height="wrap_content"
       android:layout_below="@id/repl_port"
       android:layout_alignParentRight="true"
+      android:gravity="center"      
       android:hint="port"
       android:inputType="number" />
 
@@ -88,7 +93,9 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_below="@id/mastermind_port"
+      android:gravity="center"      
       android:hint="extra arguments"
+      android:inputType="textNoSuggestions"
     />
 
   <ScrollView
@@ -121,6 +128,7 @@
       android:layout_alignParentBottom="true"
       android:text="Clear Log"
       android:padding="1sp"
-      android:textSize="15sp" />
+      android:textSize="15sp"
+      />
 
 </RelativeLayout>
