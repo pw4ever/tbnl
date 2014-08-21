@@ -33,11 +33,24 @@
       android:text="verbose" />
 
   <EditText
-      android:id="@+id/repl_port"
+      android:id="@+id/wifi_if"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_alignBottom="@+id/repl_port"
+      android:layout_alignParentLeft="true"
+      android:layout_toLeftOf="@id/repl_port"
+      android:hint="WiFi interface"
+      android:enabled="false"
+      />
+
+
+  <EditText
+      android:id="@id/repl_port"
       android:layout_width="wrap_content"
-      android:minEms="5"
+      android:ems="5"
       android:layout_height="wrap_content"
       android:layout_below="@id/monitor"
+      android:layout_alignParentRight="true"
       android:hint="REPL port"
       android:inputType="number" />
 
@@ -70,11 +83,19 @@
       android:hint="port"
       android:inputType="number" />
 
+  <EditText
+      android:id="@+id/extra_args"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/mastermind_port"
+      android:hint="extra arguments"
+    />
+
   <ScrollView
       android:id="@+id/scroll_status"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_below="@id/mastermind_port"
+      android:layout_below="@id/extra_args"
       android:layout_above="@+id/clear_status"
       android:layout_alignParentLeft="true"
       android:layout_alignParentRight="true" >

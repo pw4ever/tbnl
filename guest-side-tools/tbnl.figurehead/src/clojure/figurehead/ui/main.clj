@@ -21,12 +21,19 @@
                            EditText
                            TextView
                            ScrollView)
-           (android.view View))
+           (android.view View)
+           (android.content Context))
+  (:import (android.net.wifi WifiManager)
+           (java.net InetAddress)
+           (java.nio ByteOrder)
+           (java.math BigInteger))
   (:import (java.util List))
   (:import (org.apache.commons.io FilenameUtils))
   (:import (figurehead.ui R$layout
                           R$id))
   (:import eu.chainfire.libsuperuser.Shell$Interactive))
+
+(declare update-wifi-if)
 
 (def widgets
   "all the widgets on this activity"
@@ -49,9 +56,11 @@
                 {:figurehead-switch  ^Switch (find-view R$id/figurehead_switch)
                  :monitor ^CheckBox (find-view R$id/monitor)
                  :verbose ^CheckBox (find-view R$id/verbose)
+                 :wifi-if ^TextView (find-view R$id/wifi_if)
                  :repl-port ^EditText (find-view R$id/repl_port)
                  :mastermind-address ^EditText (find-view R$id/mastermind_address)
                  :mastermind-port ^EditText (find-view R$id/mastermind_port)
+                 :extra-args ^EditText (find-view R$id/extra_args)
                  :scroll-status ^ScrollView (find-view R$id/scroll_status)
                  :status ^TextView (find-view R$id/status)
                  :clear-status ^Button (find-view R$id/clear_status)})))
@@ -119,7 +128,10 @@
 
   :on-resume
   (fn [^Activity this]
-    (let [widgets @widgets]
+    (let [widgets @widgets
+          context this]
+      (update-wifi-if context
+                      widgets)
       (with-widgets widgets
         (sync-widgets-to-figurehead widgets)
 
@@ -127,6 +139,8 @@
          (.setOnClickListener
           widget-clear-status
           (on-click
+           (update-wifi-if context
+                           widgets)
            ;; clear text
            (.setText widget-status "")))
          
@@ -135,6 +149,8 @@
           (proxy [android.widget.CompoundButton$OnCheckedChangeListener] []
             (onCheckedChanged [^android.widget.CompoundButton button-view
                                is-checked?]
+              (update-wifi-if context
+                              widgets)
               (background-looper-thread
                (let [figurehead-is-running? (figurehead-is-running?)]
                  (when (not= is-checked? figurehead-is-running?)
@@ -164,6 +180,14 @@
                                                   (.post widget-scroll-status
                                                          #(.fullScroll widget-scroll-status
                                                                        View/FOCUS_DOWN))))
+
+                                               :on-normal
+                                               (do
+                                                 ;; Figurehead returns
+                                                 (set-enabled widgets true)
+                                                 (on-ui
+                                                  (.setChecked widget-figurehead-switch
+                                                               false)))
 
                                                :on-error
                                                (do
@@ -204,7 +228,7 @@
       (with-widgets widgets
         (save-widget-state widgets))))
 
-  :on-pause
+  :on-stop
   (fn [^Activity this]
     (let [widgets @widgets]
       (with-widgets widgets
@@ -215,3 +239,35 @@
     (let [widgets @widgets]
       (with-widgets widgets
         (save-widget-state widgets)))))
+
+;;; http://stackoverflow.com/a/18638588
+(defn update-wifi-if
+  "update wifi-if widget based on current WiFi address"
+  [^Context context widgets]
+  (with-widgets widgets
+    (let [wifi-manager ^WifiManager (.getSystemService context
+                                                       Context/WIFI_SERVICE)]
+      (if wifi-manager
+        (let [ip (.. wifi-manager
+                     getConnectionInfo
+                     getIpAddress)
+              ip-byte-array (.. (BigInteger/valueOf (if (= (ByteOrder/nativeOrder)
+                                                           ByteOrder/BIG_ENDIAN)
+                                                      ip
+                                                      (Integer/reverseBytes ip)))
+                                toByteArray)]
+          (try
+            (let [ip (.. (InetAddress/getByAddress ip-byte-array)
+                         getHostAddress)]
+              (on-ui
+               (.setText widget-wifi-if
+                         ip)))
+            (catch Exception e
+              (print-stack-trace e)
+              (on-ui
+               (.setText widget-wifi-if
+                         "")))))
+        (do
+          (on-ui
+           (.setText widget-wifi-if
+                     "")))))))

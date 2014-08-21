@@ -29,9 +29,11 @@
          ~'widget-figurehead-switch ^Switch (:figurehead-switch widgets#)
          ~'widget-monitor ^CheckBox (:monitor widgets#)
          ~'widget-verbose ^CheckBox (:verbose widgets#)
+         ~'widget-wifi-if ^TextView (:wifi-if widgets#)
          ~'widget-repl-port ^EditText (:repl-port widgets#)
          ~'widget-mastermind-address ^EditText (:mastermind-address widgets#)
          ~'widget-mastermind-port ^EditText (:mastermind-port widgets#)
+         ~'widget-extra-args ^EditText (:extra-args widgets#)
          ~'widget-status ^TextView (:status widgets#)
          ~'widget-scroll-status ^ScrollView (:scroll-status widgets#)
          ~'widget-clear-status ^Button (:clear-status widgets#)]
@@ -42,7 +44,10 @@
   [widgets enabled]
   (on-ui
    (doseq [[_ ^View widget] widgets]
-     (.setEnabled widget enabled))))
+     (.setEnabled widget enabled))
+   ;; special cases
+   (with-widgets widgets
+     (.setEnabled widget-wifi-if false))))
 
 (defn sync-widgets-to-state
   "sync widgets to state"
@@ -82,6 +87,13 @@
                      ^String
                      (let [mastermind-port ^String (str (:mastermind-port state))]
                        (if mastermind-port mastermind-port ""))))
+         (catch Exception e))
+       (try
+         (when-not (nil? (:extra-args state))
+           (.setText widget-extra-args
+                     ^String
+                     (let [extra-args ^String (str (:extra-args state))]
+                       (if extra-args extra-args ""))))
          (catch Exception e))
        (try
          (when-not (nil? (:is-running? state))
@@ -170,7 +182,17 @@
         (catch Exception e
           (print-stack-trace e)
           (on-ui
-           (.setText widget-mastermind-port "")))))
+           (.setText widget-mastermind-port ""))))
+      (try
+        (let [text (read-string (str "\""
+                                     (.. widget-extra-args getText toString trim)
+                                     "\""))]
+          (when-not (empty? text)
+            (swap! args assoc :extra-args text)))
+        (catch Exception e
+          (print-stack-trace e)
+          (on-ui
+           (.setText widget-extra-args "")))))
     @args))
 
 (defn widgets-to-figurehead-args
@@ -182,7 +204,8 @@
         verbose (:verbose arg-map)
         repl-port (:repl-port arg-map)
         mastermind-address (:mastermind-address arg-map)
-        mastermind-port (:mastermind-port arg-map)]
+        mastermind-port (:mastermind-port arg-map)
+        extra-args (:extra-args arg-map)]
     (when monitor
       (swap! args conj
              "--monitor"))
@@ -198,6 +221,9 @@
     (when mastermind-port
       (swap! args conj
              (str "--mastermind-port " mastermind-port)))
+    (when extra-args
+      (swap! args conj
+             (str extra-args)))
     @args))
 
 (def ^:private saved-widget-state
@@ -219,6 +245,8 @@
       (swap! saved-widget-state
              assoc :mastermind-port (str (.getText widget-mastermind-port)))
       (swap! saved-widget-state
+             assoc :extra-args (str (.getText widget-extra-args)))
+      (swap! saved-widget-state
              assoc :is-running? (.isChecked widget-figurehead-switch))      
       (catch Exception e
         (reset! saved-widget-state nil)))))
@@ -227,3 +255,5 @@
   "obtain the saved widget state"
   []
   @saved-widget-state)
+
+

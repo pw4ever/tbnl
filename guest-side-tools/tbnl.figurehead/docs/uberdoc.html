@@ -5532,9 +5532,11 @@ net.brehaut.ClojureTools = (function (SH) {
          ~'widget-figurehead-switch ^Switch (:figurehead-switch widgets#)
          ~'widget-monitor ^CheckBox (:monitor widgets#)
          ~'widget-verbose ^CheckBox (:verbose widgets#)
+         ~'widget-wifi-if ^TextView (:wifi-if widgets#)
          ~'widget-repl-port ^EditText (:repl-port widgets#)
          ~'widget-mastermind-address ^EditText (:mastermind-address widgets#)
          ~'widget-mastermind-port ^EditText (:mastermind-port widgets#)
+         ~'widget-extra-args ^EditText (:extra-args widgets#)
          ~'widget-status ^TextView (:status widgets#)
          ~'widget-scroll-status ^ScrollView (:scroll-status widgets#)
          ~'widget-clear-status ^Button (:clear-status widgets#)]
@@ -5543,7 +5545,10 @@ net.brehaut.ClojureTools = (function (SH) {
   [widgets enabled]
   (on-ui
    (doseq [[_ ^View widget] widgets]
-     (.setEnabled widget enabled))))</pre></td></tr><tr><td class="docs"><p>sync widgets to state</p>
+     (.setEnabled widget enabled))
+   ;; special cases
+   (with-widgets widgets
+     (.setEnabled widget-wifi-if false))))</pre></td></tr><tr><td class="docs"><p>sync widgets to state</p>
 </td><td class="codes"><pre class="brush: clojure">(defn sync-widgets-to-state
   [widgets state]
   (on-ui
@@ -5581,6 +5586,13 @@ net.brehaut.ClojureTools = (function (SH) {
                      ^String
                      (let [mastermind-port ^String (str (:mastermind-port state))]
                        (if mastermind-port mastermind-port &quot;&quot;))))
+         (catch Exception e))
+       (try
+         (when-not (nil? (:extra-args state))
+           (.setText widget-extra-args
+                     ^String
+                     (let [extra-args ^String (str (:extra-args state))]
+                       (if extra-args extra-args &quot;&quot;))))
          (catch Exception e))
        (try
          (when-not (nil? (:is-running? state))
@@ -5663,7 +5675,17 @@ net.brehaut.ClojureTools = (function (SH) {
         (catch Exception e
           (print-stack-trace e)
           (on-ui
-           (.setText widget-mastermind-port &quot;&quot;)))))
+           (.setText widget-mastermind-port &quot;&quot;))))
+      (try
+        (let [text (read-string (str &quot;\&quot;&quot;
+                                     (.. widget-extra-args getText toString trim)
+                                     &quot;\&quot;&quot;))]
+          (when-not (empty? text)
+            (swap! args assoc :extra-args text)))
+        (catch Exception e
+          (print-stack-trace e)
+          (on-ui
+           (.setText widget-extra-args &quot;&quot;)))))
     @args))</pre></td></tr><tr><td class="docs"><p>construct figurehead command-line args from widgets</p>
 </td><td class="codes"><pre class="brush: clojure">(defn widgets-to-figurehead-args
   [widgets]
@@ -5673,7 +5695,8 @@ net.brehaut.ClojureTools = (function (SH) {
         verbose (:verbose arg-map)
         repl-port (:repl-port arg-map)
         mastermind-address (:mastermind-address arg-map)
-        mastermind-port (:mastermind-port arg-map)]
+        mastermind-port (:mastermind-port arg-map)
+        extra-args (:extra-args arg-map)]
     (when monitor
       (swap! args conj
              &quot;--monitor&quot;))
@@ -5689,6 +5712,9 @@ net.brehaut.ClojureTools = (function (SH) {
     (when mastermind-port
       (swap! args conj
              (str &quot;--mastermind-port &quot; mastermind-port)))
+    (when extra-args
+      (swap! args conj
+             (str extra-args)))
     @args))</pre></td></tr><tr><td class="docs"><p>the saved widget state</p>
 </td><td class="codes"><pre class="brush: clojure">(def ^:private saved-widget-state
   (atom {}))</pre></td></tr><tr><td class="docs">
@@ -5706,6 +5732,8 @@ net.brehaut.ClojureTools = (function (SH) {
              assoc :mastermind-address (str (.getText widget-mastermind-address)))
       (swap! saved-widget-state
              assoc :mastermind-port (str (.getText widget-mastermind-port)))
+      (swap! saved-widget-state
+             assoc :extra-args (str (.getText widget-extra-args)))
       (swap! saved-widget-state
              assoc :is-running? (.isChecked widget-figurehead-switch))      
       (catch Exception e
@@ -5736,12 +5764,18 @@ net.brehaut.ClojureTools = (function (SH) {
                            EditText
                            TextView
                            ScrollView)
-           (android.view View))
+           (android.view View)
+           (android.content Context))
+  (:import (android.net.wifi WifiManager)
+           (java.net InetAddress)
+           (java.nio ByteOrder)
+           (java.math BigInteger))
   (:import (java.util List))
   (:import (org.apache.commons.io FilenameUtils))
   (:import (figurehead.ui R$layout
                           R$id))
-  (:import eu.chainfire.libsuperuser.Shell$Interactive))</pre></td></tr><tr><td class="docs"><p>all the widgets on this activity</p>
+  (:import eu.chainfire.libsuperuser.Shell$Interactive))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(declare update-wifi-if)</pre></td></tr><tr><td class="docs"><p>all the widgets on this activity</p>
 </td><td class="codes"><pre class="brush: clojure">(def widgets
   (atom nil))</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(defactivity figurehead.ui.main
@@ -5757,9 +5791,11 @@ net.brehaut.ClojureTools = (function (SH) {
                 {:figurehead-switch  ^Switch (find-view R$id/figurehead_switch)
                  :monitor ^CheckBox (find-view R$id/monitor)
                  :verbose ^CheckBox (find-view R$id/verbose)
+                 :wifi-if ^TextView (find-view R$id/wifi_if)
                  :repl-port ^EditText (find-view R$id/repl_port)
                  :mastermind-address ^EditText (find-view R$id/mastermind_address)
                  :mastermind-port ^EditText (find-view R$id/mastermind_port)
+                 :extra-args ^EditText (find-view R$id/extra_args)
                  :scroll-status ^ScrollView (find-view R$id/scroll_status)
                  :status ^TextView (find-view R$id/status)
                  :clear-status ^Button (find-view R$id/clear_status)})))
@@ -5820,13 +5856,18 @@ net.brehaut.ClojureTools = (function (SH) {
          (toast &quot;Superuser needed but not available!&quot;)))))
   :on-resume
   (fn [^Activity this]
-    (let [widgets @widgets]
+    (let [widgets @widgets
+          context this]
+      (update-wifi-if context
+                      widgets)
       (with-widgets widgets
         (sync-widgets-to-figurehead widgets)
         (on-ui
          (.setOnClickListener
           widget-clear-status
           (on-click
+           (update-wifi-if context
+                           widgets)
            ;; clear text
            (.setText widget-status )))
          (.setOnCheckedChangeListener
@@ -5834,6 +5875,8 @@ net.brehaut.ClojureTools = (function (SH) {
           (proxy [android.widget.CompoundButton$OnCheckedChangeListener] []
             (onCheckedChanged [^android.widget.CompoundButton button-view
                                is-checked?]
+              (update-wifi-if context
+                              widgets)
               (background-looper-thread
                (let [figurehead-is-running? (figurehead-is-running?)]
                  (when (not= is-checked? figurehead-is-running?)
@@ -5862,6 +5905,13 @@ net.brehaut.ClojureTools = (function (SH) {
                                                   (.post widget-scroll-status
                                                          #(.fullScroll widget-scroll-status
                                                                        View/FOCUS_DOWN))))
+                                               :on-normal
+                                               (do
+                                                 ;; Figurehead returns
+                                                 (set-enabled widgets true)
+                                                 (on-ui
+                                                  (.setChecked widget-figurehead-switch
+                                                               false)))
                                                :on-error
                                                (do
                                                  (.setEnabled widget-figurehead-switch true)
@@ -5896,7 +5946,7 @@ net.brehaut.ClojureTools = (function (SH) {
     (let [widgets @widgets]
       (with-widgets widgets
         (save-widget-state widgets))))
-  :on-pause
+  :on-stop
   (fn [^Activity this]
     (let [widgets @widgets]
       (with-widgets widgets
@@ -5905,7 +5955,38 @@ net.brehaut.ClojureTools = (function (SH) {
   (fn [^Activity this]
     (let [widgets @widgets]
       (with-widgets widgets
-        (save-widget-state widgets)))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.ui.su" name="figurehead.ui.su"><h1 class="project-name">figurehead.ui.su</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
+        (save-widget-state widgets)))))</pre></td></tr><tr><td class="docs"><p>update wifi-if widget based on current WiFi address</p>
+
+<p>http://stackoverflow.com/a/18638588</p>
+</td><td class="codes"><pre class="brush: clojure">(defn update-wifi-if
+  [^Context context widgets]
+  (with-widgets widgets
+    (let [wifi-manager ^WifiManager (.getSystemService context
+                                                       Context/WIFI_SERVICE)]
+      (if wifi-manager
+        (let [ip (.. wifi-manager
+                     getConnectionInfo
+                     getIpAddress)
+              ip-byte-array (.. (BigInteger/valueOf (if (= (ByteOrder/nativeOrder)
+                                                           ByteOrder/BIG_ENDIAN)
+                                                      ip
+                                                      (Integer/reverseBytes ip)))
+                                toByteArray)]
+          (try
+            (let [ip (.. (InetAddress/getByAddress ip-byte-array)
+                         getHostAddress)]
+              (on-ui
+               (.setText widget-wifi-if
+                         ip)))
+            (catch Exception e
+              (print-stack-trace e)
+              (on-ui
+               (.setText widget-wifi-if
+                         &quot;&quot;)))))
+        (do
+          (on-ui
+           (.setText widget-wifi-if
+                     &quot;&quot;)))))))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#figurehead.ui.su" name="figurehead.ui.su"><h1 class="project-name">figurehead.ui.su</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(ns figurehead.ui.su
   (:use (figurehead.ui util))
   (:require (neko [notify :refer [toast]]
