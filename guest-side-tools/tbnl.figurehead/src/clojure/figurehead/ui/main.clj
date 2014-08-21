@@ -143,6 +143,12 @@
                            widgets)
            ;; clear text
            (.setText widget-status "")))
+
+         (.setOnClickListener
+          widget-wifi-if
+          (on-click
+           (update-wifi-if context
+                           widgets)))
          
          (.setOnCheckedChangeListener
           widget-figurehead-switch

@@ -39,7 +39,7 @@
       android:layout_alignBottom="@+id/repl_port"
       android:layout_alignParentLeft="true"
       android:layout_toLeftOf="@id/repl_port"
-      android:hint="WiFi interface"
+      android:hint="WiFi addr (touch to update)"
       android:enabled="false"
       />
 
