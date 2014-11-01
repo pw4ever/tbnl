@@ -53,13 +53,13 @@ annotated source in [Marginalia](https://github.com/gdeer81/marginalia)
 The ultimate truth lies in the code.
 
 This is probably what you are looking for.
-* [figurehead][figurehead] 
-* [messenger][messenger] 
+* [figurehead][figurehead]: Clojure REPL on your rooted Android device plus more. 
+* [messenger][messenger]: Unix-style command-line interface to your Figurehead REPL.
 
 The other components.
-* [core][core] 
-* [mastermind][mastermind]
-* [C\&C][cnc]
+* [core][core]: the shared underlying framework. 
+* [mastermind][mastermind]: a single central server that brokers figureheads and C\&Cs communication (and more).
+* [C\&C][cnc]: C\&C controls figurehead through mastermind.
 
 See also [the project Wiki](https://github.com/pw4ever/tbnl/wiki).
 
@@ -91,4 +91,4 @@ thanks
 [mastermind]: https://pw4ever.github.io/tbnl/common/tbnl.core/docs/uberdoc.html "annotated source code of mastermind"
 [cnc]: https://pw4ever.github.io/tbnl/host-side-tools/tbnl.cnc/docs/uberdoc.html "annotated source of C\&C"
 [figurehead]: https://pw4ever.github.io/tbnl/guest-side-tools/tbnl.figurehead/docs/uberdoc.html "annotated source of figurehead"
-[messenger]: https://pw4ever.github.io/tbnl/guest-side-tools/tbnl.messenger/docs/uberdoc.html "annotated source of messenger"
+[messenger]: https://pw4ever.github.io/tbnl/host-side-tools/tbnl.messenger/docs/uberdoc.html "annotated source of messenger"
