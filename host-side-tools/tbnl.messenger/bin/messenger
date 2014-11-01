@@ -1,0 +1,6 @@
+#! /bin/bash
+
+THE_JAR=$1
+shift
+
+java -cp ${THE_JAR} messenger.main $*

@@ -24,12 +24,8 @@ cp ${GUEST_PATH}/target/tbnl.${name}.apk ${STAGE_GUEST}/${name}.apk
 cp ${GUEST_PATH}/bin/${name} ${STAGE_GUEST}/${name}
 
 ## host side
-name=mastermind
-HOST_PATH=host-side-tools/tbnl.${name}/
-cp ${HOST_PATH}/target/uberjar/tbnl.${name}-standalone.jar ${STAGE_HOST}/${name}.jar
-cp ${HOST_PATH}/bin/${name} ${STAGE_HOST}/${name}
-
-name=cnc
-HOST_PATH=host-side-tools/tbnl.${name}/
-cp ${HOST_PATH}/target/uberjar/tbnl.${name}-standalone.jar ${STAGE_HOST}/${name}.jar
-cp ${HOST_PATH}/bin/${name} ${STAGE_HOST}/${name}
+for name in mastermind cnc messenger; do
+    HOST_PATH=host-side-tools/tbnl.${name}/
+    cp ${HOST_PATH}/target/uberjar/tbnl.${name}-standalone.jar ${STAGE_HOST}/${name}.jar
+    cp ${HOST_PATH}/bin/${name} ${STAGE_HOST}/${name}
+done

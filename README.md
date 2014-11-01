@@ -54,6 +54,7 @@ The ultimate truth lies in the code.
 
 This is probably what you are looking for.
 * [figurehead][figurehead] 
+* [messenger][messenger] 
 
 The other components.
 * [core][core] 
@@ -90,3 +91,4 @@ thanks
 [mastermind]: https://pw4ever.github.io/tbnl/common/tbnl.core/docs/uberdoc.html "annotated source code of mastermind"
 [cnc]: https://pw4ever.github.io/tbnl/host-side-tools/tbnl.cnc/docs/uberdoc.html "annotated source of C\&C"
 [figurehead]: https://pw4ever.github.io/tbnl/guest-side-tools/tbnl.figurehead/docs/uberdoc.html "annotated source of figurehead"
+[messenger]: https://pw4ever.github.io/tbnl/guest-side-tools/tbnl.messenger/docs/uberdoc.html "annotated source of messenger"

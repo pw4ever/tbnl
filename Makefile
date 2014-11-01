@@ -2,13 +2,16 @@
 
 BUILD_TIMESTAMP_FNAME:=_timestamp_
 
-COMPONENTS:=core mastermind cnc figurehead
+COMPONENTS:=core mastermind cnc messenger figurehead
 
 PREFIX_core:=common/tbnl.core
 DEPS_core:=
 
 PREFIX_mastermind:=host-side-tools/tbnl.mastermind
 DEPS_mastermind:=core
+
+PREFIX_messenger=host-side-tools/tbnl.messenger
+DEPS_messenger:=core
 
 PREFIX_cnc:=host-side-tools/tbnl.cnc
 DEPS_cnc:=core
