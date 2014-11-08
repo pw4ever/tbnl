@@ -40,7 +40,7 @@
                                  ;; sign APKs with. Do it either here or in
                                  ;; ~/.lein/profiles.clj
                                  ;; :keystore-path ~(clojure.string/join (System/getProperty "file.separator") [(System/getProperty "user.home") ".android" "debug.keystore"])
-                                 ;; :key-alias "androiddebugkey
+                                 ;; :key-alias "androiddebugkey"
 
 
                                  ;; !!! to speed things up, we give up dynamic compilation for figurehead.ui

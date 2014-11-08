@@ -22,7 +22,6 @@
                                     )
             ;;[cider.nrepl :refer [cider-nrepl-handler]]
             compliment.core
-            complete.core
             [clojure.stacktrace :refer [print-stack-trace]]
             [clojure.core.async
              :as async
